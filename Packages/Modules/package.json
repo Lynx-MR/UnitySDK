@@ -21,10 +21,16 @@
     "url": "https://www.lynx-r.com"
   },
   "samples": [
-    {
-      "displayName": "Gaze Pointer",
+  
+	{
+      "displayName": "Basic",
       "description": "",
-      "path": "Samples~"
+      "path": "Samples~/Basic"
+    },
+    {
+      "displayName": "Handtracking",
+      "description": "",
+      "path": "Samples~/Handtracking"
     }
   ]
 }
