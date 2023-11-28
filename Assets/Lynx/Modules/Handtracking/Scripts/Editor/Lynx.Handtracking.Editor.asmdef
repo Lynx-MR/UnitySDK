@@ -1,0 +1,48 @@
+{
+    "name": "Lynx.Handtracking.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Lynx.Core",
+        "Lynx.Core.Editor",
+        "Lynx.Handtracking",
+        "Unity.TextMeshPro",
+        "LeapMotion.LeapCSharp",
+        "Ultraleap.Tracking.Core",
+        "Ultraleap.Tracking.Hands",
+        "Ultraleap.Tracking.InteractionEngine",
+        "Ultraleap.Tracking.OpenXR",
+        "Unity.XR.Interaction.Toolkit",
+        "Unity.InputSystem"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "LYNX_OPENXR",
+        "ULTRALEAP_TRACKING",
+        "LYNX_XRI"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.xr.openxr",
+            "expression": "1.5.0",
+            "define": "LYNX_OPENXR"
+        },
+        {
+            "name": "com.unity.xr.interaction.toolkit",
+            "expression": "2.4.0",
+            "define": "LYNX_XRI"
+        },
+        {
+            "name": "com.ultraleap.tracking",
+            "expression": "6.10.0",
+            "define": "ULTRALEAP_TRACKING"
+        }
+    ],
+    "noEngineReferences": false
+}

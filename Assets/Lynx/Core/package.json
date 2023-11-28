@@ -1,0 +1,23 @@
+{
+  "name": "com.lynx.core",
+  "version": "1.1.0",
+  "displayName": "Lynx Core",
+  "description": "Support Lynx-R1",
+  "unity": "2021.3",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "com.unity.xr.openxr": "1.9.1"
+  },
+  "keywords": [
+    "lynx",
+    "xr2",
+    "xr"
+  ],
+  "hideInEditor": false,
+  "documentationUrl": "https://portal.lynx-r.com/documentation/view/core-setup",
+  "author": {
+    "name": "Lynx",
+    "email": "contact@lynx-r.com",
+    "url": "https://www.lynx-r.com"
+  }
+}

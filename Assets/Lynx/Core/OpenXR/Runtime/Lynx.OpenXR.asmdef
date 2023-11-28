@@ -1,0 +1,27 @@
+{
+    "name": "Lynx.OpenXR",
+    "rootNamespace": "Lynx.OpenXR",
+    "references": [
+        "GUID:4847341ff46394e83bb78fbd0652937e"
+    ],
+    "includePlatforms": [
+        "Android",
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "LYNX_OPENXR"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.xr.openxr",
+            "expression": "1.5.0",
+            "define": "LYNX_OPENXR"
+        }
+    ],
+    "noEngineReferences": false
+}

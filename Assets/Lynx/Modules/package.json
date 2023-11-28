@@ -1,0 +1,30 @@
+{
+  "name": "com.lynx.modules",
+  "version": "1.1.0",
+  "displayName": "Lynx Modules",
+  "description": "Lynx-R1 modules (including handtracking support)",
+  "unity": "2021.3",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "com.unity.xr.openxr": "1.9.1"
+  },
+  "keywords": [
+    "lynx",
+    "xr2",
+    "xr",
+    "handtracking"
+  ],
+  "documentationUrl": "https://portal.lynx-r.com/documentation/view/modules",
+  "author": {
+    "name": "Lynx",
+    "email": "contact@lynx-r.com",
+    "url": "https://www.lynx-r.com"
+  },
+  "samples": [
+    {
+      "displayName": "Gaze Pointer",
+      "description": "",
+      "path": "Samples~"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+    "name": "Lynx.OpenXR.Editor",
+    "rootNamespace": "Lynx.OpenXR",
+    "references": [
+        "GUID:e40ba710768534012815d3193fa296cb",
+        "GUID:f9fe0089ec81f4079af78eb2287a6163",
+        "GUID:96aa6ba065960476598f8f643e7252b6",
+        "GUID:f1fdb2798a357f04e84ed9d26f6005af",
+        "GUID:b13a1d1dfb13f1b489a0ff5612f36f29",
+        "GUID:4847341ff46394e83bb78fbd0652937e",
+        "GUID:82872c790e65ed542ac4226cf450a7fa",
+        "GUID:cec9848704c49724192ff47f9b3e9156"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.xr.openxr",
+            "expression": "1.5.0",
+            "define": "LYNX_OPENXR"
+        },
+        {
+            "name": "com.ultraleap.tracking",
+            "expression": "6.10.0",
+            "define": "ULTRALEAP_TRACKING"
+        }
+    ],
+    "noEngineReferences": false
+}

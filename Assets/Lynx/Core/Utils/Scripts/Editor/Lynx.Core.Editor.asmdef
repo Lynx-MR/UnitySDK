@@ -1,0 +1,28 @@
+{
+    "name": "Lynx.Core.Editor",
+    "rootNamespace": "",
+    "references": [
+        "Lynx.Core",
+        "Unity.XR.Management",
+        "Unity.XR.Management.Editor",
+        "Unity.XR.OpenXR",
+        "Ultraleap.Tracking.Core"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.ultraleap.tracking",
+            "expression": "6.10.0",
+            "define": "ULTRALEAP_TRACKING"
+        }
+    ],
+    "noEngineReferences": false
+}
