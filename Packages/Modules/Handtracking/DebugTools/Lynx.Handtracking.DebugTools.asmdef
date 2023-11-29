@@ -1,5 +1,5 @@
 {
-    "name": "Lynx.Handtracking",
+    "name": "Lynx.Handtracking.DebugTools",
     "rootNamespace": "",
     "references": [
         "Lynx.Core",
@@ -24,7 +24,8 @@
     "autoReferenced": true,
     "defineConstraints": [
         "LYNX_XRI",
-        "XR_HANDS"
+        "XR_HANDS",
+        "ULTRALEAP_TRACKING"
     ],
     "versionDefines": [
         {
