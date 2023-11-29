@@ -84,9 +84,7 @@ namespace Lynx.UI
         private static GameObject InstantiateCanvas()
         {
             Transform tParent = Selection.activeTransform;
-
-            string str_gameObject = Directory.GetFiles(Application.dataPath, STR_LYNX_CANVAS, SearchOption.AllDirectories)[0].Replace(Application.dataPath, "Assets/");
-            GameObject gameObject = PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<Object>(str_gameObject), tParent) as GameObject;
+            GameObject gameObject = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, STR_LYNX_CANVAS, tParent);
 
             if (tParent)
                 UnityEditorInternal.InternalEditorUtility.SetIsInspectorExpanded(tParent, true);
@@ -173,9 +171,7 @@ namespace Lynx.UI
         /// <param name="prefab">The UI prefab to instantiate.</param>
         private static void InstantiatePrefab(string prefab)
         {
-            string str_gameObject = Directory.GetFiles(Application.dataPath, prefab, SearchOption.AllDirectories)[0].Replace(Application.dataPath, "Assets/");
-            GameObject gameObject = PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<Object>(str_gameObject), Selection.activeTransform ? Selection.activeTransform : InstantiateCanvas().transform) as GameObject;
-            gameObject.transform.localPosition = Vector3.zero;
+            GameObject gameObject = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, prefab, Selection.activeTransform ? Selection.activeTransform : InstantiateCanvas().transform);
 
             gameObject.transform.SetAsLastSibling();
 

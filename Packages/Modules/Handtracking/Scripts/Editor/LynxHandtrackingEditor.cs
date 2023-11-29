@@ -74,7 +74,7 @@ namespace Lynx
         [MenuItem("Lynx/Add Lynx Menu", false, 300)]
         public static void AddLynxMenu()
         {
-            GameObject lynxMenu = LynxBuildSettings.InstantiateGameObjectByPath(STR_LYNX_MENU, null);
+            GameObject lynxMenu = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_MENU, null);
             Undo.RegisterCreatedObjectUndo(lynxMenu, "Hands visualizer Right");
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
@@ -88,43 +88,36 @@ namespace Lynx
         [MenuItem("GameObject/Lynx/UI/Hand Menu", false, 250)]
         public static void AddHandMenu()
         {
-            GameObject handMenu = LynxBuildSettings.InstantiateGameObjectByPath(STR_LYNX_HAND_MENU, Camera.main.transform.parent);
+            GameObject handMenu = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_HAND_MENU, Camera.main.transform.parent);
             Undo.RegisterCreatedObjectUndo(handMenu, "Hand Menu");
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
 
-    public static void AddAndroidComManager()
+        public static void AddAndroidComManager()
         {
             //Add AndroidComMng if not present in scene
             if (AndroidComMng.IsInstanceValid())
-            {
-                string str_androidComMng = Directory.GetFiles(Application.dataPath, STR_ANDROIDCOMMNG, SearchOption.AllDirectories)[0].Replace(Application.dataPath, "Assets/");
-                PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<Object>(str_androidComMng), null);
-            }
+                LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, STR_ANDROIDCOMMNG, null);
         }
         public static void AddAudioVolumeIndicator()
         {
             //Add AudioVolumeIndicator if not present in scene
             if (LynxBuildSettings.FindObjectsOfTypeAll<AudioVolumeIndicator>().Count == 0)
-
-            {
-                string str_audioVolumeIndicator = Directory.GetFiles(Application.dataPath, STR_AUDIOVOLUMEINDICATOR, SearchOption.AllDirectories)[0].Replace(Application.dataPath, "Assets/");
-                PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<Object>(str_audioVolumeIndicator), null);
-            }
+                LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, STR_AUDIOVOLUMEINDICATOR, null);
         }
 
         public static void GenerateHand(Transform parent, bool isUnityEvent, bool isDirectInteraction, bool isRaycast, bool isLeftHand = false)
         {
-            GameObject handObj = LynxBuildSettings.InstantiateGameObjectByPath(STR_LYNX_HAND, parent);
+            GameObject handObj = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_HAND, parent);
             handObj.name = isLeftHand ? "Lynx Left Hand" : "Lynx Right Hand";
 
             if (isUnityEvent)
             {
-                GameObject poke = LynxBuildSettings.InstantiateGameObjectByPath(STR_LYNX_POKE, handObj.transform);
-                AssetDatabase.LoadAssetAtPath<Preset>(Directory.GetFiles(Application.dataPath, isLeftHand ? STR_LYNX_LEFT_POKE_PRESET : STR_LYNX_RIGHT_POKE_PRESET, SearchOption.AllDirectories)[0].Replace(Application.dataPath, "Assets/")).ApplyTo(poke.GetComponent<TrackedPoseDriver>());
+                GameObject poke = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_POKE, handObj.transform);
+                AssetDatabase.LoadAssetAtPath<Preset>(Directory.GetFiles(LynxBuildSettings.LYNX_CORE_PATH, isLeftHand ? STR_LYNX_LEFT_POKE_PRESET : STR_LYNX_RIGHT_POKE_PRESET, SearchOption.AllDirectories)[0]).ApplyTo(poke.GetComponent<TrackedPoseDriver>());
 
                 // Stabilizer
-                GameObject pokeStabilizer = LynxBuildSettings.InstantiateGameObjectByPath(STR_LYNX_POKE_STABILIZER, handObj.transform);
+                GameObject pokeStabilizer = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_POKE_STABILIZER, handObj.transform);
                 poke.GetComponent<XRBaseInteractor>().attachTransform = pokeStabilizer.transform;
                 pokeStabilizer.GetComponent<XRTransformStabilizer>().targetTransform = poke.transform;
 
@@ -133,11 +126,11 @@ namespace Lynx
 
             if (isDirectInteraction)
             {
-                GameObject directInteractor = LynxBuildSettings.InstantiateGameObjectByPath(STR_LYNX_DIRECT_INTERACTOR, handObj.transform);
-                AssetDatabase.LoadAssetAtPath<Preset>(Directory.GetFiles(Application.dataPath, isLeftHand ? STR_LYNX_LEFT_DIRECT_INTERACTOR_PRESET : STR_LYNX_RIGHT_DIRECT_INTERACTOR_PRESET, SearchOption.AllDirectories)[0].Replace(Application.dataPath, "Assets/")).ApplyTo(directInteractor.GetComponent<ActionBasedController>());
+                GameObject directInteractor = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_DIRECT_INTERACTOR, handObj.transform);
+                AssetDatabase.LoadAssetAtPath<Preset>(Directory.GetFiles(LynxBuildSettings.LYNX_CORE_PATH, isLeftHand ? STR_LYNX_LEFT_DIRECT_INTERACTOR_PRESET : STR_LYNX_RIGHT_DIRECT_INTERACTOR_PRESET, SearchOption.AllDirectories)[0]).ApplyTo(directInteractor.GetComponent<ActionBasedController>());
 
                 // Stabilizer
-                GameObject directInteractorStabilizer = LynxBuildSettings.InstantiateGameObjectByPath(STR_LYNX_DIRECT_INTERACTOR_STABILIZER, handObj.transform);
+                GameObject directInteractorStabilizer = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_DIRECT_INTERACTOR_STABILIZER, handObj.transform);
                 directInteractor.GetComponent<XRBaseInteractor>().attachTransform = directInteractorStabilizer.transform;
                 directInteractorStabilizer.GetComponent<XRTransformStabilizer>().targetTransform = directInteractor.transform;
 
@@ -146,11 +139,11 @@ namespace Lynx
 
             if (isRaycast)
             {
-                GameObject ray = LynxBuildSettings.InstantiateGameObjectByPath(STR_LYNX_RAY, handObj.transform);
-                AssetDatabase.LoadAssetAtPath<Preset>(Directory.GetFiles(Application.dataPath, isLeftHand ? STR_LYNX_LEFT_RAY_PRESET : STR_LYNX_RIGHT_RAY_PRESET, SearchOption.AllDirectories)[0].Replace(Application.dataPath, "Assets/")).ApplyTo(ray.GetComponent<ActionBasedController>());
+                GameObject ray = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_RAY, handObj.transform);
+                AssetDatabase.LoadAssetAtPath<Preset>(Directory.GetFiles(LynxBuildSettings.LYNX_CORE_PATH, isLeftHand ? STR_LYNX_LEFT_RAY_PRESET : STR_LYNX_RIGHT_RAY_PRESET, SearchOption.AllDirectories)[0]).ApplyTo(ray.GetComponent<ActionBasedController>());
 
                 // Stabilizer
-                GameObject rayStabilizer = LynxBuildSettings.InstantiateGameObjectByPath(STR_LYNX_RAY_STABILIZER, handObj.transform);
+                GameObject rayStabilizer = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_RAY_STABILIZER, handObj.transform);
                 ray.GetComponent<XRBaseInteractor>().attachTransform = rayStabilizer.GetComponentsInChildren<Transform>()[1];
                 ray.GetComponent<XRRayInteractor>().rayOriginTransform = rayStabilizer.transform;
                 rayStabilizer.GetComponent<XRTransformStabilizer>().targetTransform = ray.transform;
@@ -172,7 +165,7 @@ namespace Lynx
             Transform parent = Camera.main.transform.parent;
 
             // Add event system
-            GameObject eventSystem = LynxBuildSettings.InstantiateGameObjectByPath(STR_LYNX_EVENT_SYSTEM, parent);
+            GameObject eventSystem = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_EVENT_SYSTEM, parent);
             Undo.RegisterCreatedObjectUndo(eventSystem, "XR Event System");
 
 
@@ -182,10 +175,10 @@ namespace Lynx
 
             if (handsVisualizer)
             {
-                GameObject handsVisualizerLeftObj = LynxBuildSettings.InstantiateGameObjectByPath(STR_LYNX_HAND_LEFT_VISUALIZER, parent);
+                GameObject handsVisualizerLeftObj = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_HAND_LEFT_VISUALIZER, parent);
                 Undo.RegisterCreatedObjectUndo(handsVisualizerLeftObj, "Hands visualizer Left");
 
-                GameObject handsVisualizerRightObj = LynxBuildSettings.InstantiateGameObjectByPath(STR_LYNX_HAND_RIGHT_VISUALIZER, parent);
+                GameObject handsVisualizerRightObj = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_HAND_RIGHT_VISUALIZER, parent);
                 Undo.RegisterCreatedObjectUndo(handsVisualizerRightObj, "Hands visualizer Right");
             }
 

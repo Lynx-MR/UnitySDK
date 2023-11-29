@@ -16,7 +16,7 @@ namespace Lynx.UI
 
         public static void InstantiateThemeManager()
         {
-            GameObject handMenu = LynxBuildSettings.InstantiateGameObjectByPath(STR_THEME_MANAGER, null);
+            GameObject handMenu = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, STR_THEME_MANAGER, null);
             handMenu.transform.SetAsLastSibling();
             Undo.RegisterCreatedObjectUndo(handMenu, "Theme Manager");
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());

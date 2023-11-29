@@ -17,6 +17,9 @@ namespace Lynx
 {
     public class LynxBuildSettings
     {
+        public const string LYNX_CORE_PATH = "Packages/com.lynx.core";
+        public const string LYNX_MODULES_PATH = "Packages/com.lynx.modules";
+
         /// <summary>
         /// Configure project to target Lynx headset.
         /// </summary>
@@ -88,11 +91,10 @@ namespace Lynx
         /// <param name="path">Object name to instantiate.</param>
         /// <param name="parent">Transform used as parent for the new gameobject</param>
         /// <returns></returns>
-        public static GameObject InstantiateGameObjectByPath(string path, Transform parent)
+        public static GameObject InstantiateGameObjectByPath(string packagePath, string path, Transform parent)
         {
-            string str_objPath = Directory.GetFiles(Application.dataPath, path, SearchOption.AllDirectories)[0].Replace(Application.dataPath, "Assets/");
-            GameObject obj = PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<Object>(str_objPath), null) as GameObject;
-            obj.transform.parent = parent;
+            GameObject obj = PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<Object>(Directory.GetFiles(packagePath, path, SearchOption.AllDirectories)[0]), null) as GameObject;
+            obj.transform.SetParent(parent);
             obj.transform.localPosition = Vector3.zero;
 
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());

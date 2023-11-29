@@ -1,19 +1,20 @@
 {
   "name": "com.lynx.core",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "displayName": "Lynx Core",
   "description": "Support Lynx-R1",
   "unity": "2021.3",
   "license": "Apache-2.0",
   "dependencies": {
-    "com.unity.xr.openxr": "1.9.1"
+    "com.unity.xr.openxr": "1.9.1",
+	"com.unity.textmeshpro": "3.0.6",
+	"com.unity.xr.interaction.toolkit": "2.5.2"
   },
   "keywords": [
     "lynx",
     "xr2",
     "xr"
   ],
-  "hideInEditor": false,
   "documentationUrl": "https://portal.lynx-r.com/documentation/view/core-setup",
   "author": {
     "name": "Lynx",
