@@ -380,3 +380,4 @@ sysinfo.txt
 Logs/
 Exports/*.zip
 UserSettings/
+*.vsconfig
