@@ -19,6 +19,13 @@
         "com.unity.xr.hands": "1.3.0"
       }
     },
+    "com.ultraleap.tracking": {
+      "version": "https://github.com/ultraleap/UnityPlugin.git?path=/Packages/Tracking",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "ed1b58afc1e3475f1ffbba72950e9075409807e8"
+    },
     "com.unity.editorcoroutines": {
       "version": "1.0.0",
       "depth": 1,

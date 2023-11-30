@@ -2,6 +2,7 @@
   "dependencies": {
     "com.lynx.core": "file:../../Packages/Core",
     "com.lynx.modules": "file:../../Packages/Modules",
+    "com.ultraleap.tracking": "https://github.com/ultraleap/UnityPlugin.git?path=/Packages/Tracking",
     "com.unity.feature.development": "1.0.1",
     "com.unity.ide.rider": "3.0.21",
     "com.unity.ide.visualstudio": "2.0.18",
