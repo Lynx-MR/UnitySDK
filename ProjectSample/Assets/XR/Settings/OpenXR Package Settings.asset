@@ -831,7 +831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c465bd23c9c4fb442ae89117552a5f3f, type: 3}
   m_Name: HandTrackingFeature Android
   m_EditorClassIdentifier: 
-  m_enabled: 0
+  m_enabled: 1
   nameUi: Ultraleap Hand Tracking
   version: 1.0.0
   featureIdInternal: com.ultraleap.tracking.openxr.feature.handtracking
