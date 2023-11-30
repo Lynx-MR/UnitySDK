@@ -18,9 +18,9 @@ namespace Lynx.UI
     {
         #region INSPECTOR VARIABLES
 
-        [SerializeField] private bool m_disableSelectState = true;
-        [SerializeField] private bool useTheme = false;
-        [SerializeField] private bool useSound = false;
+        [SerializeField] public bool m_disableSelectState = true;
+        [SerializeField] protected bool useTheme = false;
+        [SerializeField] public bool useSound = false;
 
         #endregion
 

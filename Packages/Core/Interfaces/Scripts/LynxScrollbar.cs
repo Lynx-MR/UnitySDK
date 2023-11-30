@@ -7,8 +7,8 @@ namespace Lynx.UI
 
     public class LynxScrollbar : Scrollbar
     {
-        [SerializeField] private bool m_disableSelectState = true;
-        [SerializeField] private bool useTheme = false;
+        [SerializeField] public bool m_disableSelectState = true;
+        [SerializeField] protected bool useTheme = false;
 
         protected override void Awake()
         {

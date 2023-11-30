@@ -21,7 +21,7 @@ namespace Lynx.UI
         [SerializeField] public Vector3 BaseOffset = new Vector3(0.0f, -0.025f, 0.0f);
         [SerializeField] public bool IsStartingVisible = false;
 
-        [SerializeField] private LineRenderer lineRenderer;
+        [SerializeField] protected LineRenderer lineRenderer;
 
         #region UNITY API
         public void Start()

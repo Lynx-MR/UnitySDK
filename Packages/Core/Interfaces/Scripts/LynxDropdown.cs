@@ -14,11 +14,9 @@ namespace Lynx.UI
     public class LynxDropdown : TMP_Dropdown
     {
         #region INSPECTOR VARIABLES
-        [SerializeField] private bool m_disableSelectState = true;
-        [SerializeField] private Graphic[] m_secondaryTargetGraphic;
+        [SerializeField] public bool m_disableSelectState = true;
+        [SerializeField] public Graphic[] m_secondaryTargetGraphic;
         #endregion
-
-
 
         protected override void OnEnable()
         {

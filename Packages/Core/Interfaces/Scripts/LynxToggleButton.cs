@@ -19,18 +19,18 @@ namespace Lynx.UI
         #region INSPECTOR VARIABLES
 
         // Button Parameters
-        [SerializeField] private UnityEvent OnPress;
-        [SerializeField] private UnityEvent OnUnpress;
+        [SerializeField] public UnityEvent OnPress;
+        [SerializeField] public UnityEvent OnUnpress;
         [SerializeField] public UnityEvent OnToggle;
         [SerializeField] public UnityEvent OnUntoggle;
 
-        [SerializeField] private bool m_disableSelectState = true;
-        [SerializeField] private bool m_useTheme = false;
-        [SerializeField] private bool m_useSound = false;
+        [SerializeField] public bool m_disableSelectState = true;
+        [SerializeField] protected bool m_useTheme = false;
+        [SerializeField] public bool m_useSound = false;
 
-        [SerializeField] private Graphic[] m_secondaryTargetGraphic;
+        [SerializeField] public Graphic[] m_secondaryTargetGraphic;
 
-        [SerializeField] private ButtonAnimation m_animation = new ButtonAnimation();
+        [SerializeField] public ButtonAnimation m_animation = new ButtonAnimation();
 
         #endregion
 

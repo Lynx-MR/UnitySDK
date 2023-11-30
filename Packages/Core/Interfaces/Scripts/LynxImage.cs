@@ -6,8 +6,8 @@ namespace Lynx.UI
 {
     public class LynxImage : Image
     {
-        [SerializeField] private bool useTheme = false;
-        [SerializeField] private LynxThemeColorSetSO.ThemeInfo selectedColor;
+        [SerializeField] protected bool useTheme = false;
+        [SerializeField] public LynxThemeColorSetSO.ThemeInfo selectedColor;
 
         protected override void Awake()
         {
