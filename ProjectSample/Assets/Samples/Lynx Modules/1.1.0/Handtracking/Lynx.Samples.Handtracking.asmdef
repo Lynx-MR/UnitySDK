@@ -20,6 +20,7 @@
     "autoReferenced": true,
     "defineConstraints": [
         "LYNX_OPENXR",
+        "ULTRALEAP_TRACKING",
         "XR_HANDS"
     ],
     "versionDefines": [
