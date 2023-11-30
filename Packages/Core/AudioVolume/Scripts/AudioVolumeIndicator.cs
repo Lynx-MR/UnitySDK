@@ -1,3 +1,7 @@
+#if UNITY_ANDROID && !UNITY_EDITOR
+    #define LYNX
+#endif
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,6 +9,7 @@ using TMPro;
 
 namespace Lynx
 {
+    [RequireComponent(typeof(ActionsInUnityMainThread))]
     public class AudioVolumeIndicator : MonoBehaviour
     {
         //INSPECTOR
@@ -26,8 +31,8 @@ namespace Lynx
 
         private void Awake()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        AndroidComMng.Instance().mAudioVolumeChangeEvent.AddListener(OnAudioVolumeChanged);       
+#if LYNX
+        AndroidComMng.OnAudioVolumeChange += OnAudioVolumeChanged;
 #endif
         }
 
@@ -36,12 +41,24 @@ namespace Lynx
             if (volumeDisplay.activeSelf) volumeDisplay.SetActive(false);
         }
 
+
+
+        private void OnDestroy()
+        {
+#if LYNX
+        AndroidComMng.OnAudioVolumeChange -= OnAudioVolumeChanged;
+#endif
+        }
+
         private void OnAudioVolumeChanged(int volume)
         {
-            UpdateVolumeBars(volume);
-            UpdateVolumeText(volume);
-            PlayTestSound();
-            DisplayVolumeLevel();
+            ActionsInUnityMainThread.actionsInUnityMainThread.AddJob(() =>
+            {
+                UpdateVolumeBars(volume);
+                UpdateVolumeText(volume);
+                PlayTestSound();
+                DisplayVolumeLevel();
+            });
         }
 
         private void UpdateVolumeBars(int volume)

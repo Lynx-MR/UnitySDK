@@ -1,9 +1,14 @@
+#if UNITY_ANDROID && !UNITY_EDITOR
+    #define LYNX
+#endif
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Lynx
 {
+    [RequireComponent(typeof(ActionsInUnityMainThread))]
     public class DisplayBattery : MonoBehaviour
     {
         //INSPECTOR
@@ -11,53 +16,35 @@ namespace Lynx
         [SerializeField] private Image batteryValueImg;
         [SerializeField] private Sprite[] batteryValueSpriteArray;
 
-        //PRIVATE
-        float timer = 0.0f;
-        float batteryTimer = 2.0f;
-
         int batteryIsChargingFlag = 1000;
-
 
         private void Awake()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        AndroidComMng.Instance().mBatteryLevelChangeEvent.AddListener(onBatteryLevelChanged);       
+#if LYNX
+            AndroidComMng.OnABatteryLevelChange += onBatteryLevelChanged;
 #endif
         }
 
-        private void Update()
-        {
-            // polling version : 
-            /*
-    #if UNITY_ANDROID && !UNITY_EDITOR
-            BatteryInfoPolling();
-    #endif
-            */
+        private void OnEnable()
+        {          
+            int batteryPercent = AndroidComMng.GetBatteryLevel();
+
+            if (AndroidComMng.isBatteryCharging())
+                batteryPercent += batteryIsChargingFlag;
+
+            FillBatteryInfo(batteryPercent);
         }
 
         private void OnDestroy()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        AndroidComMng.Instance().mBatteryLevelChangeEvent.RemoveListener(onBatteryLevelChanged); 
+#if LYNX
+            AndroidComMng.OnABatteryLevelChange -= onBatteryLevelChanged;
 #endif
         }
 
-
-        private void BatteryInfoPolling()
-        {
-            timer += Time.deltaTime;
-
-            if (timer >= batteryTimer)
-            {
-                int batteryPercent = AndroidComMng.Instance().GetBatteryLevel();
-                FillBatteryInfo(batteryPercent);
-
-                timer = 0;
-            }
-        }
         private void onBatteryLevelChanged(int batteryLevel)
         {
-            FillBatteryInfo(batteryLevel);
+            ActionsInUnityMainThread.actionsInUnityMainThread.AddJob( () => FillBatteryInfo(batteryLevel));
         }
         private void FillBatteryInfo(int batteryInfo)
         {

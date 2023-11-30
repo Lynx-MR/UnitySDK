@@ -93,12 +93,6 @@ namespace Lynx
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
 
-        public static void AddAndroidComManager()
-        {
-            //Add AndroidComMng if not present in scene
-            if (AndroidComMng.IsInstanceValid())
-                LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, STR_ANDROIDCOMMNG, null);
-        }
         public static void AddAudioVolumeIndicator()
         {
             //Add AudioVolumeIndicator if not present in scene

@@ -38,8 +38,8 @@ namespace Lynx
             return;
 #else
             Debug.Log("----------- DisplayAppInfo()");
-            applicationName = AndroidComMng.Instance().GetAppName();
-            iconTexture = AndroidComMng.Instance().GetAppIconTexture();
+            applicationName = AndroidComMng.GetAppName();
+            iconTexture = AndroidComMng.GetAppIconTexture();
 
             if (applicationName != null) appName.text = applicationName;
             else appName.text = "AppName";

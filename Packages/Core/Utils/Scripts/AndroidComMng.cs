@@ -1,98 +1,82 @@
+#if UNITY_ANDROID && !UNITY_EDITOR
+#define LYNX
+#endif
+
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Lynx
 {
-    public class AndroidComMng : MonoBehaviour
+    public static class AndroidComMng
     {
+
         //PUBLIC
-        [HideInInspector] public UnityEvent mAndroidSystemComPlugInInitSucceedEvent;
-        [HideInInspector] public UnityEvent mAndroidSystemComPlugInInitFailedEvent;
+        public delegate void AudioVolumeChangeEvent(int audioVolume);
+        public static AudioVolumeChangeEvent OnAudioVolumeChange = null;
 
-        [HideInInspector] public CustomUnityIntEvent mAudioVolumeChangeEvent = null;
-        [HideInInspector] public CustomUnityIntEvent mBatteryLevelChangeEvent = null;
+        public delegate void BatteryLevelChangeEvent(int audioVolume);
+        public static BatteryLevelChangeEvent OnABatteryLevelChange = null;
 
+        public static Action OnAndroidSystemComPlugInInitSucceedEvent = null;
+        public static Action OnAndroidSystemComPlugInInitFailedEvent = null;
 
         //PRIVATE
-        private const string LynxAndroidSystemComPlugInName = "com.lynx.lynxandroidsystemcom.LynxAndroidSystemComMng";
+        private const string m_LynxAndroidSystemComPlugInName = "com.lynx.lynxandroidsystemcom.LynxAndroidSystemComMng";
 
-        private AndroidJavaClass mAndroidSystemComPlugIn = null;
-        private AndroidJavaObject mCurrentActivity = null;
-        private AndroidJavaObject mApplicationContext = null;
+        private static AndroidJavaClass m_AndroidSystemComPlugIn = null;
+        private static AndroidJavaObject m_CurrentActivity = null;
+        private static AndroidJavaObject m_ApplicationContext = null;
 
-        //Singleton
-        private static AndroidComMng AndroidComMngInstance = null;
-        public static AndroidComMng Instance()
+        static AndroidComMng()
         {
-            if (!AndroidComMngInstance)
-            {
-                AndroidComMngInstance = FindObjectOfType(typeof(AndroidComMng)) as AndroidComMng;
-                if (!AndroidComMngInstance)
-                {
-                    Debug.LogError("There needs to be one active AndroidComMng script on a GameObject in your scene.");
-                }
-            }
-            return AndroidComMngInstance;
+            Debug.Log("------------ AndroidComMng() static constructor called -----------");
+
+            // Static initialization code here
+            Init();
         }
 
-        public static bool IsInstanceValid() => AndroidComMngInstance != null;
 
-
-        private void Awake()
+        public static bool Init()
         {
-            if (mAndroidSystemComPlugInInitSucceedEvent == null)
-                mAndroidSystemComPlugInInitSucceedEvent = new UnityEvent();
+#if LYNX
 
-            if (mAndroidSystemComPlugInInitFailedEvent == null)
-                mAndroidSystemComPlugInInitFailedEvent = new UnityEvent();
+            //Application.SetStackTraceLogType(LogType.Log , StackTraceLogType.None);
+            //Application.SetStackTraceLogType(LogType.Warning, StackTraceLogType.None);
 
-            Application.SetStackTraceLogType(LogType.Log, StackTraceLogType.None);
-            Application.SetStackTraceLogType(LogType.Warning, StackTraceLogType.None);
-        }
-
-        private void Start()
-        {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        AndroidInit();
+            return AndroidInit();
 #endif
+            return false;
         }
 
 
         //Android Initialization
-        private void AndroidInit()
+        private static bool AndroidInit()
         {
-            // Important : Initialisation of the java plugin :
-            InitAndroidJavaPlugin(ref mAndroidSystemComPlugIn, ref mCurrentActivity, ref mApplicationContext, mAndroidSystemComPlugInInitSucceedEvent, mAndroidSystemComPlugInInitFailedEvent);
+            if (!InitAndroidJavaPlugin(ref m_AndroidSystemComPlugIn, ref m_CurrentActivity, ref m_ApplicationContext, OnAndroidSystemComPlugInInitSucceedEvent, OnAndroidSystemComPlugInInitFailedEvent))
+                return false;
 
-            // Pass the Unity object name to the plug in to send Message from java to Unity
-            mAndroidSystemComPlugIn.CallStatic("setUnityGameObjectName", gameObject.name);
+            // Initialize : Call all changes receiver (Battery,volume, network, package installation) and register callback
+            // for the communication from Java plugin to Unity
+            m_AndroidSystemComPlugIn.CallStatic("Initialize", m_ApplicationContext, new AndroidPluginCallback());
 
-            if (mAudioVolumeChangeEvent == null)
-                mAudioVolumeChangeEvent = new CustomUnityIntEvent();
-
-            if (mBatteryLevelChangeEvent == null)
-                mBatteryLevelChangeEvent = new CustomUnityIntEvent();
-
-            mAndroidSystemComPlugIn.CallStatic("registerChangesReceivers", mCurrentActivity, mApplicationContext);
+            return true;
         }
-        public static void InitAndroidJavaPlugin(ref AndroidJavaClass comPlugin, ref AndroidJavaObject activity, ref AndroidJavaObject context, UnityEvent succeedCallback = null, UnityEvent failedCallback = null)
+
+        public static bool InitAndroidJavaPlugin(ref AndroidJavaClass comPlugin, ref AndroidJavaObject activity, ref AndroidJavaObject context, Action succeedCallback = null, Action failedCallback = null)
         {
             try
             {
                 //Set Android  plugin
-                var plugin = new AndroidJavaClass(LynxAndroidSystemComPlugInName);
+                var plugin = new AndroidJavaClass(m_LynxAndroidSystemComPlugInName);
+
                 if (plugin != null)
                 {
-                    comPlugin = plugin;
-                    string libJarVersion = comPlugin.CallStatic<string>("getVersion");
-                    Debug.Log("LynxAndroidSystemComMng was correctly initialized and its version is " + libJarVersion);
-                    Debug.Log(" ");
+                    m_AndroidSystemComPlugIn = plugin;
                 }
                 else
                 {
-                    Debug.LogError("mAndroidSystemComPlugIn is NULL");
-                    return;
+                    Debug.LogError("m_AndroidSystemComPlugIn is NULL");
+                    return false;
                 }
 
                 //Set unityPlayer
@@ -100,73 +84,81 @@ namespace Lynx
                 if (unityPlayer == null)
                 {
                     Debug.LogError("unityPlayer is NULL");
-                    return;
+                    return false;
                 }
 
                 //Set CurrentActivity
-                activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-                if (activity == null)
+                m_CurrentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+                if (m_CurrentActivity == null)
                 {
                     Debug.LogError("CurrentActivity is NULL");
-                    return;
+                    return false;
                 }
 
                 //Set ApplicationContext
-                context = activity.Call<AndroidJavaObject>("getApplicationContext");
-                if (context == null)
+                m_ApplicationContext = m_CurrentActivity.Call<AndroidJavaObject>("getApplicationContext");
+                if (m_ApplicationContext == null)
                 {
                     Debug.LogError("ApplicationContext is NULL");
-                    return;
+                    return false;
                 }
 
+                string libJarVersion = m_AndroidSystemComPlugIn.CallStatic<string>("getVersion");
+                Debug.Log("LynxAndroidSystemComMng was correctly initialized and its version is " + libJarVersion);
+                Debug.Log(" ");
+
                 //If all Sets succeeded, invoke Success Event
-                succeedCallback?.Invoke();
+                OnAndroidSystemComPlugInInitSucceedEvent?.Invoke();
+
+                return true;
             }
             catch (System.Exception e)
             {
                 Debug.LogError(e);
-                Debug.Log("----------- Init AndroidSystemComPlugIn FAILED");
+                Debug.Log("----------- Init Android System Com Plug-In FAILED");
 
                 // tell the user that the plug in init fails : 
-                failedCallback?.Invoke();
+                OnAndroidSystemComPlugInInitFailedEvent?.Invoke();
+
+                return false;
             }
         }
 
         //CALLBACKS sent from Java Plugin :
-        public void AudioVolumeChange(string volume)
+        public static void AudioVolumeChange(string volume)
         {
             // Volume sent varies from 0 to 15. 
             //Debug.Log("------------------- VolumeChange(string volume) received in OSComMng = " + volume);
             int iVolume = 0;
             int.TryParse(volume, out iVolume);
-            mAudioVolumeChangeEvent.Invoke(iVolume);
+            OnAudioVolumeChange?.Invoke(iVolume);
         }
-        public void BatteryLevelChange(string batteryLevel)
+        public static void BatteryLevelChange(string batteryLevel)
         {
             // Battery level varies from 0 to 100. it's a percentage 
             //Debug.Log("------------------- BatteryLevelChange(string batteryLevel) received in OSComMng = " + batteryLevel);
             int iBatteryLevel = 0;
             int.TryParse(batteryLevel, out iBatteryLevel);
-            mBatteryLevelChangeEvent.Invoke(iBatteryLevel);
+            OnABatteryLevelChange?.Invoke(iBatteryLevel);
         }
 
 
         //Current App Data Getters
-        public string GetAppName()
+        public static string GetAppName()
         {
             //Debug.Log("----------- GetAppName()");
             string appName = Application.productName;
             return appName;
         }
-        public SByte[] GetAppIconBytes()
+        public static SByte[] GetAppIconBytes()
         {
             //Debug.Log("----------- GetAppName()");
             string appPackageName = Application.identifier;
 
             int flag = new AndroidJavaClass("android.content.pm.PackageManager").GetStatic<int>("GET_META_DATA");
-            AndroidJavaObject pm = mCurrentActivity.Call<AndroidJavaObject>("getPackageManager");
+            AndroidJavaObject pm = m_CurrentActivity.Call<AndroidJavaObject>("getPackageManager");
 
-            SByte[] decodedBytes = mAndroidSystemComPlugIn.CallStatic<SByte[]>("GetIcon", pm, appPackageName);
+            SByte[] decodedBytes = m_AndroidSystemComPlugIn.CallStatic<SByte[]>("GetIcon", pm, appPackageName);
 
             if (decodedBytes == null) // Cedric : it could happens
             {
@@ -175,7 +167,7 @@ namespace Lynx
 
             return decodedBytes;
         }
-        public Texture2D GetAppIconTexture()
+        public static Texture2D GetAppIconTexture()
         {
             SByte[] decodedBytes = GetAppIconBytes();
             if (decodedBytes == null) return null;
@@ -190,26 +182,41 @@ namespace Lynx
         }
 
         //Battery_Mng
-        public int GetBatteryLevel()
+        public static int GetBatteryLevel()
         {
-            if (mAndroidSystemComPlugIn == null)
+            if (m_AndroidSystemComPlugIn == null)
             {
                 return 0;
             }
 
-            return mAndroidSystemComPlugIn.CallStatic<int>("getBatteryPercentage", mApplicationContext);
+            return m_AndroidSystemComPlugIn.CallStatic<int>("getBatteryPercentage", m_ApplicationContext);
+        }
+
+        public static bool isBatteryCharging()
+        {
+            if (m_AndroidSystemComPlugIn == null)
+            {
+                return false;
+            }
+
+            if (m_AndroidSystemComPlugIn.CallStatic<int>("isBatteryCharging", m_ApplicationContext) > 0)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         //Device_Audio_Mng
-        public int GetAudioVolume()
+        public static int GetAudioVolume()
         {
-            return mAndroidSystemComPlugIn.CallStatic<int>("getAudioVolume", mApplicationContext);
+            return m_AndroidSystemComPlugIn.CallStatic<int>("getAudioVolume", m_ApplicationContext);
         }
-        public int GetMaxAudioVolume()
+        public static int GetMaxAudioVolume()
         {
-            return mAndroidSystemComPlugIn.CallStatic<int>("getMaxAudioVolume", mApplicationContext);
+            return m_AndroidSystemComPlugIn.CallStatic<int>("getMaxAudioVolume", m_ApplicationContext);
         }
-        public void SetAudioVolume(int volume) // volume is 0 to 15. (integer)
+        public static void SetAudioVolume(int volume) // volume is 0 to 15. (integer)
         {
             if (volume < 0 || volume > 15)
             {
@@ -217,16 +224,54 @@ namespace Lynx
                 return;
             }
 
-            mAndroidSystemComPlugIn.CallStatic("setAudioVolume", mApplicationContext, volume);
+            m_AndroidSystemComPlugIn.CallStatic("setAudioVolume", m_ApplicationContext, volume);
         }
-        public void SetMicrophoneMute(bool mute)
+        public static void SetMicrophoneMute(bool mute)
         {
-            mAndroidSystemComPlugIn.CallStatic("setMicrophoneMute", mApplicationContext, mute);
+            m_AndroidSystemComPlugIn.CallStatic("setMicrophoneMute", m_ApplicationContext, mute);
         }
-        public bool isMicrophoneMute()
+        public static bool isMicrophoneMute()
         {
-            return mAndroidSystemComPlugIn.CallStatic<bool>("isMicrophoneMute", mApplicationContext);
+            return m_AndroidSystemComPlugIn.CallStatic<bool>("isMicrophoneMute", m_ApplicationContext);
         }
 
+
+        private static void DispatchAndroidJavaPlugInMessage(string messageType, string messageArg)
+        {
+            // Messages from Java plugin are NOT received in the Unity Main Thread
+            // and most of the actions linked to this messages changes UI and neead to be execute in 
+            // the Unity Main Thread. So we need to call it from a particular object that executes it 
+            // in the Unity Main Thread :
+
+            if (ActionsInUnityMainThread.actionsInUnityMainThread == null) // Prevent at the beginning a battery massage that comes too soon...
+            {
+                return;
+            }
+
+            switch (messageType)
+            {
+                case "BatteryLevelChange":
+                        BatteryLevelChange(messageArg);
+                    break;
+
+                case "AudioVolumeChange":
+                        AudioVolumeChange(messageArg);
+
+                    break;
+                default:
+                    Debug.LogError("no valid messageType in DispatchAndroidJavaPlugInMessage");
+                    break;
+            }
+        }
+
+        class AndroidPluginCallback : AndroidJavaProxy
+        {
+            public AndroidPluginCallback() : base("com.lynx.lynxandroidsystemcom.LynxAndroidSystemComCallback") { }
+
+            public void onMessage(string messageType, string messageArg)
+            {
+                AndroidComMng.DispatchAndroidJavaPlugInMessage(messageType, messageArg);
+            }
+        }
     }
 }
