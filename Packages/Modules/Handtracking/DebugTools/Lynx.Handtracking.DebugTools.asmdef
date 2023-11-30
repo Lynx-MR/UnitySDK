@@ -14,7 +14,8 @@
         "Unity.InputSystem",
         "Unity.XR.Interaction.Toolkit",
         "Unity.XR.Hands",
-        "Unity.XR.Management"
+        "Unity.XR.Management",
+        "Lynx.Handtracking"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
