@@ -1,12 +1,12 @@
 {
   "name": "com.lynx.core",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "displayName": "Lynx Core",
   "description": "Support Lynx-R1",
   "unity": "2021.3",
   "license": "Apache-2.0",
   "licensesUrl": "https://github.com/Lynx-MR/LynxUnitySDK/blob/master/Packages/Core/LICENSE",
-  "changelogUrl": "https://portal.lynx-r.com/downloads/item/1/",
+  "changelogUrl": "https://portal.lynx-r.com/documentation/view/changelog",
   "dependencies": {
     "com.unity.xr.openxr": "1.9.1",
 	"com.unity.textmeshpro": "3.0.6",

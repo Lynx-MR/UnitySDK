@@ -1,14 +1,14 @@
 {
   "name": "com.lynx.modules",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "displayName": "Lynx Modules",
   "description": "Lynx-R1 modules (including handtracking support)",
   "unity": "2021.3",
   "license": "Apache-2.0",
   "licensesUrl": "https://github.com/Lynx-MR/LynxUnitySDK/blob/master/Packages/Modules/LICENSE",
-  "changelogUrl": "https://portal.lynx-r.com/downloads/item/1/",
+  "changelogUrl": "https://portal.lynx-r.com/documentation/view/changelog",
   "dependencies": {
-    "com.lynx.core": "1.1.1",
+    "com.lynx.core": "1.1.2",
 	"com.unity.xr.hands": "1.3.0"
   },
   "keywords": [

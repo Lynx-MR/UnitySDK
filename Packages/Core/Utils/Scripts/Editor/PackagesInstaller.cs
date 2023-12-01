@@ -28,7 +28,7 @@ namespace Lynx
         /// <summary>
         /// To start packages installation
         /// </summary>
-        [MenuItem("Lynx/Settings/Install Ultraleap Package", false, 100)]
+        [MenuItem("Lynx/Settings/Install Ultraleap Package", false, 200)]
         static void InstallUltraleapPackage()
         {
             EditorApplication.LockReloadAssemblies();

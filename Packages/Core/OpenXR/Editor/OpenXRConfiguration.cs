@@ -25,7 +25,7 @@ namespace Lynx.OpenXR
     public class OpenXRConfiguration
     {
         #region EDITOR MENUS
-        [MenuItem("Lynx/Settings/Configure project settings", false, 101)]
+        [MenuItem("Lynx/Settings/Configure Project Settings", false, 100)]
         public static void ConfigureProject()
         {
             EditorWindow window = EditorWindow.GetWindow(typeof(ConfigurationWindow));
