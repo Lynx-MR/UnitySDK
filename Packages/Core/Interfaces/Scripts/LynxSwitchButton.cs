@@ -60,6 +60,10 @@ namespace Lynx.UI
             m_isInteractable = interactable;
 #endif
 
+            float handleOffset = Mathf.Abs(m_handle.localPosition.x);
+            onHandlePosition = new Vector3(handleOffset, 0, 0);
+            offHandlePosition = new Vector3(-handleOffset, 0, 0);
+
             base.Awake();
 
             if (m_useTheme)
@@ -71,9 +75,6 @@ namespace Lynx.UI
         // OnEnable is called when the object becomes enabled and active.
         protected override void OnEnable()
         {
-            offHandlePosition = m_handle.localPosition;
-            onHandlePosition = new Vector3(0,0,0) - offHandlePosition;
-
             base.OnEnable();
 
             if (m_useTheme)
@@ -219,93 +220,119 @@ namespace Lynx.UI
                 m_secondaryTargetGraphic[i].CrossFadeColor(tintColor, instant ? 0f : colors.fadeDuration, true, true);
             }
         }
-#endregion
+        
+        #endregion
 
         #region PRIVATE METHODS
 
-                /// <summary>
-                /// Call this coroutine to waiting time.
-                /// </summary>
-                /// <param name="waitingTime">Time to wait.</param>
-                /// <param name="callback">Function to call at the end.</param>
-                /// <returns></returns>
-                public static IEnumerator WaitCoroutine(float waitingTime, Action<bool> callback)
-                {
-                    yield return new WaitForSeconds(waitingTime);
-                    callback(false);
-                }
+        /// <summary>
+        /// Call this coroutine to waiting time.
+        /// </summary>
+        /// <param name="waitingTime">Time to wait.</param>
+        /// <param name="callback">Function to call at the end.</param>
+        /// <returns></returns>
+        public static IEnumerator WaitCoroutine(float waitingTime, Action<bool> callback)
+        {
+            yield return new WaitForSeconds(waitingTime);
+            callback(false);
+        }
 
-                /// <summary>
-                /// Call this function to update interactable state of the button.
-                /// </summary>
-                /// <param name="boolean"></param>
-                private void ResetInteractable(bool boolean)
-                {
-                    interactable = m_isInteractable;
-                }
+        /// <summary>
+        /// Call this function to update interactable state of the button.
+        /// </summary>
+        /// <param name="boolean"></param>
+        private void ResetInteractable(bool boolean)
+        {
+            interactable = m_isInteractable;
+        }
 
-                /// <summary>
-                /// CallbackStopRunning is called when a button animation coroutine is complete.
-                /// </summary>
-                /// <param name="state">True to call OnUnpress, false to call OnPress.</param>
-                private void CallbackStopRunning(bool state)
-                {
-                    m_isRunning = false;
+        /// <summary>
+        /// CallbackStopRunning is called when a button animation coroutine is complete.
+        /// </summary>
+        /// <param name="state">True to call OnUnpress, false to call OnPress.</param>
+        private void CallbackStopRunning(bool state)
+        {
+            m_isRunning = false;
 
-                    if (state)
-                    {
-                        OnUnpress.Invoke();
-                    }
-                    else
-                    {
-                        OnPress.Invoke();
-                    }
-                }
+            if (state)
+            {
+                OnUnpress.Invoke();
+            }
+            else
+            {
+                OnPress.Invoke();
+            }
+        }
 
         #endregion
 
         #region PUBLIC METHODS
 
-                /// <summary>
-                /// Set the state of the toggle, visualy and start coresponding event if state change
-                /// </summary>
-                /// <param name="state">Is toggle activated</param>
-                public void IsToggle(bool state)
-                {
-                    if (m_isToggle != state)
-                    {
-                        if (state)
-                            OnToggle.Invoke();
-                        else
-                            OnUntoggle.Invoke();
-                    }
-                    m_isToggle = state;
-                }
+        /// <summary>
+        /// Set the state of the toggle and start coresponding event if state change
+        /// </summary>
+        /// <param name="state">Is toggle activated</param>
+        public void IsToggle(bool state)
+        {
+            if (m_isToggle != state)
+            {
+                if (state)
+                    OnToggle.Invoke();
+                else
+                    OnUntoggle.Invoke();
+            }
+            m_isToggle = state;
+        }
 
-                /// <summary>
-                /// Set the state of the toggle
-                /// </summary>
-                /// <param name="state">Is toggle activated</param>
-                /// <param name="launchEvent">Should start switch event</param>
-                public void IsToggle(bool state, bool launchEvent)
+        /// <summary>
+        /// Set the state of the toggle, visualy, and start coresponding event if state change. 
+        /// </summary>
+        /// <param name="state">Is toggle activated</param>
+        public void IsToggleWithTransition(bool state)
+        {
+            if (m_isToggle != state)
+            {
+                m_isToggle = state;
+                if (gameObject.activeInHierarchy)
                 {
-                    if (launchEvent)
-                    {
-                        if (state)
-                            OnToggle.Invoke();
-                        else
-                            OnUntoggle.Invoke();
-                    }
-                    m_isToggle = state;
+                    if (state) OnToggle.Invoke();
+                    else OnUntoggle.Invoke();
+                    StartCoroutine(ToggleAnimationCoroutine());
                 }
+                else
+                {
+                    m_handle.localPosition = m_isToggle ? onHandlePosition : offHandlePosition;
+                }
+                if (state) DoStateTransition(SelectionState.Pressed, false);
+                else DoStateTransition(SelectionState.Normal, false);
+            }
+        }
+
+        /// <summary>
+        /// Set the state of the toggle
+        /// </summary>
+        /// <param name="state">Is toggle activated</param>
+        /// <param name="launchEvent">Should start switch event</param>
+        public void IsToggle(bool state, bool launchEvent)
+        {
+            if (launchEvent)
+            {
+                if (state)
+                    OnToggle.Invoke();
+                else
+                    OnUntoggle.Invoke();
+            }
+            m_isToggle = state;
+        }
 
         #endregion
 
         #region ANIMATION COROUTINES
-                /// <summary>
-                /// Start this coroutine to activate the switch toggle animation.
-                /// </summary>
-                private IEnumerator ToggleAnimationCoroutine()
+
+        /// <summary>
+        /// Start this coroutine to activate the switch toggle animation.
+        /// </summary>
+        private IEnumerator ToggleAnimationCoroutine()
                 {
                     Vector3 targetPos = m_isToggle ? onHandlePosition : offHandlePosition;
                     Vector3 startPos = m_handle.localPosition;
@@ -322,33 +349,34 @@ namespace Lynx.UI
 
         #region THEME MANAGING
 
-                /// <summary>
-                /// change the colorblock of a button to match the selected theme
-                /// </summary>
-                public void SetThemeColors()
-                {
-                    if (LynxThemeManager.Instance == null)
-                        return;
-                    colors = LynxThemeManager.Instance.currentTheme.selectableColors;
-                }
+        /// <summary>
+        /// change the colorblock of a button to match the selected theme
+        /// </summary>
+        public void SetThemeColors()
+        {
+            if (LynxThemeManager.Instance == null)
+                return;
+            colors = LynxThemeManager.Instance.currentTheme.selectableColors;
+        }
 
-                /// <summary>
-                /// Define if this element should use the theme manager
-                /// </summary>
-                /// <param name="enable">True to use theme manager</param>
-                public void SetUseTheme(bool enable = true)
-                {
-                    m_useTheme = enable;
-                }
+        /// <summary>
+        /// Define if this element should use the theme manager
+        /// </summary>
+        /// <param name="enable">True to use theme manager</param>
+        public void SetUseTheme(bool enable = true)
+        {
+            m_useTheme = enable;
+        }
 
-                /// <summary>
-                /// Check if current element is using theme manager.
-                /// </summary>
-                /// <returns>True if this element use theme manager.</returns>
-                public bool IsUsingTheme()
-                {
-                    return m_useTheme;
-                }
+        /// <summary>
+        /// Check if current element is using theme manager.
+        /// </summary>
+        /// <returns>True if this element use theme manager.</returns>
+        public bool IsUsingTheme()
+        {
+            return m_useTheme;
+        }
+
         #endregion
     }
 }
