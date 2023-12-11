@@ -71,11 +71,11 @@ namespace Lynx
 
                 if (plugin != null)
                 {
-                    m_AndroidSystemComPlugIn = plugin;
+                    comPlugin = plugin;
                 }
                 else
                 {
-                    Debug.LogError("m_AndroidSystemComPlugIn is NULL");
+                    Debug.LogError("Android plugin is NULL");
                     return false;
                 }
 
@@ -88,27 +88,27 @@ namespace Lynx
                 }
 
                 //Set CurrentActivity
-                m_CurrentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-                if (m_CurrentActivity == null)
+                activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+                if (activity == null)
                 {
                     Debug.LogError("CurrentActivity is NULL");
                     return false;
                 }
 
                 //Set ApplicationContext
-                m_ApplicationContext = m_CurrentActivity.Call<AndroidJavaObject>("getApplicationContext");
-                if (m_ApplicationContext == null)
+                context = activity.Call<AndroidJavaObject>("getApplicationContext");
+                if (context == null)
                 {
                     Debug.LogError("ApplicationContext is NULL");
                     return false;
                 }
 
-                string libJarVersion = m_AndroidSystemComPlugIn.CallStatic<string>("getVersion");
+                string libJarVersion = comPlugin.CallStatic<string>("getVersion");
                 Debug.Log("LynxAndroidSystemComMng was correctly initialized and its version is " + libJarVersion);
                 Debug.Log(" ");
 
                 //If all Sets succeeded, invoke Success Event
-                OnAndroidSystemComPlugInInitSucceedEvent?.Invoke();
+                succeedCallback?.Invoke();
 
                 return true;
             }
@@ -118,7 +118,7 @@ namespace Lynx
                 Debug.Log("----------- Init Android System Com Plug-In FAILED");
 
                 // tell the user that the plug in init fails : 
-                OnAndroidSystemComPlugInInitFailedEvent?.Invoke();
+                failedCallback?.Invoke();
 
                 return false;
             }
