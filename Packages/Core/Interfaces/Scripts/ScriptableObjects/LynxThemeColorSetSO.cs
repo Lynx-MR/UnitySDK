@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace Lynx.UI
 {
-    [CreateAssetMenu(fileName = "LynxThemeColorSet", menuName = "ScriptableObjects/LynxThemeColorSet", order = 1)]
+    [CreateAssetMenu(fileName = "LynxThemeColorSet", menuName = "Lynx/ScriptableObjects/LynxThemeColorSet", order = 1)]
     [Serializable]
     public class LynxThemeColorSetSO : ScriptableObject
     {

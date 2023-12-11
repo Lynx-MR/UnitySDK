@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Lynx.UI
 {
-    [CreateAssetMenu(fileName = "LynxSounds", menuName = "ScriptableObjects/LynxSounds", order = 1)]
+    [CreateAssetMenu(fileName = "LynxSounds", menuName = "Lynx/ScriptableObjects/LynxSounds", order = 1)]
     [Serializable]
     public class LynxSoundsSO : ScriptableObject
     {
