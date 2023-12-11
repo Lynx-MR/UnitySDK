@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -42,19 +40,7 @@ namespace Lynx.UI
             EditorGUILayout.PropertyField(serializedObject.FindProperty("text"), EditorGUIUtility.TrTextContent("Text Color"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("icon"), EditorGUIUtility.TrTextContent("Icon Color"));
 
-
-            EditorGUILayout.Space(15);
-            EditorGUILayout.LabelField("Audio", bold);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("tick"), EditorGUIUtility.TrTextContent("Play audio on "));
-            SerializedProperty TickValue = serializedObject.FindProperty("tick");
-            if(TickValue.enumValueIndex == ((int)LynxSoundsSO.AudioTick.OnPress) || TickValue.enumValueIndex == ((int)LynxSoundsSO.AudioTick.Both))
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("onPress"), EditorGUIUtility.TrTextContent("On Press"));
-            if (TickValue.enumValueIndex == ((int)LynxSoundsSO.AudioTick.OnUnpress) || TickValue.enumValueIndex == ((int)LynxSoundsSO.AudioTick.Both))
-                EditorGUILayout.PropertyField(serializedObject.FindProperty("onUnpress"), EditorGUIUtility.TrTextContent("On Unpress"));
-
-
             serializedObject.ApplyModifiedProperties();
-
         }
     }
 }
