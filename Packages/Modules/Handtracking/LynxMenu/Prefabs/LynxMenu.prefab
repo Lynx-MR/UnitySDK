@@ -3666,14 +3666,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6928180222145050758, guid: 0a95024ca74646943824472bd73fec8f, type: 3}
       propertyPath: m_text
-      value: 'Set the new floor level by bringing your hands ot the ground
-
-        Then
-        stand up straight & press Confirm
-
-
-        Press Cancel to exit to Menu
-        without changes to ground position'
+      value: Bring your hands to the ground then press Confirm
       objectReference: {fileID: 0}
     - target: {fileID: 6928180222145050758, guid: 0a95024ca74646943824472bd73fec8f, type: 3}
       propertyPath: m_fontSize
@@ -5472,14 +5465,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6928180222145050758, guid: 0a95024ca74646943824472bd73fec8f, type: 3}
       propertyPath: m_text
-      value: 'Check the current ground position to see if it matches your environment.
-
-        Press
-        Change Height to set new ground position
-
-
-        Press Return to exit back
-        to Menu'
+      value: Check the current ground position to see if it matches your environment.
       objectReference: {fileID: 0}
     - target: {fileID: 6928180222145050758, guid: 0a95024ca74646943824472bd73fec8f, type: 3}
       propertyPath: m_fontSize
