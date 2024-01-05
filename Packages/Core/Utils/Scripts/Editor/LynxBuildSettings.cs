@@ -24,15 +24,7 @@ namespace Lynx
         /// Configure project to target Lynx headset.
         /// </summary>
         public static void SetupAndroidBuild()
-        {
-#if ULTRALEAP_TRACKING
-            // Configure Ultraleap
-            if (Leap.Unity.UltraleapSettings.Instance)
-                Leap.Unity.UltraleapSettings.Instance.updateMetaInputSystem = true;
-            else
-                Debug.LogError("Cannot find Ultraleap settings. Please enable Meta Aim Input System manually");
-#endif
-            
+        {   
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
             EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Android;
             EditorUserBuildSettings.selectedStandaloneTarget = BuildTarget.Android;
@@ -50,14 +42,6 @@ namespace Lynx
 
             if (PlayerSettings.Android.disableDepthAndStencilBuffers)
                 Debug.LogWarning("WARNING: Depth and Stencil is disabled. If screen stays black, you should enable it back.");
-
-#if ULTRALEAP_TRACKING
-            // Configure Ultraleap
-            if (Leap.Unity.UltraleapSettings.Instance)
-                Leap.Unity.UltraleapSettings.Instance.updateMetaInputSystem = true;
-            else
-                Debug.LogError("Cannot find Ultraleap settings. Please enable Meta Aim Input System manually");
-#endif
         }
 
         /// <summary>

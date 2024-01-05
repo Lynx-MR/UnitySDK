@@ -142,12 +142,6 @@ namespace Lynx.OpenXR
 #endif
 
                 GUILayout.Space(10);
-#if ULTRALEAP_TRACKING
-                GUILayout.Label("- Configure Ultraleap handtracking settings\n", EditorStyles.label);
-#else
-                GUILayout.Label("Cannot configure Ultraleap handtracking automatically.\nUltraleap package is missing.\n", EditorStyles.label);
-#endif
-
                 if (GUILayout.Button("Validate"))
                 {
                     Debug.Log("Configuring project...");

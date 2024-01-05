@@ -194,7 +194,6 @@ namespace Lynx
             bool cbUnityEvents = true;
             bool cbDirectInteractor = true;
             bool cbRaycasting = true;
-            bool cbULSettings = true;
             bool cbHandsVisualizer = true;
             bool cbInterfacePointer = false;
 
@@ -212,17 +211,11 @@ namespace Lynx
                 cbHandsVisualizer = EditorGUILayout.Toggle("Hands visualizer", cbHandsVisualizer);
                 if (cbDirectInteractor)
                     cbInterfacePointer = EditorGUILayout.Toggle("UI pointer", cbInterfacePointer) && cbDirectInteractor;
-                cbULSettings = EditorGUILayout.Toggle("Ultraleap configuration", cbULSettings);
 #endif
 
                 GUILayout.Space(20);
                 if (GUILayout.Button("Add"))
                 {
-                    if (cbULSettings)
-                    {
-                        if (Leap.Unity.UltraleapSettings.Instance)
-                            Leap.Unity.UltraleapSettings.Instance.updateMetaInputSystem = true;
-                    }
 
                     AddHandtracking(cbUnityEvents, cbDirectInteractor, cbRaycasting, cbHandsVisualizer, cbInterfacePointer);
                     this.Close();

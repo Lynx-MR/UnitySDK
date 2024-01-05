@@ -6,11 +6,6 @@
         "Lynx.Core.Editor",
         "Lynx.Handtracking",
         "Unity.TextMeshPro",
-        "LeapMotion.LeapCSharp",
-        "Ultraleap.Tracking.Core",
-        "Ultraleap.Tracking.Hands",
-        "Ultraleap.Tracking.InteractionEngine",
-        "Ultraleap.Tracking.OpenXR",
         "Unity.XR.Interaction.Toolkit",
         "Unity.InputSystem"
     ],
@@ -36,11 +31,6 @@
             "name": "com.unity.xr.interaction.toolkit",
             "expression": "2.4.0",
             "define": "LYNX_XRI"
-        },
-        {
-            "name": "com.ultraleap.tracking",
-            "expression": "6.10.0",
-            "define": "ULTRALEAP_TRACKING"
         }
     ],
     "noEngineReferences": false

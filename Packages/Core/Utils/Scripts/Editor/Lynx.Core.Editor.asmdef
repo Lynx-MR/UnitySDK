@@ -5,8 +5,7 @@
         "Lynx.Core",
         "Unity.XR.Management",
         "Unity.XR.Management.Editor",
-        "Unity.XR.OpenXR",
-        "Ultraleap.Tracking.Core"
+        "Unity.XR.OpenXR"
     ],
     "includePlatforms": [
         "Editor"
@@ -17,12 +16,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [
-        {
-            "name": "com.ultraleap.tracking",
-            "expression": "6.10.0",
-            "define": "ULTRALEAP_TRACKING"
-        }
-    ],
+    "versionDefines": [],
     "noEngineReferences": false
 }
