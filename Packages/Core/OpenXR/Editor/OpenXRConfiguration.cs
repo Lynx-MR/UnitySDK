@@ -52,21 +52,38 @@ namespace Lynx.OpenXR
             xrSettings.Manager = managerSettings;
             xrSettings.name = "Lynx Settings";
 
-            // Use default Khronos controller
+
+
+            /********** INTERACTION PROFILES **********/
+            // Use Hand Interaction Controller
             FeatureHelpers.RefreshFeatures(buildTarget);
-            UnityEngine.XR.OpenXR.Features.OpenXRFeature feature = FeatureHelpers.GetFeatureWithIdForBuildTarget(buildTarget, KHRSimpleControllerProfile.featureId);
+
+            // Disable other profiles that can conflict
+            UnityEngine.XR.OpenXR.Features.OpenXRFeature[] features = FeatureHelpers.GetFeaturesWithIdsForBuildTarget(buildTarget, new string[] { MicrosoftHandInteraction.featureId, MetaQuestTouchProControllerProfile.featureId, OculusTouchControllerProfile.featureId});
+            foreach(UnityEngine.XR.OpenXR.Features.OpenXRFeature f in features)
+            {
+                if(f && f.enabled)
+                {
+                    f.enabled = false;
+                    Debug.Log($"{f.name} removed.");
+                }
+            }
+
+            // Select Hand Interaction Controller Profile
+            UnityEngine.XR.OpenXR.Features.OpenXRFeature feature = FeatureHelpers.GetFeatureWithIdForBuildTarget(buildTarget, HandInteractionProfile.featureId);
             if (feature)
             {
                 feature.enabled = true;
                 Debug.Log($"{feature.name} selected.");
             }
 
+            /********** PROVIDERS **********/
             // Feature set
             OpenXRFeatureSetManager.FeatureSet lynxFeatureSet = OpenXRFeatureSetManager.GetFeatureSetWithId(buildTarget, LynxFeatureSet.featureId);
             if (lynxFeatureSet != null)
             {
                 lynxFeatureSet.isEnabled = true;
-                lynxFeatureSet.requiredFeatureIds = new string[] { LynxR1Feature.featureId, LynxFeatureSet.xrHandsSubsystemId, LynxFeatureSet.ultraleapFeatureId };
+                lynxFeatureSet.requiredFeatureIds = new string[] { LynxR1Feature.featureId, LynxFeatureSet.xrHandsSubsystemId, LynxFeatureSet.xrHandtrackingAim };
                 Debug.Log($"{lynxFeatureSet.name} enabled.");
             }
             OpenXRFeatureSetManager.SetFeaturesFromEnabledFeatureSets(buildTarget);
@@ -133,10 +150,10 @@ namespace Lynx.OpenXR
 #if LYNX_OPENXR
                 GUILayout.Label("- Configure OpenXR for Android:\n" +
                     "\to Select OpenXR in XR Plugin Management\n" +
-                    "\to Use default Khronos controller (to avoid warning)\n" +
+                    "\to Use Hand Interaction Profile\n" +
                     "\to Select Hand Tracking Subsystem provider\n" +
-                    "\to Select Lynx-R1 provider\n" +
-                    "\to Select Ultraleap provider\n", EditorStyles.label);
+                    "\to Select Meta Hand Tracking Aim provider\n" +
+                    "\to Select Lynx-R1 provider\n", EditorStyles.label);
 #else
                 GUILayout.Label("Cannot configure OpenXR automatically.\nOpenXR is missing.\n", EditorStyles.label);
 #endif
