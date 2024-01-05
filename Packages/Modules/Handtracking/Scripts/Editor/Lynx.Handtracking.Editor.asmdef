@@ -24,7 +24,6 @@
     "autoReferenced": true,
     "defineConstraints": [
         "LYNX_OPENXR",
-        "ULTRALEAP_TRACKING",
         "LYNX_XRI"
     ],
     "versionDefines": [
