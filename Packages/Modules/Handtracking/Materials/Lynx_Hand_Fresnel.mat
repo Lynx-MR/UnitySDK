@@ -27,6 +27,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _FresnelPower: 1.48
+    - _MeshOffset: -0.0006
     m_Colors:
     - _Color: {r: 0.45, g: 0.45, b: 0.45, a: 0.75}
   m_BuildTextureStacks: []
