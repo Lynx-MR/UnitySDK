@@ -44,7 +44,7 @@ namespace Lynx.UI
                 {
                     EditorGUILayout.HelpBox("Theme Manager does not have any theme set", MessageType.Warning);
                 }
-                else if(LynxThemeManager.Instance.ThemeSets != null || LynxThemeManager.Instance.ThemeSets.Count != 0)
+                else if(LynxThemeManager.Instance.ThemeSets != null && LynxThemeManager.Instance.ThemeSets.Count != 0)
                 {
                     LynxThemeManager.Instance.StartCoroutine(LynxThemeManager.SetupCoroutine(script.SetThemeColors));
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("selectedColor"), EditorGUIUtility.TrTextContent("Color type", "automatically get colors to match those of the active theme"));
