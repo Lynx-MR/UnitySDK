@@ -30,9 +30,12 @@ namespace Lynx
         static AndroidComMng()
         {
             Debug.Log("------------ AndroidComMng() static constructor called -----------");
-
-            // Static initialization code here
-            Init();
+#if !LYNX_HOME_LAUNCHER
+           // Static initialization code here
+           Init();
+#else
+            Debug.Log("------------ AndroidComMng() : No init() called because there is a specific init done in the LYNX HOME LAUNCHER");
+#endif                          
         }
 
 
@@ -270,6 +273,7 @@ namespace Lynx
 
             public void onMessage(string messageType, string messageArg)
             {
+                Debug.LogError("onMessage(string messageType, string messageArg)");
                 AndroidComMng.DispatchAndroidJavaPlugInMessage(messageType, messageArg);
             }
         }
