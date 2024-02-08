@@ -4,6 +4,7 @@ Shader "Lynx/Hand/Fresnel"
     {
         _Color ("Base Color", Color) = (0.45,0.45,0.45,0.75)
         _FresnelPower ("Fresnel Power", Range(0,5)) = 1.48
+        _MeshOffset("Mesh Offset", Range(-0.05,0.05)) = 0.0
     }
     SubShader
     {
@@ -49,11 +50,12 @@ Shader "Lynx/Hand/Fresnel"
 
             float4 _Color;
             float _FresnelPower;
+            float _MeshOffset;
 
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.vertex = UnityObjectToClipPos(v.vertex + v.normal * _MeshOffset);
                 o.objPos = v.vertex;
                 o.uv = v.uv;
                 half3 worldNormal = UnityObjectToWorldNormal(v.normal);
