@@ -9,7 +9,9 @@
 using UnityEngine.XR.OpenXR.Features;
 using UnityEngine;
 using UnityEngine.XR.OpenXR.NativeTypes;
-using System.Collections.Generic; 
+using System.Collections.Generic;
+using System;
+using System.Runtime.InteropServices;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -38,7 +40,7 @@ namespace Lynx.OpenXR
 #if UNITY_EDITOR
         public static LynxR1Feature Instance
         {
-            get  => throw new System.Exception("Cannot use Lynx API in Editor.\n\tNote: You can use \"#if !UNITY_EDITOR\" in your code to avoid device dependent code.");
+            get => throw new System.Exception("Cannot use Lynx API in Editor.\n\tNote: You can use \"#if !UNITY_EDITOR\" in your code to avoid device dependent code.");
             private set { }
         }
 #else
@@ -56,7 +58,10 @@ namespace Lynx.OpenXR
         [Tooltip("Layer index for object to display in AR only (hidden in VR)")]
         public int onlyARLayer = 11;
         [Tooltip("Tag to use on root objects to stay visible in Full AR (handtracking, GameManager, ...).")]
-        public string VisibleInFullARTag= "FullARObject";
+        public string VisibleInFullARTag = "FullARObject";
+        [SerializeField]
+        [Tooltip("Toggle to enable unpremultiplied alpha for achieving overlay transparency effects, like those used in a smoke effect")]
+        private bool m_unpremultipliedAlphaFlag = false;
         #endregion
 
         #region VARIABLES
@@ -71,12 +76,23 @@ namespace Lynx.OpenXR
 
         // Store list of all hidden object when using AR only
         private List<GameObject> m_hiddenObjects = new List<GameObject>();
+
+        // External library to change the unpremultiplied alpha setting
+        private const string ExtLibXrEndFrame = "LynxXrEndFrame";
         #endregion
 
         #region PROPERTIES
         // Current status of AR only
         public bool IsAROnly { get; private set; }
-
+        public bool UnpremultipliedAlphaFlag
+        {
+            get { return m_unpremultipliedAlphaFlag; }
+            set
+            {
+                m_unpremultipliedAlphaFlag = value;
+                ToggleUnpremultipliedFlag(m_unpremultipliedAlphaFlag);
+            }
+        }
         public delegate void ARVRSwitchEvent(bool isAR);
         public ARVRSwitchEvent onARVRChanged = null;
         #endregion
@@ -113,6 +129,17 @@ namespace Lynx.OpenXR
             {
                 SetEnvironmentBlendMode(XrEnvironmentBlendMode.Opaque);
             }
+        }
+
+        /// <summary>
+        /// Used to intercept the function XrEndFrame to change the flag Unpremultiplied Alpha.
+        /// </summary>
+        /// <param name="func">xrGetInstanceProcAddr native function pointer</param>
+        /// <returns>Function pointer to hook OpenXR native functions like XrEndFrame.</returns>
+        protected override IntPtr HookGetInstanceProcAddr(IntPtr func)
+        {
+            ToggleUnpremultipliedFlag(UnpremultipliedAlphaFlag);
+            return ModifyXrEndFrameProcAddr(func);
         }
 
         /// <summary>
@@ -158,7 +185,7 @@ namespace Lynx.OpenXR
         /// <param name="isAR">True (default) to set video see through mode. False to set VR mode.</param>
         public void SetAR(bool isAR = true)
         {
-            if(isAR)
+            if (isAR)
             {
                 SetEnvironmentBlendMode(XrEnvironmentBlendMode.AlphaBlend);
                 Camera.main.cullingMask &= ~(1 << onlyVRLayer);
@@ -220,12 +247,12 @@ namespace Lynx.OpenXR
                     }
                 }
 
-                
+
             }
             else
             {
                 // Reactive each object and remove it from the hidden objects list
-                while(m_hiddenObjects.Count > 0)
+                while (m_hiddenObjects.Count > 0)
                 {
                     m_hiddenObjects[0].SetActive(true);
                     m_hiddenObjects.RemoveAt(0);
@@ -236,5 +263,24 @@ namespace Lynx.OpenXR
 
             SetAR(enableAROnly);
         }
+
+        #region ENTRY POINTS
+        /// <summary>
+        ///  External method declaration to modify the function pointer of `xrEndFrame` used for the Unpremultiplied Alpha setting.
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        [DllImport(ExtLibXrEndFrame)]
+        private static extern IntPtr ModifyXrEndFrameProcAddr(IntPtr func);
+
+        /// <summary>
+        /// External method declaration to toggle the state of the flag Unpremultiplied Alpha setting.
+        /// </summary>
+        /// <param name="isFlagActive">State of the bool m_unpremultipliedAlphaFlag. If TRUE the flag is activated on OpenXR </param>
+        [DllImport(ExtLibXrEndFrame)]
+        private static extern void ToggleUnpremultipliedFlag(bool isFlagActive);
+        #endregion
+
     }
+
 }
