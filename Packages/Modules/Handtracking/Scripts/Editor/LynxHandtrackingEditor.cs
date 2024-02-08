@@ -47,6 +47,7 @@ namespace Lynx
 
         private const string STR_LYNX_HAND_LEFT_VISUALIZER = "Lynx Left Hand Visualizer.prefab";
         private const string STR_LYNX_HAND_RIGHT_VISUALIZER = "Lynx Right Hand Visualizer.prefab";
+        private const string STR_LYNX_LINE_HANDS_VISUALIZER = "Lynx Line Hands Visualizer.prefab";
 
         private const string STR_LYNX_MENU = "LynxMenu.prefab";
 
@@ -150,7 +151,7 @@ namespace Lynx
 
         }
 
-        public static void AddHandtracking(bool isUnityEvent, bool isDirectInteraction, bool isRaycast, bool handsVisualizer, bool interfacePointer)
+        public static void AddHandtrackingPrefabs(bool isUnityEvent, bool isDirectInteraction, bool isRaycast, bool cbHandsVisualizer, bool ghostHandsVisualizer, bool lineHandsVisualizer, bool interfacePointer)
         {
             //AddAndroidComManager();
             //AddAudioVolumeIndicator();
@@ -167,13 +168,22 @@ namespace Lynx
             GenerateHand(parent, isUnityEvent, isDirectInteraction, isRaycast, true);
             GenerateHand(parent, isUnityEvent, isDirectInteraction, isRaycast, false);
 
-            if (handsVisualizer)
+            if (cbHandsVisualizer)
             {
-                GameObject handsVisualizerLeftObj = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_HAND_LEFT_VISUALIZER, parent);
-                Undo.RegisterCreatedObjectUndo(handsVisualizerLeftObj, "Hands visualizer Left");
+                if (ghostHandsVisualizer)
+                {
+                    GameObject handsVisualizerLeftObj = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_HAND_LEFT_VISUALIZER, parent);
+                    Undo.RegisterCreatedObjectUndo(handsVisualizerLeftObj, "Ghost hand visualizer Left");
 
-                GameObject handsVisualizerRightObj = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_HAND_RIGHT_VISUALIZER, parent);
-                Undo.RegisterCreatedObjectUndo(handsVisualizerRightObj, "Hands visualizer Right");
+                    GameObject handsVisualizerRightObj = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_HAND_RIGHT_VISUALIZER, parent);
+                    Undo.RegisterCreatedObjectUndo(handsVisualizerRightObj, "Right hand visualizer Right");
+                }
+
+                if (lineHandsVisualizer)
+                {
+                    GameObject lineHandsObj = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_LINE_HANDS_VISUALIZER, parent);
+                    Undo.RegisterCreatedObjectUndo(lineHandsObj, "Line hands visualizer");
+                }
             }
 
             if (interfacePointer)
@@ -183,6 +193,8 @@ namespace Lynx
 
             Debug.Log($"Hands added under {parent.name}");
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+
+            UnityEditorInternal.InternalEditorUtility.SetIsInspectorExpanded(parent, true);
         }
 
 
@@ -195,6 +207,8 @@ namespace Lynx
             bool cbDirectInteractor = true;
             bool cbRaycasting = true;
             bool cbHandsVisualizer = true;
+            bool cbGhostHandsVisualizer = true;
+            bool cbLineHandsVisualizer = false;
             bool cbInterfacePointer = false;
 
             void OnGUI()
@@ -209,6 +223,12 @@ namespace Lynx
                 cbDirectInteractor = EditorGUILayout.Toggle("XR Direct interactors", cbDirectInteractor);
                 cbRaycasting = EditorGUILayout.Toggle("XR raycast interactors", cbRaycasting);
                 cbHandsVisualizer = EditorGUILayout.Toggle("Hands visualizer", cbHandsVisualizer);
+                if(cbHandsVisualizer)
+                {
+                    cbGhostHandsVisualizer = EditorGUILayout.Toggle("\t- Ghost Hands", cbGhostHandsVisualizer);
+                    cbLineHandsVisualizer = EditorGUILayout.Toggle("\t- Line Hands", cbLineHandsVisualizer);
+                }
+
                 if (cbDirectInteractor)
                     cbInterfacePointer = EditorGUILayout.Toggle("UI pointer", cbInterfacePointer) && cbDirectInteractor;
 #endif
@@ -217,7 +237,7 @@ namespace Lynx
                 if (GUILayout.Button("Add"))
                 {
 
-                    AddHandtracking(cbUnityEvents, cbDirectInteractor, cbRaycasting, cbHandsVisualizer, cbInterfacePointer);
+                    AddHandtrackingPrefabs(cbUnityEvents, cbDirectInteractor, cbRaycasting, cbHandsVisualizer, cbGhostHandsVisualizer, cbLineHandsVisualizer, cbInterfacePointer);
                     this.Close();
                 }
 

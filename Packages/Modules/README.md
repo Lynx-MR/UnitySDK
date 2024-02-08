@@ -12,9 +12,11 @@ Gaze Pointer integration based on OpenXR Interaction Toolkit.
 
 ### Handtracking
 
-Lynx handtracking is based on the Ultraleap software stack.
+Lynx handtracking is based on XRI with the Ultraleap integrated support.
 
-This section explains how to integrate Ultraleap Tracking and use it inside your scene.
+This section explains how to integrate handtracking and use it inside your scene.
+
+To go further with advanced features, please check Ultraleap documentation.
 
 Ultraleap documentation: https://docs.ultraleap.com/
 
