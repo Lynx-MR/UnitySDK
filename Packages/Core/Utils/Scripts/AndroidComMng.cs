@@ -273,8 +273,7 @@ namespace Lynx
 
             public void onMessage(string messageType, string messageArg)
             {
-                Debug.LogError("onMessage(string messageType, string messageArg)");
-                AndroidComMng.DispatchAndroidJavaPlugInMessage(messageType, messageArg);
+                DispatchAndroidJavaPlugInMessage(messageType, messageArg);
             }
         }
     }
