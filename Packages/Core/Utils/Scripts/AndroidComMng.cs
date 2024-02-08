@@ -29,8 +29,8 @@ namespace Lynx
 
         static AndroidComMng()
         {
-            Debug.Log("------------ AndroidComMng() static constructor called -----------");
 #if !LYNX_HOME_LAUNCHER
+            Debug.Log("------------ AndroidComMng() static constructor called -----------");
            // Static initialization code here
            Init();
 #else
@@ -47,8 +47,9 @@ namespace Lynx
             //Application.SetStackTraceLogType(LogType.Warning, StackTraceLogType.None);
 
             return AndroidInit();
-#endif
+#else
             return false;
+#endif
         }
 
 
