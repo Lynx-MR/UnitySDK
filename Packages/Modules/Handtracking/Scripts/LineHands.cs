@@ -165,14 +165,16 @@ namespace Lynx
         {
             if (subsystem.leftHand.isTracked && leftMarker)
             {
-                markerRootL.transform.position = Camera.main.transform.parent.position;
+                markerRootL.transform.position = this.transform.position;
+                markerRootL.transform.rotation = this.transform.rotation;
 
                 UpdateHandMarkerTrs(subsystem.leftHand, leftMarkers);
             }
 
             if (subsystem.rightHand.isTracked && rightMarker)
             {
-                markerRootR.transform.position = Camera.main.transform.parent.position;
+                markerRootR.transform.position = this.transform.position;
+                markerRootR.transform.rotation = this.transform.rotation;
 
                 UpdateHandMarkerTrs(subsystem.rightHand, rightMarkers);
 
@@ -195,8 +197,8 @@ namespace Lynx
         if (hand.handedness == Handedness.Left && handsToRender == HandsRendering.Right)
             return;
 
-            //Parent of all markers for given hand
-            GameObject handRoot = new GameObject();
+        //Parent of all markers for given hand
+        GameObject handRoot = new GameObject();
 
         //Set color depending of selected option
         Color colorToSet = Color.white;
@@ -236,9 +238,6 @@ namespace Lynx
             leftMarker = true;
         }
 
-        //Set xr offset to parent objects
-        handRoot.transform.position = Camera.main.transform.parent.position;
-
         //Init markers list for all joints
         GameObject[] markers = new GameObject[XRHandJointID.EndMarker.ToIndex()];
 
@@ -250,15 +249,6 @@ namespace Lynx
             markers[i].transform.parent = handRoot.transform;
 
             markers[i].GetComponent<MeshRenderer>().material.color = colorToSet;
-
-            XRHandJoint trackingData = hand.GetJoint(XRHandJointIDUtility.FromIndex(i));
-
-            if (trackingData.TryGetPose(out Pose pose))
-            {
-                markers[i].transform.localPosition = pose.position;
-                markers[i].transform.localRotation = pose.rotation;
-                markers[i].transform.localScale = Vector3.one * jointScale;
-            }
         }
 
         //Set all markers object to the corresponding list.
