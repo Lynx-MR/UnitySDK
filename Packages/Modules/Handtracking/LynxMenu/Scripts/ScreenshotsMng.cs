@@ -70,7 +70,6 @@ namespace Lynx
         {
             screenshotAndVideoUtilities.TakeShot();
             audioMng.Play_Photo_Diaph();
-            launchFlash.TriggerFlash();
         }
 
 
