@@ -9,6 +9,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.XR.OpenXR.Features;
 
 #if LYNX_OPENXR
 using UnityEditor.XR.Management;
@@ -38,6 +39,17 @@ namespace Lynx.OpenXR
         #endregion
 
         #region METHODS
+        public static void ClearOpenXRSettings(BuildTargetGroup buildTarget)
+        {
+            OpenXRSettings settings = OpenXRSettings.GetSettingsForBuildTargetGroup(buildTarget);
+            OpenXRFeature[] featuresToRemove = settings.GetFeatures();
+            foreach (OpenXRFeature f in featuresToRemove)
+            {
+                if (f.enabled)
+                    f.enabled = false;
+            }
+        }
+
 #if LYNX_OPENXR
         public static void ConfigureOpenXR()
         {
@@ -54,28 +66,24 @@ namespace Lynx.OpenXR
 
 
 
-            /********** INTERACTION PROFILES **********/
+            /********** OPENXR **********/
+            // Clear existing profiles and providers
+            ClearOpenXRSettings(buildTarget);
+
             // Use Hand Interaction Controller
             FeatureHelpers.RefreshFeatures(buildTarget);
 
-            // Disable other profiles that can conflict
-            UnityEngine.XR.OpenXR.Features.OpenXRFeature[] features = FeatureHelpers.GetFeaturesWithIdsForBuildTarget(buildTarget, new string[] { MicrosoftHandInteraction.featureId, MetaQuestTouchProControllerProfile.featureId, OculusTouchControllerProfile.featureId});
-            foreach(UnityEngine.XR.OpenXR.Features.OpenXRFeature f in features)
+            // Select Hand Interaction Controller Profile
+            OpenXRFeature[] features = FeatureHelpers.GetFeaturesWithIdsForBuildTarget(buildTarget, new string[] { HandInteractionProfile.featureId, LynxFeatureSet.xrHandsSubsystemId, LynxFeatureSet.xrHandtrackingAim });
+            foreach(OpenXRFeature feature in features)
             {
-                if(f && f.enabled)
+                if (feature)
                 {
-                    f.enabled = false;
-                    Debug.Log($"{f.name} removed.");
+                    feature.enabled = true;
+                    Debug.Log($"{feature.name} selected.");
                 }
             }
-
-            // Select Hand Interaction Controller Profile
-            UnityEngine.XR.OpenXR.Features.OpenXRFeature feature = FeatureHelpers.GetFeatureWithIdForBuildTarget(buildTarget, HandInteractionProfile.featureId);
-            if (feature)
-            {
-                feature.enabled = true;
-                Debug.Log($"{feature.name} selected.");
-            }
+            
 
             /********** PROVIDERS **********/
             // Feature set
@@ -83,7 +91,8 @@ namespace Lynx.OpenXR
             if (lynxFeatureSet != null)
             {
                 lynxFeatureSet.isEnabled = true;
-                lynxFeatureSet.requiredFeatureIds = new string[] { LynxR1Feature.featureId, LynxFeatureSet.xrHandsSubsystemId, LynxFeatureSet.xrHandtrackingAim };
+                //lynxFeatureSet.requiredFeatureIds = new string[] { LynxR1Feature.featureId, LynxFeatureSet.xrHandsSubsystemId, LynxFeatureSet.xrHandtrackingAim };
+                //lynxFeatureSet.featureIds = new string[] { LynxR1Feature.featureId, LynxFeatureSet.xrHandsSubsystemId, LynxFeatureSet.xrHandtrackingAim };
                 Debug.Log($"{lynxFeatureSet.name} enabled.");
             }
             OpenXRFeatureSetManager.SetFeaturesFromEnabledFeatureSets(buildTarget);
