@@ -199,6 +199,9 @@ namespace Lynx
 
         //Parent of all markers for given hand
         GameObject handRoot = new GameObject();
+        handRoot.transform.parent = transform;
+        handRoot.transform.localPosition = Vector3.zero;
+        handRoot.transform.localRotation = Quaternion.identity;
 
         //Set color depending of selected option
         Color colorToSet = Color.white;
