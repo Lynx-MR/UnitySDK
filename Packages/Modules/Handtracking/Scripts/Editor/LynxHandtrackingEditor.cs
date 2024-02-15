@@ -170,6 +170,12 @@ namespace Lynx
 
             // Get camera parent
             Transform parent = Camera.main.transform.parent;
+            if (!parent)
+                parent = new GameObject().transform;
+
+            parent.gameObject.name = "Lynx Hands";
+            parent.position = Camera.main.transform.position;
+            parent.rotation = Camera.main.transform.rotation;
 
             // Add event system
             GameObject eventSystem = null;
