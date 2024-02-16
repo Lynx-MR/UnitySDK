@@ -181,6 +181,7 @@ MonoBehaviour:
   onlyVRLayer: 10
   onlyARLayer: 11
   VisibleInFullARTag: FullARObject
+  m_unpremultipliedAlphaFlag: 0
 --- !u!114 &-7509953944651976684
 MonoBehaviour:
   m_ObjectHideFlags: 0

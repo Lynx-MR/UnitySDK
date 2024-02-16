@@ -142,22 +142,22 @@ namespace Lynx.UI
         public void UpdateAllLynxUIElements()
         {
             foreach (LynxImage elt in FindObjectsByType<LynxImage>(FindObjectsSortMode.None))
-                elt.SetThemeColors();
+                if (elt.IsUsingTheme()) elt.SetThemeColors();
 
             foreach (LynxSimpleButton elt in FindObjectsByType<LynxSimpleButton>(FindObjectsSortMode.None))
-                elt.SetThemeColors();
+                if (elt.IsUsingTheme()) elt.SetThemeColors();
 
             foreach (LynxSlider elt in FindObjectsByType<LynxSlider>(FindObjectsSortMode.None))
-                elt.SetThemeColors();
+                if (elt.IsUsingTheme()) elt.SetThemeColors();
 
             foreach (LynxSwitchButton elt in FindObjectsByType<LynxSwitchButton>(FindObjectsSortMode.None))
-                elt.SetThemeColors();
+                if (elt.IsUsingTheme()) elt.SetThemeColors();
 
             foreach (LynxTimerButton elt in FindObjectsByType<LynxTimerButton>(FindObjectsSortMode.None))
-                elt.SetThemeColors();
+                if (elt.IsUsingTheme()) elt.SetThemeColors();
 
             foreach (LynxToggleButton elt in FindObjectsByType<LynxToggleButton>(FindObjectsSortMode.None))
-                elt.SetThemeColors();
+                if (elt.IsUsingTheme()) elt.SetThemeColors();
         }
 
 
