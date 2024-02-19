@@ -1,0 +1,875 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c22cf3a0c4fc7d428854d613c4a8cbe, type: 3}
+  m_Name: English
+  m_EditorClassIdentifier: 
+  keyboardLayout:
+    name: English
+    keyboardLayers:
+    - name: lowercase
+      keyboardRows:
+      - name: num row
+        relHeight: 0.7
+        keyboardRowKeys:
+        - inputString: 1
+          displayString: 1
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 2
+          displayString: 2
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 3
+          displayString: 3
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 4
+          displayString: 4
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 5
+          displayString: 5
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 6
+          displayString: 6
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 7
+          displayString: 7
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 8
+          displayString: 8
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 9
+          displayString: 9
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 0
+          displayString: 0
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+      - name: empty space
+        relHeight: 0
+        keyboardRowKeys: []
+      - name: alpha row 1
+        relHeight: 0.8
+        keyboardRowKeys:
+        - inputString: q
+          displayString: q
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: w
+          displayString: w
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: e
+          displayString: e
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: r
+          displayString: r
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: t
+          displayString: t
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: y
+          displayString: y
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: u
+          displayString: u
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: i
+          displayString: i
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: o
+          displayString: o
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: p
+          displayString: p
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+      - name: alpha row 2
+        relHeight: 0.8
+        keyboardRowKeys:
+        - inputString: 
+          displayString: 
+          relWidth: 0.45
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: a
+          displayString: a
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: s
+          displayString: s
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: d
+          displayString: d
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: f
+          displayString: f
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: g
+          displayString: g
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: h
+          displayString: h
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: j
+          displayString: j
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: k
+          displayString: k
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: l
+          displayString: l
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+      - name: alpha row 3 + shift + back
+        relHeight: 0.8
+        keyboardRowKeys:
+        - inputString: layer_caps
+          displayString: shift
+          relWidth: 1.5
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: z
+          displayString: z
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: x
+          displayString: x
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: c
+          displayString: c
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: v
+          displayString: v
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: b
+          displayString: b
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: n
+          displayString: n
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: m
+          displayString: m
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: code_backspace
+          displayString: back
+          relWidth: 1.5
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+      - name: punct + symbols + enter
+        relHeight: 0.8
+        keyboardRowKeys:
+        - inputString: layer_symbols
+          displayString: '#+='
+          relWidth: 2
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: code_space
+          displayString: space
+          relWidth: 4
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: ','
+          displayString: ','
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: .
+          displayString: .
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: code_enter
+          displayString: enter
+          relWidth: 2
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+    - name: uppercase
+      keyboardRows:
+      - name: num row
+        relHeight: 0.7
+        keyboardRowKeys:
+        - inputString: 1
+          displayString: 1
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 2
+          displayString: 2
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 3
+          displayString: 3
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 4
+          displayString: 4
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 5
+          displayString: 5
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 6
+          displayString: 6
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 7
+          displayString: 7
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 8
+          displayString: 8
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 9
+          displayString: 9
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 0
+          displayString: 0
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+      - name: empty space
+        relHeight: 0
+        keyboardRowKeys: []
+      - name: alpha row 1
+        relHeight: 0.8
+        keyboardRowKeys:
+        - inputString: Q
+          displayString: Q
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: W
+          displayString: W
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: E
+          displayString: E
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: R
+          displayString: R
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: T
+          displayString: T
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: Y
+          displayString: Y
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: U
+          displayString: U
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: I
+          displayString: I
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: O
+          displayString: O
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: P
+          displayString: P
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+      - name: alpha row 2
+        relHeight: 0.8
+        keyboardRowKeys:
+        - inputString: 
+          displayString: 
+          relWidth: 0.45
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: A
+          displayString: A
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: S
+          displayString: S
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: D
+          displayString: D
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: F
+          displayString: F
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: G
+          displayString: G
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: H
+          displayString: H
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: J
+          displayString: J
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: K
+          displayString: K
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: L
+          displayString: L
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+      - name: alpha row 3 + shift + back
+        relHeight: 0.8
+        keyboardRowKeys:
+        - inputString: layer_base
+          displayString: shift
+          relWidth: 1.5
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: Z
+          displayString: Z
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: X
+          displayString: X
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: C
+          displayString: C
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: V
+          displayString: V
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: B
+          displayString: B
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: N
+          displayString: N
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: M
+          displayString: M
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: back
+          displayString: back
+          relWidth: 1.5
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+      - name: punct + symbols + enter
+        relHeight: 0.8
+        keyboardRowKeys:
+        - inputString: layer_symbols
+          displayString: '#+='
+          relWidth: 2
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: code_space
+          displayString: space
+          relWidth: 4
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: ','
+          displayString: ','
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: .
+          displayString: .
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: code_enter
+          displayString: enter
+          relWidth: 2
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+    - name: symbols
+      keyboardRows:
+      - name: num row
+        relHeight: 0.7
+        keyboardRowKeys:
+        - inputString: 1
+          displayString: 1
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 2
+          displayString: 2
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 3
+          displayString: 3
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 4
+          displayString: 4
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 5
+          displayString: 5
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 6
+          displayString: 6
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 7
+          displayString: 7
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 8
+          displayString: 8
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 9
+          displayString: 9
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: 0
+          displayString: 0
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+      - name: empty space
+        relHeight: 0
+        keyboardRowKeys: []
+      - name: row 1
+        relHeight: 0.8
+        keyboardRowKeys:
+        - inputString: ~
+          displayString: ~
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '@'
+          displayString: '@'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '#'
+          displayString: '#'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: $
+          displayString: $
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '%'
+          displayString: '%'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: ^
+          displayString: ^
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '&'
+          displayString: '&'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '*'
+          displayString: '*'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: (
+          displayString: (
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: )
+          displayString: )
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+      - name: row 2
+        relHeight: 0.8
+        keyboardRowKeys:
+        - inputString: '`'
+          displayString: '`'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: _
+          displayString: _
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '-'
+          displayString: '-'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: +
+          displayString: +
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: =
+          displayString: =
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '|'
+          displayString: '|'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: \
+          displayString: \
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: /
+          displayString: /
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '['
+          displayString: '['
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: ']'
+          displayString: ']'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+      - name: row 3
+        relHeight: 0.8
+        keyboardRowKeys:
+        - inputString: ''''
+          displayString: ''''
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '"'
+          displayString: '"'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: ;
+          displayString: ;
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: ':'
+          displayString: ':'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '?'
+          displayString: '?'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '!'
+          displayString: '!'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: <
+          displayString: <
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '>'
+          displayString: '>'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '{'
+          displayString: '{'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: '}'
+          displayString: '}'
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+      - name: punct + abc + enter
+        relHeight: 0.8
+        keyboardRowKeys:
+        - inputString: layer_base
+          displayString: abc
+          relWidth: 2
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: ','
+          displayString: ','
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: .
+          displayString: .
+          relWidth: 1
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: code_space
+          displayString: space
+          relWidth: 4
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
+        - inputString: code_enter
+          displayString: enter
+          relWidth: 2
+          subKeyboard:
+            positioning: 0
+            keyboardRows: []
