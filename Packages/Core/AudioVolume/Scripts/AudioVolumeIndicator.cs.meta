@@ -3,7 +3,13 @@ guid: 43dcf6977c9407249b5d5f43f9cd17a8
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - volumeDisplay: {instanceID: 0}
+  - volumeText: {instanceID: 0}
+  - volumeBar: {instanceID: 0}
+  - volumeOnIco: {fileID: 2800000, guid: 5413b62b3ab5bb748a0254eba97cd664, type: 3}
+  - volumeOffIco: {fileID: 2800000, guid: 789555a43a1363e418c14ac867c19f60, type: 3}
+  - audioMng: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

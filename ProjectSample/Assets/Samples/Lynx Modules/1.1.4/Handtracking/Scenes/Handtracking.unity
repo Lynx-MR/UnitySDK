@@ -6144,6 +6144,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 963961779412612138, guid: 620edf7f959c5054ea63d746f8a79e95, type: 3}
+      propertyPath: JointMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 613690cd962241049a0ec289a6ff835e, type: 2}
     - target: {fileID: 963961779412612139, guid: 620edf7f959c5054ea63d746f8a79e95, type: 3}
       propertyPath: m_RootOrder
       value: 6
