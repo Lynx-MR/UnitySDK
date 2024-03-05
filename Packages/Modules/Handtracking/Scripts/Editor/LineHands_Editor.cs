@@ -29,6 +29,7 @@ namespace Lynx
             EditorGUILayout.PropertyField(serializedObject.FindProperty("jointScale"), false);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("lineScale"), false);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("LineMaterial"), false);
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("JointMaterial"), false);
 
             EditorGUILayout.Space(10);
 

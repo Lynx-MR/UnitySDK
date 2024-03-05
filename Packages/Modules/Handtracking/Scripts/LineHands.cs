@@ -21,6 +21,7 @@ namespace Lynx
         [Range(0.0025f, 0.03f)]
         public float lineScale = 0.005f;
         public Material LineMaterial;
+        public Material JointMaterial;
         
         public enum HandsRendering
         {
@@ -251,6 +252,7 @@ namespace Lynx
             markers[i] = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             markers[i].transform.parent = handRoot.transform;
 
+            markers[i].GetComponent<MeshRenderer>().material = JointMaterial;
             markers[i].GetComponent<MeshRenderer>().material.color = colorToSet;
         }
 

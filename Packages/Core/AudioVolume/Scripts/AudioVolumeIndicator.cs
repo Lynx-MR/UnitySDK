@@ -14,11 +14,11 @@ namespace Lynx
     {
         //INSPECTOR
         public GameObject volumeDisplay;
-        public Image[] volumeBars;
         public TextMeshProUGUI volumeText;
+        public MeshRenderer volumeBar;
         [Space]
-        public Color colorVolumOn;
-        public Color colorVolumOff;
+        public Texture volumeOnIco;
+        public Texture volumeOffIco;
         [Space]
         public float volumeDisplayTime = 2f;
 
@@ -63,11 +63,13 @@ namespace Lynx
 
         private void UpdateVolumeBars(int volume)
         {
-            for (int i = 0; i < 15; i++)
-            {
-                if (i + 1 <= volume) volumeBars[i].color = colorVolumOn;
-                else volumeBars[i].color = colorVolumOff;
-            }
+
+            volumeBar.material.SetFloat("_volume", (float)volume / 15f);
+            if (volume == 0)
+                volumeBar.material.SetTexture("_MainTex", volumeOffIco);
+            else
+                volumeBar.material.SetTexture("_MainTex", volumeOnIco);
+
         }
         private void UpdateVolumeText(int volume)
         {
