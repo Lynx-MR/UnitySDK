@@ -129,7 +129,7 @@ namespace Lynx.UI
 
             if (m_useSound)
             {
-                LynxSoundsMethods.OnPressSound();
+                LynxSoundsMethods.OnPressSound(gameObject.transform.position);
             }
 
             if (!m_isRunning && !m_isCurrentlyPressed)
@@ -147,7 +147,7 @@ namespace Lynx.UI
 
             if (m_useSound)
             {
-                LynxSoundsMethods.OnUnpressSound();
+                LynxSoundsMethods.OnUnpressSound(gameObject.transform.position);
             }
 
             if (m_isCurrentlyPressed)
