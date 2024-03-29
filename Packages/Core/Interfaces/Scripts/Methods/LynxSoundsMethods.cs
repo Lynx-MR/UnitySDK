@@ -25,7 +25,7 @@ namespace Lynx.UI
         /// <param name="soundOrigin"></param>
         public static void OnPressSound(Vector3 soundOrigin)
         {
-            if (LynxSoundManager.Instance == null)
+            if (LynxSoundManager.Instance != null)
             {
                 LynxSoundManager.Instance.currentSounds.CallAudioOnPress(out AudioClip clip);
                 AudioSource.PlayClipAtPoint(clip, soundOrigin);

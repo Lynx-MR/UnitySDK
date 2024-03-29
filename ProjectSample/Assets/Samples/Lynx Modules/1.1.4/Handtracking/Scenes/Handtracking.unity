@@ -5352,6 +5352,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: LynxKeyboard-Fr
       objectReference: {fileID: 0}
+    - target: {fileID: 1359126369135057058, guid: ffd528c834b15dc40b881e103d230881, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359126369135057058, guid: ffd528c834b15dc40b881e103d230881, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359126369135057058, guid: ffd528c834b15dc40b881e103d230881, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359126369135057058, guid: ffd528c834b15dc40b881e103d230881, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359126369135057058, guid: ffd528c834b15dc40b881e103d230881, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9848078
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359126369135057058, guid: ffd528c834b15dc40b881e103d230881, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.17364816
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359126369135057058, guid: ffd528c834b15dc40b881e103d230881, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1359126369135057058, guid: ffd528c834b15dc40b881e103d230881, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ffd528c834b15dc40b881e103d230881, type: 3}
 --- !u!224 &1660794089 stripped
