@@ -2,7 +2,8 @@
     "name": "Lynx.Core",
     "rootNamespace": "",
     "references": [
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Unity.XR.OpenXR"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
