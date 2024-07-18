@@ -9,7 +9,7 @@
   "changelogUrl": "https://portal.lynx-r.com/documentation/view/changelog",
   "dependencies": {
     "com.lynx.core": "1.1.5-beta",
-    "com.unity.xr.hands": "1.3.0"
+    "com.unity.xr.hands": "1.4.1"
   },
   "keywords": [
     "lynx",
