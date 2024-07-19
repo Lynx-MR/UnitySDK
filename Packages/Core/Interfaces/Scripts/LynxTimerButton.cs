@@ -205,106 +205,107 @@ namespace Lynx.UI
             }
         }
 
-#endregion
+        #endregion
 
         #region PRIVATE METHODS
 
-                /// <summary>
-                /// Call this coroutine to waiting time.
-                /// </summary>
-                /// <param name="waitingTime">Time to wait.</param>
-                /// <param name="callback">Function to call at the end.</param>
-                /// <returns></returns>
-                public static IEnumerator WaitCoroutine(float waitingTime, Action<bool> callback)
-                {
-                    yield return new WaitForSeconds(waitingTime);
-                    callback(false);
-                }
+        /// <summary>
+        /// Call this coroutine to waiting time.
+        /// </summary>
+        /// <param name="waitingTime">Time to wait.</param>
+        /// <param name="callback">Function to call at the end.</param>
+        /// <returns></returns>
+        public static IEnumerator WaitCoroutine(float waitingTime, Action<bool> callback)
+        {
+            yield return new WaitForSeconds(waitingTime);
+            callback(false);
+        }
 
-                /// <summary>
-                /// Call this function to update interactable state of the button.
-                /// </summary>
-                /// <param name="boolean"></param>
-                private void ResetInteractable(bool boolean)
-                {
-                    interactable = m_isInteractable;
-                }
+        /// <summary>
+        /// Call this function to update interactable state of the button.
+        /// </summary>
+        /// <param name="boolean"></param>
+        private void ResetInteractable(bool boolean)
+        {
+            interactable = m_isInteractable;
+        }
 
-                /// <summary>
-                /// CallbackStopRunning is called when a button animation coroutine is complete.
-                /// </summary>
-                /// <param name="state">True to call OnUnpress, false to call OnPress.</param>
-                private void CallbackStopRunning(bool state)
-                {
-                    m_isRunning = false;
+        /// <summary>
+        /// CallbackStopRunning is called when a button animation coroutine is complete.
+        /// </summary>
+        /// <param name="state">True to call OnUnpress, false to call OnPress.</param>
+        private void CallbackStopRunning(bool state)
+        {
+            m_isRunning = false;
 
-                    if (state)
-                    {
-                        OnUnpress.Invoke();
-                    }
-                    else
-                    {
-                        OnPress.Invoke();
-                    }
-                }
+            if (state)
+            {
+                OnUnpress.Invoke();
+            }
+            else
+            {
+                OnPress.Invoke();
+            }
+        }
 
         #endregion
 
         #region ANIMATION COROUTINES
 
-                /// <summary>
-                /// Start this coroutine to launch the fill animation.
-                /// </summary>
-                private IEnumerator TimerAnimationCoroutine()
-                {
-                    float elapsedTime = 0.0f;
+        /// <summary>
+        /// Start this coroutine to launch the fill animation.
+        /// </summary>
+        private IEnumerator TimerAnimationCoroutine()
+        {
+            float elapsedTime = 0.0f;
 
-                    while (elapsedTime < m_deltaTime)
-                    {
-                        elapsedTime += Time.deltaTime;
-                        m_timerImage.fillAmount = elapsedTime / m_deltaTime;
-                        yield return new WaitForEndOfFrame();
-                    }
+            while (elapsedTime < m_deltaTime)
+            {
+                elapsedTime += Time.deltaTime;
+                m_timerImage.fillAmount = elapsedTime / m_deltaTime;
+                yield return new WaitForEndOfFrame();
+            }
 
-                    m_timerImage.fillAmount = 0.0f;
+            m_timerImage.fillAmount = 0.0f;
 
 
-                    OnTimerPress.Invoke();
+            OnTimerPress.Invoke();
 
-                    m_timerIsRunning = false;
-                }
+            m_timerIsRunning = false;
+        }
 
         #endregion
 
         #region THEME MANAGING
 
-                /// <summary>
-                /// change the colorblock of a button to match the selected theme
-                /// </summary>
-                public void SetThemeColors()
-                {
-                    if (LynxThemeManager.Instance == null)
-                        return;
-                    colors = LynxThemeManager.Instance.currentTheme.selectableColors;
-                }
+        /// <summary>
+        /// change the colorblock of a button to match the selected theme
+        /// </summary>
+        public void SetThemeColors()
+        {
+            if (LynxThemeManager.Instance == null)
+                return;
+            colors = LynxThemeManager.Instance.currentTheme.selectableColors;
+        }
 
-                /// <summary>
-                /// Define if this element should use the theme manager
-                /// </summary>
-                /// <param name="enable">True to use theme manager</param>
-                public void SetUseTheme(bool enable = true)
-                {
-                    m_useTheme = enable;
-                }
+        /// <summary>
+        /// Define if this element should use the theme manager
+        /// </summary>
+        /// <param name="enable">True to use theme manager</param>
+        public void SetUseTheme(bool enable = true)
+        {
+            m_useTheme = enable;
+        }
 
-                /// <summary>
-                /// Check if current element is using theme manager.
-                /// </summary>
-                /// <returns>True if this element use theme manager.</returns>
-                public bool IsUsingTheme()
-                {
-                    return m_useTheme;
-                }
+        /// <summary>
+        /// Check if current element is using theme manager.
+        /// </summary>
+        /// <returns>True if this element use theme manager.</returns>
+        public bool IsUsingTheme()
+        {
+            return m_useTheme;
+        }
+
         #endregion
     }
 }

@@ -9,7 +9,6 @@ namespace Lynx.UI
     {
         //INSPECTOR
         [SerializeField] private List<LynxThemeColorSetSO> m_ThemeColorSets = null;
-
         [SerializeField] private List<LynxSoundsSO> m_Sounds = null;
 
         public List<LynxThemeColorSetSO> ThemeSets
@@ -20,7 +19,6 @@ namespace Lynx.UI
                 return;
             }
         }
-
         public List<LynxSoundsSO> SoundsSets
         {
             get { return m_Sounds; }
@@ -30,9 +28,7 @@ namespace Lynx.UI
             }
         }
 
-
         [SerializeField] private int m_CurrentIndex;
-        
         public int currentIndex
         {
             get { return m_CurrentIndex; }
@@ -54,7 +50,6 @@ namespace Lynx.UI
             get { return ThemeSets[m_CurrentIndex]; } 
             set { return; }
         }
-
         [HideInInspector] public LynxSoundsSO currentSounds
         {
             get { return SoundsSets[m_CurrentIndex]; }
@@ -114,6 +109,7 @@ namespace Lynx.UI
             currentIndex = m_CurrentIndex;
         }
 
+
         public void RefreshThemes()
         {
             if (ThemeUpdateEvent == null)
@@ -159,7 +155,6 @@ namespace Lynx.UI
             foreach (LynxToggleButton elt in FindObjectsByType<LynxToggleButton>(FindObjectsSortMode.None))
                 if (elt.IsUsingTheme()) elt.SetThemeColors();
         }
-
 
         public void UpdateLynxThemedComponents()
         {

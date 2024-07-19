@@ -17,6 +17,7 @@ namespace Lynx.UI
                 SetThemeColors();
             }
         }
+
         protected override void OnEnable()
         {
             base.OnEnable();

@@ -42,7 +42,7 @@ namespace Lynx.UI
 
         private bool m_isRunning = false; // Avoid multiple press or unpress making the object in unstable state.
         private bool m_isCurrentlyPressed = false; // Status of the current object.
-        private bool m_isToggle = false; // Status of the button.
+        private bool m_isToggled = false; // Status of the button.
         private bool m_isInteractable = true; // Starting interactable status.
 
         private Vector3 offHandlePosition;
@@ -82,7 +82,7 @@ namespace Lynx.UI
                 LynxThemeMethods.SubscribeThemeUpdate(this);
             }
 
-            if (m_isToggle)
+            if (m_isToggled)
             {
                 PointerEventData eventData = new PointerEventData(EventSystem.current);
                 base.OnPointerDown(eventData);
@@ -168,17 +168,17 @@ namespace Lynx.UI
                 m_isCurrentlyPressed = false;
             }
 
-            if (m_isToggle)
+            if (m_isToggled)
             {
                 base.OnPointerUp(eventData);
-                m_isToggle = false;
+                m_isToggled = false;
                 StartCoroutine(ToggleAnimationCoroutine());
                 OnUntoggle.Invoke();
             }
             else
             {
                 base.OnPointerDown(eventData);
-                m_isToggle = true;
+                m_isToggled = true;
                 StartCoroutine(ToggleAnimationCoroutine());
                 OnToggle.Invoke();
             }
@@ -269,30 +269,38 @@ namespace Lynx.UI
         #region PUBLIC METHODS
 
         /// <summary>
+        /// Get the state of the toggle
+        /// </summary>
+        public bool GetIsToggled()
+        {
+            return m_isToggled;
+        }
+
+        /// <summary>
         /// Set the state of the toggle and start coresponding event if state change
         /// </summary>
         /// <param name="state">Is toggle activated</param>
-        public void IsToggle(bool state)
+        public void SetIsToggled(bool state)
         {
-            if (m_isToggle != state)
+            if (m_isToggled != state)
             {
                 if (state)
                     OnToggle.Invoke();
                 else
                     OnUntoggle.Invoke();
             }
-            m_isToggle = state;
+            m_isToggled = state;
         }
 
         /// <summary>
         /// Set the state of the toggle, visualy, and start coresponding event if state change. 
         /// </summary>
         /// <param name="state">Is toggle activated</param>
-        public void IsToggleWithTransition(bool state)
+        public void SetIsToggledWithTransition(bool state)
         {
-            if (m_isToggle != state)
+            if (m_isToggled != state)
             {
-                m_isToggle = state;
+                m_isToggled = state;
                 if (gameObject.activeInHierarchy)
                 {
                     if (state) OnToggle.Invoke();
@@ -301,7 +309,7 @@ namespace Lynx.UI
                 }
                 else
                 {
-                    m_handle.localPosition = m_isToggle ? onHandlePosition : offHandlePosition;
+                    m_handle.localPosition = m_isToggled ? onHandlePosition : offHandlePosition;
                 }
                 if (state) DoStateTransition(SelectionState.Pressed, false);
                 else DoStateTransition(SelectionState.Normal, false);
@@ -313,7 +321,7 @@ namespace Lynx.UI
         /// </summary>
         /// <param name="state">Is toggle activated</param>
         /// <param name="launchEvent">Should start switch event</param>
-        public void IsToggle(bool state, bool launchEvent)
+        public void SetIsToggled(bool state, bool launchEvent)
         {
             if (launchEvent)
             {
@@ -322,7 +330,7 @@ namespace Lynx.UI
                 else
                     OnUntoggle.Invoke();
             }
-            m_isToggle = state;
+            m_isToggled = state;
         }
 
         #endregion
@@ -334,7 +342,7 @@ namespace Lynx.UI
         /// </summary>
         private IEnumerator ToggleAnimationCoroutine()
                 {
-                    Vector3 targetPos = m_isToggle ? onHandlePosition : offHandlePosition;
+                    Vector3 targetPos = m_isToggled ? onHandlePosition : offHandlePosition;
                     Vector3 startPos = m_handle.localPosition;
                     for(float i = 0; i < 1; i+= Time.deltaTime / m_lerpTime)
                     {

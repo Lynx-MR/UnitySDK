@@ -61,6 +61,7 @@ namespace Lynx.UI
                 AudioSource.PlayClipAtPoint(clip, Camera.main.transform.position);
             }
         }
+
         #region THEME MANAGING
 
         /// <summary>
@@ -72,6 +73,7 @@ namespace Lynx.UI
                 return;
             colors = LynxThemeManager.Instance.currentTheme.selectableColors;
         }
+
         #endregion
 
     }
