@@ -258,7 +258,7 @@ namespace Lynx.UI
         /// <summary>
         /// Get the state of the toggle
         /// </summary>
-        public bool GetIsToggled()
+        public bool IsToggled()
         {
             return m_isToggled;
         }
