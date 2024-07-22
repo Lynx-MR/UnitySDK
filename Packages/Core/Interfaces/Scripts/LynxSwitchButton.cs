@@ -280,7 +280,7 @@ namespace Lynx.UI
         /// Set the state of the toggle and start coresponding event if state change
         /// </summary>
         /// <param name="state">Is toggle activated</param>
-        public void IsToggled(bool state)
+        public void SetToggle(bool state)
         {
             if (m_isToggled != state)
             {
@@ -296,7 +296,7 @@ namespace Lynx.UI
         /// Set the state of the toggle, visualy, and start coresponding event if state change. 
         /// </summary>
         /// <param name="state">Is toggle activated</param>
-        public void IsToggledWithTransition(bool state)
+        public void SetToggleWithTransition(bool state)
         {
             if (m_isToggled != state)
             {
@@ -321,7 +321,7 @@ namespace Lynx.UI
         /// </summary>
         /// <param name="state">Is toggle activated</param>
         /// <param name="launchEvent">Should start switch event</param>
-        public void IsToggled(bool state, bool launchEvent)
+        public void SetToggle(bool state, bool launchEvent)
         {
             if (launchEvent)
             {
