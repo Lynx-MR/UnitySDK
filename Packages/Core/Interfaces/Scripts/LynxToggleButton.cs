@@ -38,7 +38,7 @@ namespace Lynx.UI
 
         private bool m_isRunning = false; // Avoid multiple press or unpress making the object in unstable state.
         private bool m_isCurrentlyPressed = false; // Status of the current object.
-        private bool m_isToggle = false; // Status of the button.
+        private bool m_isToggled = false; // Status of the button.
         private bool m_isInteractable = true; // Starting interactable status.
 
         #endregion
@@ -71,7 +71,7 @@ namespace Lynx.UI
                 LynxThemeMethods.SubscribeThemeUpdate(this);
             }
 
-            if (m_isToggle)
+            if (m_isToggled)
             {
                 PointerEventData eventData = new PointerEventData(EventSystem.current);
                 base.OnPointerDown(eventData);
@@ -157,16 +157,16 @@ namespace Lynx.UI
                 m_isCurrentlyPressed = false;
             }
 
-            if (m_isToggle)
+            if (m_isToggled)
             {
                 base.OnPointerUp(eventData);
-                m_isToggle = false;
+                m_isToggled = false;
                 OnUntoggle.Invoke();
             }
             else
             {
                 base.OnPointerDown(eventData);
-                m_isToggle = true;
+                m_isToggled = true;
                 OnToggle.Invoke();
             }
         }
@@ -207,80 +207,93 @@ namespace Lynx.UI
             }
         }
 
-#endregion
+        #endregion
 
         #region PRIVATE METHODS
 
-                /// <summary>
-                /// Call this coroutine to waiting time.
-                /// </summary>
-                /// <param name="waitingTime">Time to wait.</param>
-                /// <param name="callback">Function to call at the end.</param>
-                /// <returns></returns>
-                public static IEnumerator WaitCoroutine(float waitingTime, Action<bool> callback)
-                {
-                    yield return new WaitForSeconds(waitingTime);
-                    callback(false);
-                }
+        /// <summary>
+        /// Call this coroutine to waiting time.
+        /// </summary>
+        /// <param name="waitingTime">Time to wait.</param>
+        /// <param name="callback">Function to call at the end.</param>
+        /// <returns></returns>
+        public static IEnumerator WaitCoroutine(float waitingTime, Action<bool> callback)
+        {
+            yield return new WaitForSeconds(waitingTime);
+            callback(false);
+        }
 
-                /// <summary>
-                /// Call this function to update interactable state of the button.
-                /// </summary>
-                /// <param name="boolean"></param>
-                private void ResetInteractable(bool boolean)
-                {
-                    interactable = m_isInteractable;
-                }
+        /// <summary>
+        /// Call this function to update interactable state of the button.
+        /// </summary>
+        /// <param name="boolean"></param>
+        private void ResetInteractable(bool boolean)
+        {
+            interactable = m_isInteractable;
+        }
 
-                /// <summary>
-                /// CallbackStopRunning is called when a button animation coroutine is complete.
-                /// </summary>
-                /// <param name="state">True to call OnUnpress, false to call OnPress.</param>
-                private void CallbackStopRunning(bool state)
-                {
-                    m_isRunning = false;
+        /// <summary>
+        /// CallbackStopRunning is called when a button animation coroutine is complete.
+        /// </summary>
+        /// <param name="state">True to call OnUnpress, false to call OnPress.</param>
+        private void CallbackStopRunning(bool state)
+        {
+            m_isRunning = false;
 
-                    if (state)
-                    {
-                        OnUnpress.Invoke();
-                    }
-                    else
-                    {
-                        OnPress.Invoke();
-                    }
-                }
+            if (state)
+            {
+                OnUnpress.Invoke();
+            }
+            else
+            {
+                OnPress.Invoke();
+            }
+        }
+
+        #endregion
+
+        #region PUBLIC METHODS
+
+        /// <summary>
+        /// Get the state of the toggle
+        /// </summary>
+        public bool IsToggled()
+        {
+            return m_isToggled;
+        }
 
         #endregion
 
         #region THEME MANAGING
 
-                /// <summary>
-                /// change the colorblock of a button to match the selected theme
-                /// </summary>
-                public void SetThemeColors()
-                {
-                    if (LynxThemeManager.Instance == null)
-                        return;
-                    colors = LynxThemeManager.Instance.currentTheme.selectableColors;
-                }
+        /// <summary>
+        /// change the colorblock of a button to match the selected theme
+        /// </summary>
+        public void SetThemeColors()
+        {
+            if (LynxThemeManager.Instance == null)
+                return;
+            colors = LynxThemeManager.Instance.currentTheme.selectableColors;
+        }
 
-                /// <summary>
-                /// Define if this element should use the theme manager
-                /// </summary>
-                /// <param name="enable">True to use theme manager</param>
-                public void SetUseTheme(bool enable = true)
-                {
-                    m_useTheme = enable;
-                }
+        /// <summary>
+        /// Define if this element should use the theme manager
+        /// </summary>
+        /// <param name="enable">True to use theme manager</param>
+        public void SetUseTheme(bool enable = true)
+        {
+            m_useTheme = enable;
+        }
 
-                /// <summary>
-                /// Check if current element is using theme manager.
-                /// </summary>
-                /// <returns>True if this element use theme manager.</returns>
-                public bool IsUsingTheme()
-                {
-                    return m_useTheme;
-                }
+        /// <summary>
+        /// Check if current element is using theme manager.
+        /// </summary>
+        /// <returns>True if this element use theme manager.</returns>
+        public bool IsUsingTheme()
+        {
+            return m_useTheme;
+        }
+
         #endregion
 
     }

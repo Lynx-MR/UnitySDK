@@ -169,6 +169,7 @@ namespace Lynx.UI
         {
             return useTheme;
         }
+
         #endregion
 
     }
