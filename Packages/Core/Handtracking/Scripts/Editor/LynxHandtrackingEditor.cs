@@ -50,7 +50,6 @@ namespace Lynx
         private const string STR_LYNX_HAND_RIGHT_VISUALIZER = "Lynx Right Hand Visualizer.prefab";
         private const string STR_LYNX_LINE_HANDS_VISUALIZER = "Lynx Line Hands Visualizer.prefab";
 
-        private const string STR_LYNX_MENU = "LynxMenu.prefab";
 
         private const string STR_LYNX_HAND_MENU = "Lynx Hand Menu.prefab";
 
@@ -71,20 +70,6 @@ namespace Lynx
         public static void AddHandtrackingContextMenu()
         {
             AddHandtracking();
-        }
-
-        [MenuItem("Lynx/Add Lynx Menu", false, 300)]
-        public static void AddLynxMenu()
-        {
-            GameObject lynxMenu = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, STR_LYNX_MENU, null);
-            Undo.RegisterCreatedObjectUndo(lynxMenu, "Hands visualizer Right");
-            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
-        }
-
-        [MenuItem("GameObject/Lynx/Lynx Menu", false, 200)]
-        public static void AddLynxMenuContextMenu()
-        {
-            AddLynxMenu();
         }
 
         [MenuItem("GameObject/Lynx/UI/Hand Menu", false, 250)]
