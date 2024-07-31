@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace lynx
+namespace Lynx
 {
     public class LynxAndroidAPI
     {
@@ -24,6 +24,7 @@ namespace lynx
             public int iconHeight;
             public byte[] icon;
             public bool HasIcon;
+            public long lastUpdate;
         }
 
         /// <summary>
@@ -62,10 +63,23 @@ namespace lynx
                     AndroidPackageInfo androidPackageInfo = new AndroidPackageInfo();
 
                     // Package name
-                    androidPackageInfo.packageName = obj.Call<string>("toString");
+                    //androidPackageInfo.packageName = obj.Call<string>("toString"); //Package name: ApplicationInfo{92a79a0 com.android.bluetoothmidiservice}
+                    androidPackageInfo.packageName = obj.Get<string>("packageName"); //Package name: com.android.bluetoothmidiservice
 
-                    // Name
-                    androidPackageInfo.name = pkgManager.Call<string>("getApplicationLabel", obj);
+                    // Package last update
+                    try
+                    {
+                        AndroidJavaObject packageInfo = pkgManager.Call<AndroidJavaObject>("getPackageInfo", androidPackageInfo.packageName, 0);
+                        androidPackageInfo.lastUpdate = packageInfo.Get<long>("lastUpdateTime");
+                    }
+                    catch(AndroidJavaException e)
+                    {
+                        Debug.LogError("Error when obtaining package information: " + e.Message);
+                    }
+                    
+
+                // Name
+                androidPackageInfo.name = pkgManager.Call<string>("getApplicationLabel", obj);
                     if (filter != null && !androidPackageInfo.packageName.Contains(filter))
                         continue;
 
@@ -157,5 +171,30 @@ namespace lynx
             return res;
         }
 
+        /// <summary>
+        /// Call this function to launch an application by package name.
+        /// </summary>
+        /// <param name="packageName">Package name, ex: com.Lynx.Onboarding.</param>
+        public static void LaunchApp(string packageName)
+        {
+            AndroidJavaClass unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            AndroidJavaObject currentActivity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            AndroidJavaObject context = currentActivity.Call<AndroidJavaObject>("getApplicationContext");
+            AndroidJavaObject packageManager = context.Call<AndroidJavaObject>("getPackageManager");
+            
+            AndroidJavaObject launchIntent = null;
+
+            try
+            {
+                launchIntent = packageManager.Call<AndroidJavaObject>("getLaunchIntentForPackage", packageName);
+            }
+            catch (AndroidJavaException e)
+            {
+                Debug.LogError("Error when launching package: " + e.Message);
+                return;
+            }
+
+            currentActivity.Call("startActivity", launchIntent);
+        }
     }
 }
