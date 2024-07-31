@@ -1,7 +1,14 @@
+/**
+ * @file SampleImporter.cs
+ * 
+ * @author Geoffrey Marhuenda
+ * 
+ * @brief Automatize required samples importation in one clic from Editor menu.
+ */
+
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using NUnit.Framework;
 using System.Collections.Generic;
 
 namespace Lynx
