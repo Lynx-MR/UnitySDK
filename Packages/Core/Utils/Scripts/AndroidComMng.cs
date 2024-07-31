@@ -246,12 +246,6 @@ namespace Lynx
             // and most of the actions linked to this messages changes UI and neead to be execute in 
             // the Unity Main Thread. So we need to call it from a particular object that executes it 
             // in the Unity Main Thread :
-
-            if (ActionsInUnityMainThread.actionsInUnityMainThread == null) // Prevent at the beginning a battery massage that comes too soon...
-            {
-                return;
-            }
-
             switch (messageType)
             {
                 case "BatteryLevelChange":

@@ -6,10 +6,11 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
+using System.Collections.Generic;
 
 namespace Lynx
 {
-    [RequireComponent(typeof(ActionsInUnityMainThread))]
     public class AudioVolumeIndicator : MonoBehaviour
     {
         //INSPECTOR
@@ -27,6 +28,8 @@ namespace Lynx
         //PRIVATE
         private float volumeDisplayTimer;
 
+        private Action m_mainThreadAction = null;
+
 
 
         private void Awake()
@@ -36,12 +39,22 @@ namespace Lynx
 #endif
         }
 
+        private void Update()
+        {
+            lock (m_mainThreadAction)
+            {
+                if (m_mainThreadAction != null)
+                {
+                    m_mainThreadAction.Invoke();
+                    m_mainThreadAction = null;
+                }
+            }
+        }
+
         private void Start()
         {
             if (volumeDisplay.activeSelf) volumeDisplay.SetActive(false);
         }
-
-
 
         private void OnDestroy()
         {
@@ -52,13 +65,16 @@ namespace Lynx
 
         private void OnAudioVolumeChanged(int volume)
         {
-            ActionsInUnityMainThread.actionsInUnityMainThread.AddJob(() =>
+            lock (m_mainThreadAction)
             {
-                UpdateVolumeBars(volume);
-                UpdateVolumeText(volume);
-                PlayTestSound();
-                DisplayVolumeLevel();
-            });
+                m_mainThreadAction = () =>
+                {
+                    UpdateVolumeBars(volume);
+                    UpdateVolumeText(volume);
+                    PlayTestSound();
+                    DisplayVolumeLevel();
+                };
+            }
         }
 
         private void UpdateVolumeBars(int volume)
@@ -93,6 +109,7 @@ namespace Lynx
         IEnumerator DisplayVolumeLevelWithTimer()
         {
             if (!volumeDisplay.activeSelf) volumeDisplay.SetActive(true);
+
             yield return new WaitForSecondsRealtime(volumeDisplayTime);
             volumeDisplay.SetActive(false);
         }
