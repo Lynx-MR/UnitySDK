@@ -112,50 +112,50 @@ namespace Lynx
 
             if (isUnityEvent)
             {
-                if (!handObj.GetComponentInChildren<XRPokeInteractor>())
+                if (!handObj.GetComponentInChildren<UnityEngine.XR.Interaction.Toolkit.Interactors.XRPokeInteractor>())
                 {
                     GameObject poke = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_POKE, handObj.transform);
                     AssetDatabase.LoadAssetAtPath<Preset>(Directory.GetFiles(LynxBuildSettings.LYNX_CORE_PATH, isLeftHand ? STR_LYNX_LEFT_POKE_PRESET : STR_LYNX_RIGHT_POKE_PRESET, SearchOption.AllDirectories)[0]).ApplyTo(poke.GetComponent<TrackedPoseDriver>());
 
                     // Stabilizer
                     GameObject pokeStabilizer = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_POKE_STABILIZER, handObj.transform);
-                    poke.GetComponent<XRBaseInteractor>().attachTransform = pokeStabilizer.transform;
+                    poke.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>().attachTransform = pokeStabilizer.transform;
                     pokeStabilizer.GetComponent<XRTransformStabilizer>().targetTransform = poke.transform;
 
-                    handObj.GetComponent<XRInteractionGroup>().startingGroupMembers.Add(poke.GetComponent<XRBaseInteractor>());
+                    handObj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRInteractionGroup>().startingGroupMembers.Add(poke.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>());
                 }
             }
 
             if (isDirectInteraction)
             {
-                if (!handObj.GetComponentInChildren<XRDirectInteractor>())
+                if (!handObj.GetComponentInChildren<UnityEngine.XR.Interaction.Toolkit.Interactors.XRDirectInteractor>())
                 {
                     GameObject directInteractor = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_DIRECT_INTERACTOR, handObj.transform);
                     AssetDatabase.LoadAssetAtPath<Preset>(Directory.GetFiles(LynxBuildSettings.LYNX_CORE_PATH, isLeftHand ? STR_LYNX_LEFT_DIRECT_INTERACTOR_PRESET : STR_LYNX_RIGHT_DIRECT_INTERACTOR_PRESET, SearchOption.AllDirectories)[0]).ApplyTo(directInteractor.GetComponent<ActionBasedController>());
 
                     // Stabilizer
                     GameObject directInteractorStabilizer = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_DIRECT_INTERACTOR_STABILIZER, handObj.transform);
-                    directInteractor.GetComponent<XRBaseInteractor>().attachTransform = directInteractorStabilizer.transform;
+                    directInteractor.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>().attachTransform = directInteractorStabilizer.transform;
                     directInteractorStabilizer.GetComponent<XRTransformStabilizer>().targetTransform = directInteractor.transform;
 
-                    handObj.GetComponent<XRInteractionGroup>().startingGroupMembers.Add(directInteractor.GetComponent<XRBaseInteractor>());
+                    handObj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRInteractionGroup>().startingGroupMembers.Add(directInteractor.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>());
                 }
             }
 
             if (isRaycast)
             {
-                if (!handObj.GetComponentInChildren<XRRayInteractor>())
+                if (!handObj.GetComponentInChildren<UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor>())
                 {
                     GameObject ray = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_RAY, handObj.transform);
                     AssetDatabase.LoadAssetAtPath<Preset>(Directory.GetFiles(LynxBuildSettings.LYNX_CORE_PATH, isLeftHand ? STR_LYNX_LEFT_RAY_PRESET : STR_LYNX_RIGHT_RAY_PRESET, SearchOption.AllDirectories)[0]).ApplyTo(ray.GetComponent<ActionBasedController>());
 
                     // Stabilizer
                     GameObject rayStabilizer = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_RAY_STABILIZER, handObj.transform);
-                    ray.GetComponent<XRBaseInteractor>().attachTransform = rayStabilizer.GetComponentsInChildren<Transform>()[1];
-                    ray.GetComponent<XRRayInteractor>().rayOriginTransform = rayStabilizer.transform;
+                    ray.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>().attachTransform = rayStabilizer.GetComponentsInChildren<Transform>()[1];
+                    ray.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor>().rayOriginTransform = rayStabilizer.transform;
                     rayStabilizer.GetComponent<XRTransformStabilizer>().targetTransform = ray.transform;
 
-                    handObj.GetComponent<XRInteractionGroup>().startingGroupMembers.Add(ray.GetComponent<XRBaseInteractor>());
+                    handObj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRInteractionGroup>().startingGroupMembers.Add(ray.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>());
                 }
             }
 

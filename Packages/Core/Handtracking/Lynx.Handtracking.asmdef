@@ -1,0 +1,36 @@
+{
+    "name": "Lynx.Handtracking",
+    "rootNamespace": "",
+    "references": [
+        "Lynx.Core",
+        "Unity.TextMeshPro",
+        "Unity.XR.CoreUtils",
+        "Unity.InputSystem",
+        "Unity.XR.Interaction.Toolkit",
+        "Unity.XR.Hands",
+        "Unity.XR.Management"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [
+        "LYNX_XRI",
+        "XR_HANDS"
+    ],
+    "versionDefines": [
+        {
+            "name": "com.unity.xr.interaction.toolkit",
+            "expression": "2.4.0",
+            "define": "LYNX_XRI"
+        },
+        {
+            "name": "com.unity.xr.hands",
+            "expression": "1.1.0",
+            "define": "XR_HANDS"
+        }
+    ],
+    "noEngineReferences": false
+}
