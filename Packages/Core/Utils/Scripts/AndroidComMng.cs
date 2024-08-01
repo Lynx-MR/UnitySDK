@@ -133,7 +133,7 @@ namespace Lynx
         {
             // Volume sent varies from 0 to 15. 
             //Debug.Log("------------------- VolumeChange(string volume) received in OSComMng = " + volume);
-            int iVolume = 0;
+            int iVolume;
             int.TryParse(volume, out iVolume);
             OnAudioVolumeChange?.Invoke(iVolume);
         }
@@ -141,7 +141,7 @@ namespace Lynx
         {
             // Battery level varies from 0 to 100. it's a percentage 
             //Debug.Log("------------------- BatteryLevelChange(string batteryLevel) received in OSComMng = " + batteryLevel);
-            int iBatteryLevel = 0;
+            int iBatteryLevel;
             int.TryParse(batteryLevel, out iBatteryLevel);
             OnABatteryLevelChange?.Invoke(iBatteryLevel);
         }

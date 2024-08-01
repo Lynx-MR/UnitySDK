@@ -2721,7 +2721,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8404788911116508313}
-  - component: {fileID: 8404788911116508314}
   m_Layer: 0
   m_Name: DisplayTimer
   m_TagString: Untagged
@@ -2745,28 +2744,6 @@ Transform:
   m_Father: {fileID: 8404788909807578348}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8404788911116508314
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8404788911116508312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfd3545edf6d6ee429c88905eb713178, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CameraSrc: {fileID: 0}
-  distance: 0.3
-  heightRelToHead: 0
-  thresholdHeight: 0.15
-  thresholdDistance: 0.15
-  thresholdRotation: 50
-  lerpTime: 0.5
-  offsetAtRecenter: {x: 0, y: 0, z: 0}
-  positioning: 1
-  positioningPrev: 0
 --- !u!1 &8404788911131495626
 GameObject:
   m_ObjectHideFlags: 0
@@ -5425,6 +5402,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1399489970885140736, guid: c5cb100bee0470048a6a32b507a98070, type: 3}
+    - {fileID: 3355515048834134545, guid: c5cb100bee0470048a6a32b507a98070, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c5cb100bee0470048a6a32b507a98070, type: 3}
 --- !u!4 &7045917489308147840 stripped
 Transform:

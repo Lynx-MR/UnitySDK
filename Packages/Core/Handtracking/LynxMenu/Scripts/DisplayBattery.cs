@@ -39,13 +39,10 @@ namespace Lynx
 
         private void Update()
         {
-            lock (m_mainThreadAction)
+            if (m_mainThreadAction != null)
             {
-                if (m_mainThreadAction != null)
-                {
-                    m_mainThreadAction.Invoke();
-                    m_mainThreadAction = null;
-                }
+                m_mainThreadAction.Invoke();
+                m_mainThreadAction = null;
             }
         }
 
@@ -58,11 +55,7 @@ namespace Lynx
 
         private void onBatteryLevelChanged(int batteryLevel)
         {
-            lock (m_mainThreadAction)
-            {
-                m_mainThreadAction = () => FillBatteryInfo(batteryLevel);
-
-            }
+            m_mainThreadAction = () => FillBatteryInfo(batteryLevel);
         }
         private void FillBatteryInfo(int batteryInfo)
         {
