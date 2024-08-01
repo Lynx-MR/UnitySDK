@@ -9,7 +9,6 @@ namespace Lynx
         [SerializeField] private GameObject timer;
         [SerializeField] private TextMeshProUGUI timerText;
         [SerializeField] private AudioMng audioMng;
-        [SerializeField] private ScreenshotFlash launchFlash;
 
         //PUBLIC
         public ScreenshotAndVideoUtilities screenshotAndVideoUtilities;

@@ -1088,7 +1088,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 30.074001, y: -105.73701, z: -32.233}
 --- !u!114 &260197484 stripped
 MonoBehaviour:
@@ -3426,6 +3426,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883783994}
   m_CullTransparentMesh: 1
+--- !u!1 &886995855 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8404788909807578347, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
+  m_PrefabInstance: {fileID: 1258749688}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &886995863 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8404788909807578349, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
+  m_PrefabInstance: {fileID: 1258749688}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 886995855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df9e066fa835ca14ab97d0fe88a78160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &900557650
 GameObject:
   m_ObjectHideFlags: 0
@@ -4667,6 +4683,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3718825184026885564, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
+      propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718825184026885564, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
+      propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718825184026885564, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
+      propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 886995863}
+    - target: {fileID: 3718825184026885564, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
+      propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 886995855}
+    - target: {fileID: 3718825184026885564, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
+      propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718825184026885564, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
+      propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Quit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718825184026885564, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
+      propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Lynx.LynxMenuMng, Lynx.Handtracking
+      objectReference: {fileID: 0}
+    - target: {fileID: 3718825184026885564, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
+      propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: Lynx.LynxMenuMng, Lynx.Handtracking
+      objectReference: {fileID: 0}
+    - target: {fileID: 7045917489308147844, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8404788909807578347, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
       propertyPath: m_Name
       value: LynxMenu
@@ -4715,7 +4767,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8404788911116508312, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 7045917489308147841, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 45a203376e973c84982ad4b3e66e38f9, type: 3}
 --- !u!1 &1260218105
 GameObject:
