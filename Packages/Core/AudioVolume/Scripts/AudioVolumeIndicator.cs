@@ -1,13 +1,11 @@
 #if UNITY_ANDROID && !UNITY_EDITOR
-    #define LYNX
+#define LYNX
 #endif
 
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using System;
-using System.Collections.Generic;
 
 namespace Lynx
 {
@@ -26,8 +24,6 @@ namespace Lynx
         [SerializeField] private AudioMng audioMng;
 
         //PRIVATE
-        private float volumeDisplayTimer;
-
         private Action m_mainThreadAction = null;
 
 
@@ -41,14 +37,15 @@ namespace Lynx
 
         private void Update()
         {
-            lock (m_mainThreadAction)
+            if (m_mainThreadAction != null)
             {
-                if (m_mainThreadAction != null)
-                {
-                    m_mainThreadAction.Invoke();
-                    m_mainThreadAction = null;
-                }
+                m_mainThreadAction.Invoke();
+                m_mainThreadAction = null;
             }
+
+            Vector3 nPos = Camera.main.transform.rotation * Vector3.forward * 0.4f;
+            this.transform.position = Camera.main.transform.position + nPos;
+            this.transform.rotation = Quaternion.LookRotation(nPos);
         }
 
         private void Start()
@@ -65,16 +62,13 @@ namespace Lynx
 
         private void OnAudioVolumeChanged(int volume)
         {
-            lock (m_mainThreadAction)
+            m_mainThreadAction += () =>
             {
-                m_mainThreadAction = () =>
-                {
-                    UpdateVolumeBars(volume);
-                    UpdateVolumeText(volume);
-                    PlayTestSound();
-                    DisplayVolumeLevel();
-                };
-            }
+                UpdateVolumeBars(volume);
+                UpdateVolumeText(volume);
+                PlayTestSound();
+                DisplayVolumeLevel();
+            };
         }
 
         private void UpdateVolumeBars(int volume)
@@ -96,8 +90,8 @@ namespace Lynx
 
         private void DisplayVolumeLevel()
         {
-            StopCoroutine(nameof(DisplayVolumeLevelWithTimer));
-            StartCoroutine(nameof(DisplayVolumeLevelWithTimer));
+            StopCoroutine(DisplayVolumeLevelWithTimer());
+            StartCoroutine(DisplayVolumeLevelWithTimer());
         }
 
         private void PlayTestSound()

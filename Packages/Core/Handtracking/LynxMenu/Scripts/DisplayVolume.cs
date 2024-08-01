@@ -3,6 +3,7 @@
 #endif
 
 using System;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,7 +20,6 @@ namespace Lynx
         [SerializeField] private Sprite[] VolumeLevelSpriteArray;
 
         private Action m_mainThreadAction = null;
-
 
         private void Awake()
         {
@@ -42,24 +42,17 @@ namespace Lynx
 
         private void Update()
         {
-            lock (m_mainThreadAction)
+            if (m_mainThreadAction != null)
             {
-                if (m_mainThreadAction != null)
-                {
-                    m_mainThreadAction.Invoke();
-                    m_mainThreadAction = null;
-                }
+                m_mainThreadAction.Invoke();
+                m_mainThreadAction = null;
             }
         }
 
 
         private void OnAudioVolumeChanged(int volume)
         {
-
-            lock (m_mainThreadAction)
-            {
-                m_mainThreadAction = () => UpdateVolumeLevelDisplay(volume);
-            }
+            m_mainThreadAction = () => UpdateVolumeLevelDisplay(volume);
         }
         private void UpdateVolumeLevelDisplay()
         {
