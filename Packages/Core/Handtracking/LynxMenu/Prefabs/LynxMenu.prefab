@@ -348,115 +348,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &8068065176345400107
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8068065176345400106}
-  - component: {fileID: 8068065176345400104}
-  - component: {fileID: 8068065176345400108}
-  m_Layer: 0
-  m_Name: LightForFlashEffect
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8068065176345400106
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8068065176345400107}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8404788909807578348}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!108 &8068065176345400104
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8068065176345400107}
-  m_Enabled: 1
-  serializedVersion: 10
-  m_Type: 2
-  m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0
-  m_Range: 100
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
---- !u!114 &8068065176345400108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8068065176345400107}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c5cc0f1c604f3c4cafa1cd6197a58b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dirLight: {fileID: 8068065176345400104}
-  CameraTransform: {fileID: 0}
 --- !u!1 &8404788909287177684
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,7 +360,7 @@ GameObject:
   - component: {fileID: 8404788909287177687}
   - component: {fileID: 8404788909287177686}
   m_Layer: 5
-  m_Name: Battery value
+  m_Name: Battery icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -921,7 +812,6 @@ GameObject:
   - component: {fileID: 8404788909807578351}
   - component: {fileID: 8404788909807578349}
   - component: {fileID: 8404788909807578336}
-  - component: {fileID: 8404788909807578353}
   - component: {fileID: 177584766652113443}
   - component: {fileID: 8404788909807578344}
   - component: {fileID: 8404788909807578133}
@@ -949,7 +839,6 @@ Transform:
   - {fileID: 8404788909452768180}
   - {fileID: 8404788910898784698}
   - {fileID: 8404788911116508313}
-  - {fileID: 8068065176345400106}
   - {fileID: 7045917489308147840}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1031,10 +920,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lynxMenuGameObject: {fileID: 8404788909452768179}
   lynxUIPositionner: {fileID: 8404788909807578336}
-  lynxMenuActive: 0
   lynxMenuMainCanvas: {fileID: 4882981708895721932}
   lynxMenuGroundPosition: {fileID: 8404788909807578133}
-  LifePeriod: 25
   displayAppInfo: {fileID: 8404788911220025624}
   screenRecordButton: {fileID: 1055008768250917676}
   stopScreenRecordButton: {fileID: 4615049971592467912}
@@ -1080,18 +967,6 @@ MonoBehaviour:
   currentLocalRotX: 0
   currentLocalRotY: 0
   currentLocalRotZ: 0
---- !u!114 &8404788909807578353
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8404788909807578347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9de27ca481ece6b4bb7e8d31e4e4040c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &177584766652113443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1107,7 +982,6 @@ MonoBehaviour:
   timer: {fileID: 8404788911116508312}
   timerText: {fileID: 8404788909321285514}
   audioMng: {fileID: 8404788910898784700}
-  launchFlash: {fileID: 8068065176345400108}
   screenshotAndVideoUtilities: {fileID: 5284711180824761703}
 --- !u!114 &8404788909807578344
 MonoBehaviour:
@@ -1179,7 +1053,7 @@ GameObject:
   - component: {fileID: 8404788909922223573}
   - component: {fileID: 8404788909922223572}
   m_Layer: 5
-  m_Name: '%_Img'
+  m_Name: Volume icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1329,7 +1203,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8404788910126719527}
   - component: {fileID: 8404788910126719529}
-  - component: {fileID: 8404788910126719524}
   m_Layer: 5
   m_Name: Battery
   m_TagString: Untagged
@@ -1368,26 +1241,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8404788910126719526}
   m_CullTransparentMesh: 0
---- !u!114 &8404788910126719524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8404788910126719526}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8be6923891471d941a34ecde8061b524, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  percentText: {fileID: 8404788910257412228}
-  batteryValueImg: {fileID: 8404788909287177686}
-  batteryValueSpriteArray:
-  - {fileID: 21300000, guid: fe18e5fad8a64dd4fa5a022d9bf1cd78, type: 3}
-  - {fileID: 21300000, guid: f40a43ff968c29e4796a2974e2c404ce, type: 3}
-  - {fileID: 21300000, guid: 4866e632046af914f8b83a6153b193c1, type: 3}
-  - {fileID: 21300000, guid: cfa60333e9eca4e4f9f593f0953820e1, type: 3}
-  - {fileID: 21300000, guid: dc5cf60549f0a58428f0efd1cca9b19f, type: 3}
 --- !u!1 &8404788910159327509
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,7 +1252,6 @@ GameObject:
   - component: {fileID: 8404788910159327510}
   - component: {fileID: 8404788910159327513}
   - component: {fileID: 8404788910159327512}
-  - component: {fileID: 8404788910159327506}
   m_Layer: 5
   m_Name: Time
   m_TagString: Untagged
@@ -1524,18 +1376,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &8404788910159327506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8404788910159327509}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29b7865f97323ff4b8571f79b377ec05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8404788910199851281
 GameObject:
   m_ObjectHideFlags: 0
@@ -1725,7 +1565,7 @@ GameObject:
   - component: {fileID: 8404788910232628185}
   - component: {fileID: 8404788910232628184}
   m_Layer: 5
-  m_Name: '%'
+  m_Name: Volume %
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2145,7 +1985,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8404788910734686662}
   - component: {fileID: 8404788910734686664}
-  - component: {fileID: 8404788910734686658}
   m_Layer: 5
   m_Name: Volume
   m_TagString: Untagged
@@ -2184,27 +2023,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8404788910734686661}
   m_CullTransparentMesh: 0
---- !u!114 &8404788910734686658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8404788910734686661}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 599eab4230f1b5a43800ed5ea9cc068e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sliderUI: {fileID: 0}
-  valueUI: {fileID: 8404788910232628184}
-  VolumeLevelImage: {fileID: 8404788909922223572}
-  VolumeLevelSpriteArray:
-  - {fileID: 21300000, guid: b6c2cc50daf123245a3b608dcc6613f4, type: 3}
-  - {fileID: 21300000, guid: 4dc88a83925529f46bcca2b0164247d1, type: 3}
-  - {fileID: 21300000, guid: 3078aa854ec3ef44dba45e2694fa7eae, type: 3}
-  - {fileID: 21300000, guid: ac7334fbda7233c42ae0ec30576d404a, type: 3}
-  - {fileID: 21300000, guid: 6c3ed0a2f91861e4898cb29185e54c15, type: 3}
 --- !u!1 &8404788910846093882
 GameObject:
   m_ObjectHideFlags: 0
@@ -2214,6 +2032,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8404788910846093883}
+  - component: {fileID: 5701338303176961281}
   m_Layer: 0
   m_Name: SystemInfoBar
   m_TagString: Untagged
@@ -2246,6 +2065,36 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -0.01790154}
   m_SizeDelta: {x: 384.68, y: 31.16}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5701338303176961281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8404788910846093882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6de8e3ae390e774a8bdc4db548bd73d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateDelay: 10
+  m_clockText: {fileID: 8404788910159327512}
+  m_batteryText: {fileID: 8404788910257412228}
+  m_batteryIcon: {fileID: 8404788909287177686}
+  m_batteryValueSpriteArray:
+  - {fileID: 21300000, guid: fe18e5fad8a64dd4fa5a022d9bf1cd78, type: 3}
+  - {fileID: 21300000, guid: f40a43ff968c29e4796a2974e2c404ce, type: 3}
+  - {fileID: 21300000, guid: 4866e632046af914f8b83a6153b193c1, type: 3}
+  - {fileID: 21300000, guid: cfa60333e9eca4e4f9f593f0953820e1, type: 3}
+  - {fileID: 21300000, guid: dc5cf60549f0a58428f0efd1cca9b19f, type: 3}
+  m_volumeText: {fileID: 8404788910232628184}
+  m_volumeIcon: {fileID: 8404788909922223572}
+  m_volumeSpriteArray:
+  - {fileID: 21300000, guid: b6c2cc50daf123245a3b608dcc6613f4, type: 3}
+  - {fileID: 21300000, guid: 4dc88a83925529f46bcca2b0164247d1, type: 3}
+  - {fileID: 21300000, guid: 3078aa854ec3ef44dba45e2694fa7eae, type: 3}
+  - {fileID: 21300000, guid: ac7334fbda7233c42ae0ec30576d404a, type: 3}
+  - {fileID: 21300000, guid: 6c3ed0a2f91861e4898cb29185e54c15, type: 3}
 --- !u!1 &8404788910898784697
 GameObject:
   m_ObjectHideFlags: 0
@@ -2406,7 +2255,6 @@ GameObject:
   - component: {fileID: 8404788910912067493}
   - component: {fileID: 8404788910912067496}
   - component: {fileID: 8404788910912067495}
-  - component: {fileID: 8404788910912067490}
   m_Layer: 5
   m_Name: TextAppVersion
   m_TagString: Untagged
@@ -2531,19 +2379,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &8404788910912067490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8404788910912067492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90958329943f5b342ac1df768ce46883, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  versionText: {fileID: 8404788910912067495}
 --- !u!1 &8404788911019732026
 GameObject:
   m_ObjectHideFlags: 0
@@ -2884,6 +2719,7 @@ MonoBehaviour:
   appName: {fileID: 8404788909318035595}
   appIconImage: {fileID: 8404788909606171085}
   appIconImageBackground: {fileID: 8404788910199851282}
+  m_appVersionText: {fileID: 8404788910912067495}
 --- !u!1001 &93208072342489763
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3572,18 +3408,18 @@ PrefabInstance:
     - target: {fileID: 4098579810185366366, guid: 3a1ce6ff2c32bfb43a8e048db5b344a8, type: 3}
       propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 8404788909807578353}
+      objectReference: {fileID: 8404788909807578349}
     - target: {fileID: 4098579810185366366, guid: 3a1ce6ff2c32bfb43a8e048db5b344a8, type: 3}
       propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4098579810185366366, guid: 3a1ce6ff2c32bfb43a8e048db5b344a8, type: 3}
       propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BackToLauncher
+      value: Quit
       objectReference: {fileID: 0}
     - target: {fileID: 4098579810185366366, guid: 3a1ce6ff2c32bfb43a8e048db5b344a8, type: 3}
       propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Lynx.CallLynxLauncherMng, Lynx.Handtracking
+      value: Lynx.LynxMenuMng, Lynx.Handtracking
       objectReference: {fileID: 0}
     - target: {fileID: 4098579810185366366, guid: 3a1ce6ff2c32bfb43a8e048db5b344a8, type: 3}
       propertyPath: OnTimerPress.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -3949,7 +3785,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9128139544152641277, guid: c203032695ff3204a9e97811ac05436b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9128139544152641277, guid: c203032695ff3204a9e97811ac05436b, type: 3}
       propertyPath: OnUnpress.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -5106,7 +4942,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3355515048834134544, guid: c5cb100bee0470048a6a32b507a98070, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3355515048834134544, guid: c5cb100bee0470048a6a32b507a98070, type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,3 +1,7 @@
+#if UNITY_ANDROID && !UNITY_EDITOR
+#define LYNX
+#endif
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,16 +14,19 @@ namespace Lynx
         [SerializeField] private TextMeshProUGUI appName;
         [SerializeField] private RawImage appIconImage;
         [SerializeField] private Image appIconImageBackground;
+        [SerializeField] private TextMeshProUGUI m_appVersionText;
 
         //PRIVATE
-        private string packageName;
+#if LYNX
         private string applicationName;
         private Texture2D iconTexture;
+#endif
 
 
         private void Start()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
+            m_appVersionText.text = "ver : " + Application.version;
+#if LYNX
         //UpdateAppInfo();
         //AndroidComMng.Instance().mAndroidSystemComPlugInInitSucceedEvent.AddListener(DisplayAppInfo);
 #endif
@@ -27,16 +34,14 @@ namespace Lynx
 
         private void OnEnable()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
+#if LYNX
         //UpdateAppInfo();
 #endif
         }
 
         public void UpdateAppInfo()
         {
-#if !UNITY_ANDROID || UNITY_EDITOR
-            return;
-#else
+#if LYNX
             Debug.Log("----------- DisplayAppInfo()");
             applicationName = AndroidComMng.GetAppName();
             iconTexture = AndroidComMng.GetAppIconTexture();
