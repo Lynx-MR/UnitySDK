@@ -7,52 +7,38 @@
  */
 using System.IO;
 using UnityEditor;
-using UnityEditor.Presets;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 
 #if LYNX_XRI
-using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Inputs;
-using UnityEngine.XR.Interaction.Toolkit.UI;
+using UnityEngine.XR.Interaction.Toolkit.Interactors;
+using UnityEngine.XR.Interaction.Toolkit.Interactors.Casters;
+using UnityEngine.XR.Interaction.Toolkit.Interactors.Visuals;
+using UnityEngine.XR.Interaction.Toolkit.Samples.Hands;
 #endif
 
 namespace Lynx
 {
     public class LynxHandtrackingEditor
     {
-        private const string STR_ANDROIDCOMMNG = "AndroidComManager.prefab";
-        private const string STR_AUDIOVOLUMEINDICATOR = "AudioVolumeIndicator.prefab";
-
-        private const string STR_LYNX_HAND = "Lynx Hand.prefab";
-        private const string STR_LYNX_EVENT_SYSTEM = "Lynx Event System.prefab";
-
-        private const string STR_LYNX_POKE = "Lynx Poke Interactor.prefab";
-        private const string STR_LYNX_POKE_STABILIZER = "Lynx Poke Stabilized Attach.prefab";
-        private const string STR_LYNX_LEFT_POKE_PRESET = "Lynx Left Poke.preset";
-        private const string STR_LYNX_RIGHT_POKE_PRESET = "Lynx Right Poke.preset";
-
-
-        private const string STR_LYNX_RAY = "Lynx Ray Interactor.prefab";
-        private const string STR_LYNX_RAY_STABILIZER = "Lynx Ray Stabilized.prefab";
-        private const string STR_LYNX_LEFT_RAY_PRESET = "Lynx Left Raycast.preset";
-        private const string STR_LYNX_RIGHT_RAY_PRESET = "Lynx Right Raycast.preset";
-
-
-        private const string STR_LYNX_DIRECT_INTERACTOR = "Lynx Direct Interactor.prefab";
-        private const string STR_LYNX_DIRECT_INTERACTOR_STABILIZER = "Lynx Direct Stabilized Attach.prefab";
-        private const string STR_LYNX_LEFT_DIRECT_INTERACTOR_PRESET = "Lynx Left Direct Interactor.preset";
-        private const string STR_LYNX_RIGHT_DIRECT_INTERACTOR_PRESET = "Lynx Right Direct Interactor.preset";
-
-
-        private const string STR_LYNX_HAND_LEFT_VISUALIZER = "Lynx Left Hand Visualizer.prefab";
-        private const string STR_LYNX_HAND_RIGHT_VISUALIZER = "Lynx Right Hand Visualizer.prefab";
         private const string STR_LYNX_LINE_HANDS_VISUALIZER = "Lynx Line Hands Visualizer.prefab";
 
 
         private const string STR_LYNX_HAND_MENU = "Lynx Hand Menu.prefab";
 
+        private static InputActionAsset m_actionAsset = null;
+        public static InputActionAsset ActionAsset {
+            get {
+                if(m_actionAsset == null)
+                    m_actionAsset =  AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets" + Directory.GetFiles(Application.dataPath, "XRI Default Input Actions.inputactions", SearchOption.AllDirectories)[0].Substring(Application.dataPath.Length));
+
+                return m_actionAsset;
+
+            }
+        }
 
         [MenuItem("Lynx/Inputs/Add handtracking", false, 200)]
         public static void AddHandtracking()
@@ -65,7 +51,6 @@ namespace Lynx
             window.position = r;
         }
 
-
         [MenuItem("GameObject/Lynx/Inputs/Add handtracking", false, 200)]
         public static void AddHandtrackingContextMenu()
         {
@@ -75,138 +60,141 @@ namespace Lynx
         [MenuItem("GameObject/Lynx/UI/Hand Menu", false, 250)]
         public static void AddHandMenu()
         {
-            GameObject handMenu = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_HAND_MENU, Camera.main.transform.parent);
+            GameObject handMenu = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, STR_LYNX_HAND_MENU, Camera.main.transform.parent);
             Undo.RegisterCreatedObjectUndo(handMenu, "Hand Menu");
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
 
-        public static void AddAudioVolumeIndicator()
+        public static void GenerateHand(Transform parent, bool defaultHands, bool ghostHands, bool lineHands, bool isLeftHand = false)
         {
-            //Add AudioVolumeIndicator if not present in scene
-            if (LynxBuildSettings.FindObjectsOfTypeAll<AudioVolumeIndicator>().Count == 0)
-                LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, STR_AUDIOVOLUMEINDICATOR, null);
-        }
+            // Declare all paths based on handedness
+            string handednessStr;
+            InteractorHandedness eHandedness;
+            if(isLeftHand)
+            {
+                handednessStr = "Left";
+                eHandedness = InteractorHandedness.Left;
+            }
+            else
+            {
+                handednessStr = "Right";
+                eHandedness = InteractorHandedness.Right;
+            }
 
-        public static void GenerateHand(Transform parent, bool isUnityEvent, bool isDirectInteraction, bool isRaycast, bool isLeftHand = false)
-        {
-            Transform handObj = isLeftHand ? parent.Find("Lynx Left Hand") : parent.Find("Lynx Right Hand");
+            
+            string handVisualizerPath = $"{handednessStr} Hand Interaction Visual.prefab";
+            string handNearFarInteractor = $"{handednessStr}_NearFarInteractor.prefab";
+            string pinchStabilizerStr = "Pinch Point Stabilized.prefab";
+            string ghostHandStr = $"Lynx {handednessStr} Hand Visualizer.prefab";
+
+            
+
+
+            // Generate hand base
+            string handName = $"{handednessStr} Hand";
+            Transform handObj = parent.Find(handName);
             if (!handObj)
-                handObj = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_HAND, parent).transform;
-
-            handObj.name = isLeftHand ? "Lynx Left Hand" : "Lynx Right Hand";
-
-            if (isUnityEvent)
             {
-                if (!handObj.GetComponentInChildren<UnityEngine.XR.Interaction.Toolkit.Interactors.XRPokeInteractor>())
-                {
-                    GameObject poke = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_POKE, handObj.transform);
-                    AssetDatabase.LoadAssetAtPath<Preset>(Directory.GetFiles(LynxBuildSettings.LYNX_CORE_PATH, isLeftHand ? STR_LYNX_LEFT_POKE_PRESET : STR_LYNX_RIGHT_POKE_PRESET, SearchOption.AllDirectories)[0]).ApplyTo(poke.GetComponent<TrackedPoseDriver>());
+                handObj = new GameObject(handName).transform;
+                handObj.parent = parent;
+                handObj.localPosition = Vector3.zero;
+                handObj.localRotation = Quaternion.identity;
 
-                    // Stabilizer
-                    GameObject pokeStabilizer = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_POKE_STABILIZER, handObj.transform);
-                    poke.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>().attachTransform = pokeStabilizer.transform;
-                    pokeStabilizer.GetComponent<XRTransformStabilizer>().targetTransform = poke.transform;
-
-                    handObj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRInteractionGroup>().startingGroupMembers.Add(poke.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>());
-                }
             }
 
-            if (isDirectInteraction)
+            // UI interactor
+            if (!handObj.GetComponentInChildren<XRPokeInteractor>())
             {
-                if (!handObj.GetComponentInChildren<UnityEngine.XR.Interaction.Toolkit.Interactors.XRDirectInteractor>())
-                {
-                    GameObject directInteractor = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_DIRECT_INTERACTOR, handObj.transform);
-                    AssetDatabase.LoadAssetAtPath<Preset>(Directory.GetFiles(LynxBuildSettings.LYNX_CORE_PATH, isLeftHand ? STR_LYNX_LEFT_DIRECT_INTERACTOR_PRESET : STR_LYNX_RIGHT_DIRECT_INTERACTOR_PRESET, SearchOption.AllDirectories)[0]).ApplyTo(directInteractor.GetComponent<ActionBasedController>());
+                XRPokeInteractor pokeInteractor = new GameObject($"{handednessStr} poke interactor").AddComponent<XRPokeInteractor>();
+                pokeInteractor.transform.parent = handObj;
+                pokeInteractor.transform.localPosition = Vector3.zero;
+                pokeInteractor.transform.localRotation = Quaternion.identity;
+                pokeInteractor.handedness = eHandedness;
 
-                    // Stabilizer
-                    GameObject directInteractorStabilizer = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_DIRECT_INTERACTOR_STABILIZER, handObj.transform);
-                    directInteractor.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>().attachTransform = directInteractorStabilizer.transform;
-                    directInteractorStabilizer.GetComponent<XRTransformStabilizer>().targetTransform = directInteractor.transform;
-
-                    handObj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRInteractionGroup>().startingGroupMembers.Add(directInteractor.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>());
-                }
+                TrackedPoseDriver tpd = pokeInteractor.gameObject.AddComponent<TrackedPoseDriver>();
+                tpd.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Poke Position")));
+                tpd.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Poke Rotation")));
+                tpd.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
             }
 
-            if (isRaycast)
+            // Direct & Ray interactors
+            if (!handObj.GetComponentInChildren<NearFarInteractor>())
             {
-                if (!handObj.GetComponentInChildren<UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor>())
-                {
-                    GameObject ray = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_RAY, handObj.transform);
-                    AssetDatabase.LoadAssetAtPath<Preset>(Directory.GetFiles(LynxBuildSettings.LYNX_CORE_PATH, isLeftHand ? STR_LYNX_LEFT_RAY_PRESET : STR_LYNX_RIGHT_RAY_PRESET, SearchOption.AllDirectories)[0]).ApplyTo(ray.GetComponent<ActionBasedController>());
+                NearFarInteractor nearFarInteractor = LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, handNearFarInteractor, handObj.transform).GetComponent<NearFarInteractor>();
 
-                    // Stabilizer
-                    GameObject rayStabilizer = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_RAY_STABILIZER, handObj.transform);
-                    ray.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>().attachTransform = rayStabilizer.GetComponentsInChildren<Transform>()[1];
-                    ray.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRRayInteractor>().rayOriginTransform = rayStabilizer.transform;
-                    rayStabilizer.GetComponent<XRTransformStabilizer>().targetTransform = ray.transform;
+                TrackedPoseDriver grabTPD = nearFarInteractor.gameObject.AddComponent<TrackedPoseDriver>();
+                grabTPD.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Pinch Position")));
+                grabTPD.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Rotation")));
+                grabTPD.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
 
-                    handObj.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRInteractionGroup>().startingGroupMembers.Add(ray.GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactors.XRBaseInteractor>());
-                }
+                //nearFarInteractor.GetComponent<InteractionAttachController>().
+
+
+                PinchPointFollow pinchPoint = LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, pinchStabilizerStr, handObj.transform).GetComponent<PinchPointFollow>();
+                TrackedPoseDriver tpd = pinchPoint.gameObject.AddComponent<TrackedPoseDriver>();
+                tpd.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Position")));
+                tpd.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Rotation")));
+                tpd.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
+
+                nearFarInteractor.GetComponent<CurveInteractionCaster>().castOrigin = pinchPoint.transform;
+
+                CurveVisualController curveCtrl = nearFarInteractor.GetComponentInChildren<CurveVisualController>();
+                curveCtrl.overrideLineOrigin = true;
+                curveCtrl.lineOriginTransform = pinchPoint.transform;
             }
 
-            Undo.RegisterCreatedObjectUndo(handObj.gameObject, "Lynx hand");
+            // Visualizers
+            if(defaultHands)
+                LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, handVisualizerPath, handObj);
 
+            if (ghostHands)
+                LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, ghostHandStr, handObj);
+
+            Undo.RegisterCreatedObjectUndo(handObj.gameObject, handName);
         }
 
-        public static void AddHandtrackingPrefabs(bool isUnityEvent, bool isDirectInteraction, bool isRaycast, bool cbHandsVisualizer, bool ghostHandsVisualizer, bool lineHandsVisualizer, bool interfacePointer)
+        public static void AddHandtrackingPrefabs(bool defaultHandsVisualizer, bool ghostHandsVisualizer, bool lineHandsVisualizer, bool interfacePointer)
         {
-            //AddAndroidComManager();
-            //AddAudioVolumeIndicator();
-
             // Get camera parent
             Transform parent = Camera.main.transform.parent;
             if (!parent)
             {
                 // Create gameobject as a parent if missing
                 parent = new GameObject().transform;
-
                 parent.gameObject.name = "Lynx Hands";
                 parent.position = Camera.main.transform.position;
                 parent.rotation = Camera.main.transform.rotation;
             }
 
-            // Add event system
-            GameObject eventSystem = null;
-            XRUIInputModule uiInputModule = parent.GetComponentInChildren<XRUIInputModule>();
-            if (!uiInputModule)
-                eventSystem = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_EVENT_SYSTEM, parent);
-            else
-                eventSystem = uiInputModule.gameObject;
-            Undo.RegisterCreatedObjectUndo(eventSystem, "XR Event System");
+            GenerateHand(parent, defaultHandsVisualizer, ghostHandsVisualizer, lineHandsVisualizer, true);
+            GenerateHand(parent, defaultHandsVisualizer, ghostHandsVisualizer, lineHandsVisualizer, false);
 
-
-            // Add hands
-            GenerateHand(parent, isUnityEvent, isDirectInteraction, isRaycast, true);
-            GenerateHand(parent, isUnityEvent, isDirectInteraction, isRaycast, false);
-
-            if (cbHandsVisualizer)
+            // Add line hands visualizer (same gameobject for both hands)
+            if (lineHandsVisualizer)
             {
-                if (ghostHandsVisualizer)
-                {
-                    GameObject handsVisualizerLeftObj = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_HAND_LEFT_VISUALIZER, parent);
-                    Undo.RegisterCreatedObjectUndo(handsVisualizerLeftObj, "Ghost hand visualizer Left");
-
-                    GameObject handsVisualizerRightObj = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_HAND_RIGHT_VISUALIZER, parent);
-                    Undo.RegisterCreatedObjectUndo(handsVisualizerRightObj, "Right hand visualizer Right");
-                }
-
-                if (lineHandsVisualizer)
-                {
-                    GameObject lineHandsObj = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_LYNX_LINE_HANDS_VISUALIZER, parent);
-                    Undo.RegisterCreatedObjectUndo(lineHandsObj, "Line hands visualizer");
-                }
+                GameObject lineHands = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, STR_LYNX_LINE_HANDS_VISUALIZER, parent);
+                Undo.RegisterCreatedObjectUndo(lineHands, "Lynx line hands");
             }
 
+            // Add the interface pointer to have a visual feedback
             if (interfacePointer)
             {
-                if(!eventSystem.GetComponent<LynxUIPointerManager>())
-                    eventSystem.AddComponent<LynxUIPointerManager>();
+                if (!parent.GetComponentInChildren<LynxUIPointerManager>())
+                {
+                    GameObject obj = new GameObject("Lynx interface pointer", typeof(LynxUIPointerManager));
+                    obj.transform.parent = parent;
+                    obj.transform.localPosition = Vector3.zero;
+                    obj.transform.localRotation = Quaternion.identity;
+
+                    Undo.RegisterCreatedObjectUndo(obj, "Lynx interface pointer");
+                }
             }
 
             Debug.Log($"Hands added under {parent.name}");
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
 
             UnityEditorInternal.InternalEditorUtility.SetIsInspectorExpanded(parent, true);
+
         }
 
 
@@ -215,11 +203,9 @@ namespace Lynx
         /// </summary>
         public class HandtrackingAddWindow : EditorWindow
         {
-            bool cbUnityEvents = true;
-            bool cbDirectInteractor = true;
-            bool cbRaycasting = true;
             bool cbHandsVisualizer = true;
-            bool cbGhostHandsVisualizer = true;
+            bool cbDefaultHandsVisualizer = true;
+            bool cbGhostHandsVisualizer = false;
             bool cbLineHandsVisualizer = false;
             bool cbInterfacePointer = false;
 
@@ -232,24 +218,22 @@ namespace Lynx
                 //cbUnityEvents = EditorGUILayout.Toggle("Unity events", cbUnityEvents);
                 GUILayout.Label("Unity UI compatibility is enabled.", EditorStyles.label);
 #if LYNX_XRI
-                cbDirectInteractor = EditorGUILayout.Toggle("XR Direct interactors", cbDirectInteractor);
-                cbRaycasting = EditorGUILayout.Toggle("XR raycast interactors", cbRaycasting);
                 cbHandsVisualizer = EditorGUILayout.Toggle("Hands visualizer", cbHandsVisualizer);
                 if(cbHandsVisualizer)
                 {
+                    cbDefaultHandsVisualizer = EditorGUILayout.Toggle("\t- Default Hands", cbDefaultHandsVisualizer);
                     cbGhostHandsVisualizer = EditorGUILayout.Toggle("\t- Ghost Hands", cbGhostHandsVisualizer);
                     cbLineHandsVisualizer = EditorGUILayout.Toggle("\t- Line Hands", cbLineHandsVisualizer);
                 }
 
-                if (cbDirectInteractor)
-                    cbInterfacePointer = EditorGUILayout.Toggle("UI pointer", cbInterfacePointer) && cbDirectInteractor;
+                cbInterfacePointer = EditorGUILayout.Toggle("UI pointer", cbInterfacePointer);
 #endif
 
                 GUILayout.Space(20);
                 if (GUILayout.Button("Add"))
                 {
 
-                    AddHandtrackingPrefabs(cbUnityEvents, cbDirectInteractor, cbRaycasting, cbHandsVisualizer, cbGhostHandsVisualizer, cbLineHandsVisualizer, cbInterfacePointer);
+                    AddHandtrackingPrefabs(cbDefaultHandsVisualizer, cbGhostHandsVisualizer, cbLineHandsVisualizer, cbInterfacePointer);
                     this.Close();
                 }
 
