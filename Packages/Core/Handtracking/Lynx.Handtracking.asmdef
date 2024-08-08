@@ -23,7 +23,7 @@
     "versionDefines": [
         {
             "name": "com.unity.xr.interaction.toolkit",
-            "expression": "2.4.0",
+            "expression": "3.0.4",
             "define": "LYNX_XRI"
         },
         {

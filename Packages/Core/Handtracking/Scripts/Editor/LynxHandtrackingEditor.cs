@@ -25,8 +25,6 @@ namespace Lynx
     public class LynxHandtrackingEditor
     {
         private const string STR_LYNX_LINE_HANDS_VISUALIZER = "Lynx Line Hands Visualizer.prefab";
-
-
         private const string STR_LYNX_HAND_MENU = "Lynx Hand Menu.prefab";
 
         private static InputActionAsset m_actionAsset = null;
