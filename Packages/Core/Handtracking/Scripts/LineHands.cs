@@ -199,7 +199,7 @@ namespace Lynx
                 leftMarker = true;
             }
 
-            //Init markers list for all joints
+            //EnableUpdate markers list for all joints
             GameObject[] markers = new GameObject[XRHandJointID.EndMarker.ToIndex()];
 
             //Create a sphere for each joint and set its position

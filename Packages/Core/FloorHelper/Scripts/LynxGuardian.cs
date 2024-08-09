@@ -2,7 +2,6 @@ using System.Collections;
 using System.IO;
 using UnityEngine;
 using Unity.XR.CoreUtils;
-using UnityEngine.XR.Hands;
 
 namespace Lynx
 {
@@ -130,24 +129,17 @@ namespace Lynx
             // Lower the floor helper instance to the lowest position of the fingers of both hands.
             while (m_isRunning)
             {
-                if (LynxHandtrackingAPI.LeftHand.isTracked)
+                if (AXRControllerManager.Instance.IsTracked(AXRControllerManager.EHandedness.Left))
                 {
-                    for (XRHandJointID i = XRHandJointID.ThumbTip; i < XRHandJointID.EndMarker; i += 5)
-                    {
-                        Pose p;
-                        LynxHandtrackingAPI.LeftHand.GetJoint(i).TryGetPose(out p);
-                        minValue = Mathf.Min(minValue, p.position.y);
-                    }
+                    Vector3 p = AXRControllerManager.Instance.GetPose(AXRControllerManager.EHandedness.Left);
+                    minValue = Mathf.Min(minValue, p.y);
                 }
 
-                if (LynxHandtrackingAPI.RightHand.isTracked)
+
+                if (AXRControllerManager.Instance.IsTracked(AXRControllerManager.EHandedness.Right))
                 {
-                    for (XRHandJointID i = XRHandJointID.ThumbTip; i < XRHandJointID.EndMarker; i += 5)
-                    {
-                        Pose p;
-                        LynxHandtrackingAPI.RightHand.GetJoint(i).TryGetPose(out p);
-                        minValue = Mathf.Min(minValue, p.position.y);
-                    }
+                    Vector3 p = AXRControllerManager.Instance.GetPose(AXRControllerManager.EHandedness.Right);
+                    minValue = Mathf.Min(minValue, p.y);
                 }
 
                 relativePos.y = Camera.main.transform.parent.position.y + minValue - offsetFloor; // 1cm under the min position to be able to fit perfectly with the ground.

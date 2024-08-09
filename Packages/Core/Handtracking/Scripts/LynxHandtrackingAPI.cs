@@ -10,31 +10,34 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Hands;
-using UnityEngine.XR.Management;
+
 
 namespace Lynx
 {
-    public class LynxHandtrackingAPI
-    {
+    public static class LynxHandtrackingAPI 
+    { 
         private static XRHandSubsystem m_handSubsystem = null;
 
-        public static void Init()
+        static LynxHandtrackingAPI()
         {
             List<XRHandSubsystem> handSusbsytems = new List<XRHandSubsystem>();
             SubsystemManager.GetSubsystems(handSusbsytems);
             if (handSusbsytems.Count > 0) m_handSubsystem = handSusbsytems[0];
+        }
 
+        public static bool IsHandSubsystemEnabled => m_handSubsystem != null;
+
+        public static void EnableUpdate()
+        {
             if (m_handSubsystem != null)
-            {
                 m_handSubsystem.updatedHands += OnHandUpdate;
-            }
         }
 
         public static XRHandSubsystem HandSubsystem  {
             get
             {
                 if (m_handSubsystem == null)
-                    Init();
+                    EnableUpdate();
 
                 return m_handSubsystem;
             }
@@ -53,29 +56,21 @@ namespace Lynx
             if (subsystem.leftHand.isTracked)
             {
                 if (updateType == XRHandSubsystem.UpdateType.Dynamic)
-                {
                     LeftHandDynamicUpdate?.Invoke();
-                }
 
                 if (updateType == XRHandSubsystem.UpdateType.BeforeRender)
-                {
                     LeftHandBeforeRenderUpdate?.Invoke();
-                }
             }
 
             if (subsystem.rightHand.isTracked)
             {
                 if (updateType == XRHandSubsystem.UpdateType.Dynamic)
-                {
                     RightHandDynamicUpdate?.Invoke();
-                }
 
                 if (updateType == XRHandSubsystem.UpdateType.BeforeRender)
-                {
                     RightHandBeforeRenderUpdate?.Invoke();
-                }
             }
         }
-
     }
+
 }
