@@ -39,7 +39,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 601083193547239454}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2fadf230d1919748a9aa21d40f74619, type: 3}
   m_Name: 
@@ -58,8 +58,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -3326005586356538449, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -3326005586356538449, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_RotationInput:
     m_UseReference: 1
     m_Action:
@@ -71,8 +70,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 5101698808175986029, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 5101698808175986029, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_TrackingStateInput:
     m_UseReference: 1
     m_Action:
@@ -84,8 +82,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -1277054153949319361, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -1277054153949319361, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_PositionAction:
     m_Name: 
     m_Type: 0
@@ -104,7 +101,6 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  m_HasMigratedActions: 1
 --- !u!1 &1641743317608120659
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,8 +342,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 678263873217797711}
-  - component: {fileID: 914176935526167917}
-  - component: {fileID: 4396688727825149026}
+  - component: {fileID: 6313467647745155506}
   m_Layer: 0
   m_Name: Lynx Hand Menu UI
   m_TagString: Untagged
@@ -373,7 +368,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &914176935526167917
+--- !u!114 &6313467647745155506
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -385,11 +380,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aceb12f22b4c45e59443ac967a8ece7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HandMenuUIGameObject: {fileID: 8399751810353204983}
+  m_HandMenuUIGameObject: {fileID: 0}
   m_MenuHandedness: 3
   m_HandMenuUpDirection: 1
-  m_LeftPalmAnchor: {fileID: 1802023705848622498}
-  m_RightPalmAnchor: {fileID: 27238123199747429}
+  m_LeftPalmAnchor: {fileID: 0}
+  m_RightPalmAnchor: {fileID: 0}
   m_MinFollowDistance: 0.005
   m_MaxFollowDistance: 0.03
   m_MinToMaxDelaySeconds: 1
@@ -397,6 +392,8 @@ MonoBehaviour:
   m_MenuVisibleGazeAngleDivergenceThreshold: 35
   m_AnimateMenuHideAndReveal: 1
   m_RevealHideAnimationDuration: 0.1
+  m_HideMenuOnSelect: 1
+  m_InteractionManager: {fileID: 0}
   m_HandTrackingFollowPreset:
     m_UseConstant: 0
     m_ConstantValue:
@@ -416,7 +413,7 @@ MonoBehaviour:
       allowSmoothing: 1
       followLowerSmoothingValue: 12
       followUpperSmoothingValue: 16
-    m_Variable: {fileID: 11400000, guid: e659faa044cc3c94c97894771c581244, type: 2}
+    m_Variable: {fileID: 11400000, guid: 15088c60ea1e00448a95ebaef96316da, type: 2}
   m_ControllerFollowPreset:
     m_UseConstant: 0
     m_ConstantValue:
@@ -436,35 +433,7 @@ MonoBehaviour:
       allowSmoothing: 1
       followLowerSmoothingValue: 12
       followUpperSmoothingValue: 16
-    m_Variable: {fileID: 11400000, guid: 0c662ac8eabd39b40bff51598c3a9e44, type: 2}
---- !u!114 &4396688727825149026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4732555810805476339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82bc72d2ecc8add47b2fe00d40318500, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_LeftHand: {fileID: 0}
-  m_RightHand: {fileID: 0}
-  m_LeftController: {fileID: 0}
-  m_RightController: {fileID: 0}
-  m_TrackedHandModeStarted:
-    m_PersistentCalls:
-      m_Calls: []
-  m_TrackedHandModeEnded:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MotionControllerModeStarted:
-    m_PersistentCalls:
-      m_Calls: []
-  m_MotionControllerModeEnded:
-    m_PersistentCalls:
-      m_Calls: []
+    m_Variable: {fileID: 11400000, guid: 2899508b1645c5e4fa421b4217da9539, type: 2}
 --- !u!1 &6041924627853223973
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,6 +805,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_disableSelectState: 1
+  m_useTheme: 0
+  m_useSound: 0
   m_secondaryTargetGraphic:
   - {fileID: 6041924628606223683}
   m_animation:
@@ -844,7 +815,6 @@ MonoBehaviour:
     moveDelta: {x: 0, y: 0, z: 0.03}
     moveDuration: 0.25
     isUsingScale: 0
-  useTheme: 1
 --- !u!1 &6041924629282992594
 GameObject:
   m_ObjectHideFlags: 0
@@ -962,7 +932,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0.2, y: 0.14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &9191736079436845442
@@ -1508,7 +1478,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  useTheme: 1
   OnPress:
     m_PersistentCalls:
       m_Calls: []
@@ -1516,6 +1485,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_disableSelectState: 1
+  m_useTheme: 0
+  m_useSound: 0
   m_secondaryTargetGraphic:
   - {fileID: 7472962157642171168}
   m_animation:
@@ -1630,7 +1601,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  useTheme: 1
   OnPress:
     m_PersistentCalls:
       m_Calls: []
@@ -1638,6 +1608,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_disableSelectState: 1
+  m_useTheme: 0
+  m_useSound: 0
   m_secondaryTargetGraphic:
   - {fileID: 7472962157542931372}
   m_animation:
@@ -2937,7 +2909,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  useTheme: 1
   OnPress:
     m_PersistentCalls:
       m_Calls: []
@@ -2945,6 +2916,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_disableSelectState: 1
+  m_useTheme: 0
+  m_useSound: 0
   m_secondaryTargetGraphic:
   - {fileID: 7472962157593299960}
   m_animation:
@@ -3059,7 +3032,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  useTheme: 1
   OnPress:
     m_PersistentCalls:
       m_Calls: []
@@ -3067,6 +3039,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_disableSelectState: 1
+  m_useTheme: 0
+  m_useSound: 0
   m_secondaryTargetGraphic:
   - {fileID: 7472962158663444222}
   m_animation:
@@ -3350,7 +3324,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  useTheme: 1
   OnPress:
     m_PersistentCalls:
       m_Calls: []
@@ -3358,6 +3331,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_disableSelectState: 1
+  m_useTheme: 0
+  m_useSound: 0
   m_secondaryTargetGraphic:
   - {fileID: 7472962158863368686}
   m_animation:
@@ -3923,7 +3898,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  useTheme: 1
   OnPress:
     m_PersistentCalls:
       m_Calls: []
@@ -3931,6 +3905,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_disableSelectState: 1
+  m_useTheme: 0
+  m_useSound: 0
   m_secondaryTargetGraphic:
   - {fileID: 7472962157713845652}
   m_animation:
@@ -4363,6 +4339,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   m_disableSelectState: 1
+  m_useTheme: 0
+  m_useSound: 0
   m_secondaryTargetGraphic:
   - {fileID: 8070850130506662611}
   m_animation:
@@ -4371,7 +4349,6 @@ MonoBehaviour:
     moveDelta: {x: 0, y: 0, z: 0.03}
     moveDuration: 0.25
     isUsingScale: 0
-  useTheme: 1
 --- !u!1 &8399751810353204983
 GameObject:
   m_ObjectHideFlags: 0
@@ -4462,8 +4439,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: -2024308242397127297, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: -2024308242397127297, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_RotationInput:
     m_UseReference: 1
     m_Action:
@@ -4475,8 +4451,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 8248158260566104461, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 8248158260566104461, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_TrackingStateInput:
     m_UseReference: 1
     m_Action:
@@ -4488,8 +4463,7 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 684395432459739428, guid: c348712bda248c246b8c49b3db54643f,
-      type: 3}
+    m_Reference: {fileID: 684395432459739428, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   m_PositionAction:
     m_Name: 
     m_Type: 0
@@ -4508,4 +4482,3 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
-  m_HasMigratedActions: 1
