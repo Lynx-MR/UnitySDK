@@ -78,15 +78,11 @@ namespace Lynx
                 handednessStr = "Right";
                 eHandedness = InteractorHandedness.Right;
             }
-
             
             string handVisualizerPath = $"{handednessStr} Hand Interaction Visual.prefab";
             string handNearFarInteractor = $"{handednessStr}_NearFarInteractor.prefab";
             string pinchStabilizerStr = "Pinch Point Stabilized.prefab";
             string ghostHandStr = $"Lynx {handednessStr} Hand Visualizer.prefab";
-
-            
-
 
             // Generate hand base
             string handName = $"{handednessStr} Hand";
@@ -97,7 +93,6 @@ namespace Lynx
                 handObj.parent = parent;
                 handObj.localPosition = Vector3.zero;
                 handObj.localRotation = Quaternion.identity;
-
             }
 
             // UI interactor
