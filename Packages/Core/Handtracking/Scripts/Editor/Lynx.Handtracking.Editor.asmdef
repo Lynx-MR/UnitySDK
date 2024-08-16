@@ -32,6 +32,11 @@
             "name": "com.unity.xr.interaction.toolkit",
             "expression": "2.4.0",
             "define": "LYNX_XRI"
+        },
+        {
+            "name": "com.unity.xr.interaction.toolkit",
+            "expression": "2.4.0",
+            "define": "LYNX_XRI"
         }
     ],
     "noEngineReferences": false
