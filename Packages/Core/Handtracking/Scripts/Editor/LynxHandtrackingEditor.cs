@@ -13,11 +13,9 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
 
 #if LYNX_XRI
-using UnityEngine.XR.Interaction.Toolkit.Inputs;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using UnityEngine.XR.Interaction.Toolkit.Interactors.Casters;
 using UnityEngine.XR.Interaction.Toolkit.Interactors.Visuals;
-using UnityEngine.XR.Interaction.Toolkit.Samples.Hands;
 #endif
 
 namespace Lynx
@@ -81,7 +79,6 @@ namespace Lynx
             
             string handVisualizerPath = $"{handednessStr} Hand Interaction Visual.prefab";
             string handNearFarInteractor = $"{handednessStr}_NearFarInteractor.prefab";
-            string pinchStabilizerStr = "Pinch Point Stabilized.prefab";
             string ghostHandStr = $"Lynx {handednessStr} Hand Visualizer.prefab";
 
             // Generate hand base
@@ -120,10 +117,11 @@ namespace Lynx
                 grabTPD.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Rotation")));
                 grabTPD.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
 
-                //nearFarInteractor.GetComponent<InteractionAttachController>().
 
+                GameObject pinchPoint = new GameObject("Pinch point");
+                pinchPoint.transform.parent = handObj.transform;
 
-                PinchPointFollow pinchPoint = LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, pinchStabilizerStr, handObj.transform).GetComponent<PinchPointFollow>();
+                //PinchPointFollow pinchPoint = LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, pinchStabilizerStr, handObj.transform).GetComponent<PinchPointFollow>();
                 TrackedPoseDriver tpd = pinchPoint.gameObject.AddComponent<TrackedPoseDriver>();
                 tpd.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Position")));
                 tpd.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Rotation")));
@@ -133,7 +131,7 @@ namespace Lynx
 
                 CurveVisualController curveCtrl = nearFarInteractor.GetComponentInChildren<CurveVisualController>();
                 curveCtrl.overrideLineOrigin = true;
-                curveCtrl.lineOriginTransform = pinchPoint.transform;
+                //curveCtrl.lineOriginTransform = pinchPoint.transform;
             }
 
             // Visualizers
@@ -218,6 +216,12 @@ namespace Lynx
                     cbGhostHandsVisualizer = EditorGUILayout.Toggle("\t- Ghost Hands", cbGhostHandsVisualizer);
                     cbLineHandsVisualizer = EditorGUILayout.Toggle("\t- Line Hands", cbLineHandsVisualizer);
                 }
+                else
+                {
+                    cbDefaultHandsVisualizer = false;
+                    cbGhostHandsVisualizer = false;
+                    cbLineHandsVisualizer = false;
+                }
 
                 cbInterfacePointer = EditorGUILayout.Toggle("UI pointer", cbInterfacePointer);
 #endif
@@ -225,7 +229,6 @@ namespace Lynx
                 GUILayout.Space(20);
                 if (GUILayout.Button("Add"))
                 {
-
                     AddHandtrackingPrefabs(cbDefaultHandsVisualizer, cbGhostHandsVisualizer, cbLineHandsVisualizer, cbInterfacePointer);
                     this.Close();
                 }
