@@ -28,8 +28,14 @@ namespace Lynx
         private static InputActionAsset m_actionAsset = null;
         public static InputActionAsset ActionAsset {
             get {
-                if(m_actionAsset == null)
-                    m_actionAsset =  AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets" + Directory.GetFiles(Application.dataPath, "XRI Default Input Actions.inputactions", SearchOption.AllDirectories)[0].Substring(Application.dataPath.Length));
+                if (m_actionAsset == null)
+                {
+                    string[] actionAssets = Directory.GetFiles(Application.dataPath, "XRI Default Input Actions.inputactions", SearchOption.AllDirectories);
+                    if(actionAssets.Length > 0)
+                        m_actionAsset = AssetDatabase.LoadAssetAtPath<InputActionAsset>("Assets" + actionAssets[0].Substring(Application.dataPath.Length));
+                    else
+                        Debug.LogError("Failed to load \"XRI Default Input Actions.inputactions\". Missing samples: XR Interaction Toolkit - Starter Assets");
+                }
 
                 return m_actionAsset;
 
@@ -110,33 +116,45 @@ namespace Lynx
             // Direct & Ray interactors
             if (!handObj.GetComponentInChildren<NearFarInteractor>())
             {
-                NearFarInteractor nearFarInteractor = LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, handNearFarInteractor, handObj.transform).GetComponent<NearFarInteractor>();
 
-                TrackedPoseDriver grabTPD = nearFarInteractor.gameObject.AddComponent<TrackedPoseDriver>();
-                grabTPD.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Pinch Position")));
-                grabTPD.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Rotation")));
-                grabTPD.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
+                GameObject nearFarInteractorPrefab = LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, handNearFarInteractor, handObj.transform);
+                if(nearFarInteractorPrefab)
+                {
+                    NearFarInteractor nearFarInteractor = nearFarInteractorPrefab.GetComponent<NearFarInteractor>();
+
+                    TrackedPoseDriver grabTPD = nearFarInteractor.gameObject.AddComponent<TrackedPoseDriver>();
+                    grabTPD.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Pinch Position")));
+                    grabTPD.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Rotation")));
+                    grabTPD.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
 
 
-                GameObject pinchPoint = new GameObject("Pinch point");
-                pinchPoint.transform.parent = handObj.transform;
+                    // Create pinch point for far interactor
+                    GameObject pinchPoint = new GameObject("Pinch point");
+                    pinchPoint.transform.parent = handObj.transform;
 
-                //PinchPointFollow pinchPoint = LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, pinchStabilizerStr, handObj.transform).GetComponent<PinchPointFollow>();
-                TrackedPoseDriver tpd = pinchPoint.gameObject.AddComponent<TrackedPoseDriver>();
-                tpd.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Position")));
-                tpd.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Rotation")));
-                tpd.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
+                    TrackedPoseDriver tpd = pinchPoint.gameObject.AddComponent<TrackedPoseDriver>();
+                    tpd.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Position")));
+                    tpd.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Rotation")));
+                    tpd.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
 
-                nearFarInteractor.GetComponent<CurveInteractionCaster>().castOrigin = pinchPoint.transform;
+                    nearFarInteractor.GetComponent<CurveInteractionCaster>().castOrigin = pinchPoint.transform;
 
-                CurveVisualController curveCtrl = nearFarInteractor.GetComponentInChildren<CurveVisualController>();
-                curveCtrl.overrideLineOrigin = true;
-                //curveCtrl.lineOriginTransform = pinchPoint.transform;
+                    CurveVisualController curveCtrl = nearFarInteractor.GetComponentInChildren<CurveVisualController>();
+                    curveCtrl.overrideLineOrigin = true;
+                    //curveCtrl.lineOriginTransform = pinchPoint.transform;
+                }
+                else
+                {
+                    Debug.LogError($"Failed to load \"{handNearFarInteractor}\". Missing samples: XR Interaction Toolkit - Starter Assets");
+                }
             }
 
             // Visualizers
-            if(defaultHands)
-                LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, handVisualizerPath, handObj);
+            if (defaultHands)
+            {
+                if(LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, handVisualizerPath, handObj) == null)
+                    Debug.LogError($"Failed to load \"{handVisualizerPath}\". Default hand visualizers requires Unity sample: XR Hands - HandVisualizer");
+            }
 
             if (ghostHands)
                 LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, ghostHandStr, handObj);
@@ -156,6 +174,9 @@ namespace Lynx
                 parent.position = Camera.main.transform.position;
                 parent.rotation = Camera.main.transform.rotation;
             }
+
+            if (!ActionAsset)
+                return;
 
             GenerateHand(parent, defaultHandsVisualizer, ghostHandsVisualizer, lineHandsVisualizer, true);
             GenerateHand(parent, defaultHandsVisualizer, ghostHandsVisualizer, lineHandsVisualizer, false);
