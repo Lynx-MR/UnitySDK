@@ -9,19 +9,12 @@
 using UnityEngine;
 using UnityEditor;
 using System.IO;
-using System.Collections.Generic;
 
 namespace Lynx
 {
     public class SampleImporter
     {
-        static List<(string, string)> packages = new List<(string, string)>()
-        {
-            ("Packages/com.unity.xr.hands", "HandVisualizer"),
-            ("Packages/com.unity.xr.interaction.toolkit", "Starter Assets"),
-            ("Packages/com.unity.xr.interaction.toolkit", "Hands Interaction Demo"),
-            (LynxBuildSettings.LYNX_CORE_PATH, "UI"),
-        };
+        private static (string, string) STARTER_ASSETS_PATH = ("Packages/com.unity.xr.interaction.toolkit", "Starter Assets");
 
         public static void ImportPackage(string pkgPath, string sampleName)
         {
@@ -45,17 +38,10 @@ namespace Lynx
 
         }
 
-
-
-        [MenuItem("Lynx/Import Samples", false, 300)]
-        public static void ImportRequiredSamples()
+        [MenuItem("Lynx/Import Starter Assets (required XRI Sample)", false, 300)]
+        public static void ImportStarterAssets()
         {
-            for(int i=0, count = packages.Count; i<count; ++i)
-                ImportPackage(packages[i].Item1, packages[i].Item2);
-
-            AssetDatabase.Refresh();
-
-
+            ImportPackage(STARTER_ASSETS_PATH.Item1, STARTER_ASSETS_PATH.Item2);
         }
     }
 }
