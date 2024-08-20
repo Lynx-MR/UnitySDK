@@ -6,7 +6,7 @@ namespace Lynx
 {
     public class LynxGazeInteractorEditor
     {
-        private const string STR_GazeInteractor = "LynxGazeInteractor.prefab";
+        private const string STR_GazeInteractor = "Gaze Interactor.prefab";
 
         [MenuItem("GameObject/Lynx/Inputs/Add gaze interactor", false, 200)]
         public static void AddGazeInteractorContextMenu()
@@ -26,7 +26,7 @@ namespace Lynx
             Transform parent = Camera.main.transform.parent;
 
             // Add Gaze Interactor
-            GameObject gazeInteractor = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_MODULES_PATH, STR_GazeInteractor, parent);
+            GameObject gazeInteractor = LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, STR_GazeInteractor, parent);
             Debug.Log($"Gaze Interactor added under {parent.name}");
 
             // Update scene state
