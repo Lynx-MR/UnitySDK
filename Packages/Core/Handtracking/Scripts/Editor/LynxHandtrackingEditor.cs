@@ -62,12 +62,22 @@ namespace Lynx
         [MenuItem("GameObject/Lynx/UI/Hand Menu", false, 250)]
         public static void AddHandMenu()
         {
+
+            string[] paths = Directory.GetFiles(Application.dataPath, "Menu Hands Follow Preset.asset", SearchOption.AllDirectories);
+
+            // File does not exists (probably due to missing required dependencies)
+            if (paths.Length == 0)
+            {
+                Debug.LogError("Failed to add Hand Menu. Missing sample: XR Interaction Toolkit - Hands Interaction Demo");
+                return;
+            }
+
             GameObject handMenu = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, STR_LYNX_HAND_MENU, Camera.main.transform.parent);
             Undo.RegisterCreatedObjectUndo(handMenu, "Hand Menu");
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
 
-        public static void GenerateHand(Transform parent, bool defaultHands, bool ghostHands, bool lineHands, bool isLeftHand = false)
+        public static void GenerateHand(Transform parent, bool defaultHands, bool ghostHands, bool isLeftHand = false)
         {
             // Declare all paths based on handedness
             string handednessStr;
@@ -145,7 +155,7 @@ namespace Lynx
                 }
                 else
                 {
-                    Debug.LogError($"Failed to load \"{handNearFarInteractor}\". Missing samples: XR Interaction Toolkit - Starter Assets");
+                    Debug.LogError($"Failed to load \"{handNearFarInteractor}\". Missing sample: XR Interaction Toolkit - Starter Assets");
                 }
             }
 
@@ -178,8 +188,8 @@ namespace Lynx
             if (!ActionAsset)
                 return;
 
-            GenerateHand(parent, defaultHandsVisualizer, ghostHandsVisualizer, lineHandsVisualizer, true);
-            GenerateHand(parent, defaultHandsVisualizer, ghostHandsVisualizer, lineHandsVisualizer, false);
+            GenerateHand(parent, defaultHandsVisualizer, ghostHandsVisualizer, true);
+            GenerateHand(parent, defaultHandsVisualizer, ghostHandsVisualizer, false);
 
             // Add line hands visualizer (same gameobject for both hands)
             if (lineHandsVisualizer)
