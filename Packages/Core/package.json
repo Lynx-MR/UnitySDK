@@ -31,9 +31,14 @@
       "path": "Samples~/Basic"
     },
     {
+      "displayName": "Handtracking",
+      "description": "",
+      "path": "Samples~/Handtracking"
+    },
+    {
       "displayName": "Lynx UI",
       "description": "",
-      "path": "Samples~/UI"
+      "path": "Samples~/Lynx UI"
     }
   ]
 }
