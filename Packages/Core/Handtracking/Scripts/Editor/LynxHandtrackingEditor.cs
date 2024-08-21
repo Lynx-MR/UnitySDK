@@ -16,6 +16,8 @@ using UnityEngine.InputSystem.XR;
 using UnityEngine.XR.Interaction.Toolkit.Interactors;
 using UnityEngine.XR.Interaction.Toolkit.Interactors.Casters;
 using UnityEngine.XR.Interaction.Toolkit.Interactors.Visuals;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion;
+using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 #endif
 
 namespace Lynx
@@ -23,6 +25,7 @@ namespace Lynx
     public class LynxHandtrackingEditor
     {
         private const string STR_LYNX_LINE_HANDS_VISUALIZER = "Lynx Line Hands Visualizer.prefab";
+        private const string STR_TELEPORT_INTERACTOR = "Teleport Interactor.prefab";
         private const string STR_LYNX_HAND_MENU = "Lynx Hand Menu.prefab";
 
         private static InputActionAsset m_actionAsset = null;
@@ -77,7 +80,7 @@ namespace Lynx
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
 
-        public static void GenerateHand(Transform parent, bool defaultHands, bool ghostHands, bool isLeftHand = false)
+        public static void GenerateHand(Transform parent, bool defaultHands, bool ghostHands, bool teleportInteractor, bool isLeftHand = false)
         {
             // Declare all paths based on handedness
             string handednessStr;
@@ -96,6 +99,7 @@ namespace Lynx
             string handVisualizerPath = $"{handednessStr} Hand Interaction Visual.prefab";
             string handNearFarInteractor = $"{handednessStr}_NearFarInteractor.prefab";
             string ghostHandStr = $"Lynx {handednessStr} Hand Visualizer.prefab";
+            const string pinchPointName = "Pinch point";
 
             // Generate hand base
             string handName = $"{handednessStr} Hand";
@@ -117,11 +121,25 @@ namespace Lynx
                 pokeInteractor.transform.localRotation = Quaternion.identity;
                 pokeInteractor.handedness = eHandedness;
 
-                TrackedPoseDriver tpd = pokeInteractor.gameObject.AddComponent<TrackedPoseDriver>();
-                tpd.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Poke Position")));
-                tpd.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Poke Rotation")));
-                tpd.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
+                TrackedPoseDriver pokePose = pokeInteractor.gameObject.AddComponent<TrackedPoseDriver>();
+                pokePose.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Poke Position")));
+                pokePose.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Poke Rotation")));
+                pokePose.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
             }
+
+            Transform pinchPoint = handObj.Find(pinchPointName);
+            if (!pinchPoint)
+            {
+                // Create pinch point for far interactor
+                pinchPoint = new GameObject(pinchPointName).transform;
+                pinchPoint.parent = handObj.transform;
+
+                TrackedPoseDriver pinchPose = pinchPoint.gameObject.AddComponent<TrackedPoseDriver>();
+                pinchPose.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Position")));
+                pinchPose.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Rotation")));
+                pinchPose.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
+            }
+
 
             // Direct & Ray interactors
             if (!handObj.GetComponentInChildren<NearFarInteractor>())
@@ -137,25 +155,27 @@ namespace Lynx
                     grabTPD.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Rotation")));
                     grabTPD.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
 
-
-                    // Create pinch point for far interactor
-                    GameObject pinchPoint = new GameObject("Pinch point");
-                    pinchPoint.transform.parent = handObj.transform;
-
-                    TrackedPoseDriver tpd = pinchPoint.gameObject.AddComponent<TrackedPoseDriver>();
-                    tpd.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Position")));
-                    tpd.rotationInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Rotation")));
-                    tpd.trackingStateInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Tracking State")));
-
-                    nearFarInteractor.GetComponent<CurveInteractionCaster>().castOrigin = pinchPoint.transform;
+                    nearFarInteractor.GetComponent<CurveInteractionCaster>().castOrigin = pinchPoint;
 
                     CurveVisualController curveCtrl = nearFarInteractor.GetComponentInChildren<CurveVisualController>();
                     curveCtrl.overrideLineOrigin = true;
-                    //curveCtrl.lineOriginTransform = pinchPoint.transform;
                 }
                 else
                 {
                     Debug.LogError($"Failed to load \"{handNearFarInteractor}\". Missing sample: XR Interaction Toolkit - Starter Assets");
+                }
+            }
+
+            if(teleportInteractor && !handObj.Find(STR_TELEPORT_INTERACTOR))
+            {
+                GameObject teleportInteractorObject = LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, STR_TELEPORT_INTERACTOR, handObj);
+                if (teleportInteractorObject)
+                {
+                    XRRayInteractor rayInteractor = teleportInteractorObject.GetComponent<XRRayInteractor>();
+                    rayInteractor.handedness = eHandedness;
+                    rayInteractor.rayOriginTransform = pinchPoint;
+                    rayInteractor.selectInput.inputActionReferencePerformed = InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr} Interaction/Select"));
+                    rayInteractor.activateInput.inputActionReferencePerformed = InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr} Interaction/Activate"));
                 }
             }
 
@@ -172,7 +192,7 @@ namespace Lynx
             Undo.RegisterCreatedObjectUndo(handObj.gameObject, handName);
         }
 
-        public static void AddHandtrackingPrefabs(bool defaultHandsVisualizer, bool ghostHandsVisualizer, bool lineHandsVisualizer, bool interfacePointer)
+        public static void AddHandtrackingPrefabs(bool defaultHandsVisualizer, bool ghostHandsVisualizer, bool lineHandsVisualizer, bool teleportInteractors, bool interfacePointer)
         {
             // Get camera parent
             Transform parent = Camera.main.transform.parent;
@@ -188,14 +208,29 @@ namespace Lynx
             if (!ActionAsset)
                 return;
 
-            GenerateHand(parent, defaultHandsVisualizer, ghostHandsVisualizer, true);
-            GenerateHand(parent, defaultHandsVisualizer, ghostHandsVisualizer, false);
+            GenerateHand(parent, defaultHandsVisualizer, ghostHandsVisualizer, teleportInteractors,true);
+            GenerateHand(parent, defaultHandsVisualizer, ghostHandsVisualizer, teleportInteractors, false);
 
             // Add line hands visualizer (same gameobject for both hands)
             if (lineHandsVisualizer)
             {
                 GameObject lineHands = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, STR_LYNX_LINE_HANDS_VISUALIZER, parent);
                 Undo.RegisterCreatedObjectUndo(lineHands, "Lynx line hands");
+            }
+
+            // Add teleport provider
+            if(teleportInteractors)
+            {
+                if (LynxBuildSettings.FindObjectsOfTypeAll<TeleportationProvider>().Count == 0)
+                {
+                    GameObject teleportationProvider = new GameObject("Teleportation provider");
+                    teleportationProvider.transform.parent = null;
+                    teleportationProvider.transform.localPosition = Vector3.zero;
+                    teleportationProvider.transform.localRotation = Quaternion.identity;
+
+                    teleportationProvider.AddComponent<TeleportationProvider>().mediator = teleportationProvider.AddComponent<LocomotionMediator>();
+                    Debug.Log("Teleportation provider was missing and added to the scene.");
+                }
             }
 
             // Add the interface pointer to have a visual feedback
@@ -229,6 +264,7 @@ namespace Lynx
             bool cbDefaultHandsVisualizer = true;
             bool cbGhostHandsVisualizer = false;
             bool cbLineHandsVisualizer = false;
+            bool cbTeleportInteractors = false;
             bool cbInterfacePointer = false;
 
             void OnGUI()
@@ -254,13 +290,15 @@ namespace Lynx
                     cbLineHandsVisualizer = false;
                 }
 
+                cbTeleportInteractors = EditorGUILayout.Toggle("Teleport interactors", cbTeleportInteractors);
+
                 cbInterfacePointer = EditorGUILayout.Toggle("UI pointer", cbInterfacePointer);
 #endif
 
                 GUILayout.Space(20);
                 if (GUILayout.Button("Add"))
                 {
-                    AddHandtrackingPrefabs(cbDefaultHandsVisualizer, cbGhostHandsVisualizer, cbLineHandsVisualizer, cbInterfacePointer);
+                    AddHandtrackingPrefabs(cbDefaultHandsVisualizer, cbGhostHandsVisualizer, cbLineHandsVisualizer, cbTeleportInteractors, cbInterfacePointer);
                     this.Close();
                 }
 
