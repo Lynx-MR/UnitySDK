@@ -261,8 +261,8 @@ namespace Lynx
         public class HandtrackingAddWindow : EditorWindow
         {
             bool cbHandsVisualizer = true;
-            bool cbDefaultHandsVisualizer = true;
-            bool cbGhostHandsVisualizer = false;
+            bool cbDefaultHandsVisualizer = false;
+            bool cbGhostHandsVisualizer = true;
             bool cbLineHandsVisualizer = false;
             bool cbTeleportInteractors = false;
             bool cbInterfacePointer = false;
