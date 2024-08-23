@@ -18,7 +18,6 @@ namespace Lynx
     public class LynxBuildSettings
     {
         public const string LYNX_CORE_PATH = "Packages/com.lynx.core";
-        public const string LYNX_MODULES_PATH = "Packages/com.lynx.modules";
 
         /// <summary>
         /// Configure project to target Lynx headset.
@@ -77,7 +76,19 @@ namespace Lynx
         /// <returns></returns>
         public static GameObject InstantiateGameObjectByPath(string packagePath, string path, Transform parent)
         {
-            GameObject obj = PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<Object>(Directory.GetFiles(packagePath, path, SearchOption.AllDirectories)[0]), null) as GameObject;
+
+            string[] paths = Directory.GetFiles(packagePath, path, SearchOption.AllDirectories);
+
+            // File does not exists (probably due to missing required dependencies)
+            if(paths.Length == 0)
+                return null;
+            
+
+            GameObject obj;
+            if(packagePath == Application.dataPath)
+                obj = PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<Object>("Assets" + paths[0].Substring(Application.dataPath.Length)), null) as GameObject;
+            else
+                obj = PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<Object>(paths[0]), null) as GameObject;
             obj.transform.SetParent(parent);
             obj.transform.localPosition = Vector3.zero;
 

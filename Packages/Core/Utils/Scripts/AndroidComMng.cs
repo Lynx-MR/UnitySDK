@@ -133,7 +133,7 @@ namespace Lynx
         {
             // Volume sent varies from 0 to 15. 
             //Debug.Log("------------------- VolumeChange(string volume) received in OSComMng = " + volume);
-            int iVolume = 0;
+            int iVolume;
             int.TryParse(volume, out iVolume);
             OnAudioVolumeChange?.Invoke(iVolume);
         }
@@ -141,7 +141,7 @@ namespace Lynx
         {
             // Battery level varies from 0 to 100. it's a percentage 
             //Debug.Log("------------------- BatteryLevelChange(string batteryLevel) received in OSComMng = " + batteryLevel);
-            int iBatteryLevel = 0;
+            int iBatteryLevel;
             int.TryParse(batteryLevel, out iBatteryLevel);
             OnABatteryLevelChange?.Invoke(iBatteryLevel);
         }
@@ -246,12 +246,6 @@ namespace Lynx
             // and most of the actions linked to this messages changes UI and neead to be execute in 
             // the Unity Main Thread. So we need to call it from a particular object that executes it 
             // in the Unity Main Thread :
-
-            if (ActionsInUnityMainThread.actionsInUnityMainThread == null) // Prevent at the beginning a battery massage that comes too soon...
-            {
-                return;
-            }
-
             switch (messageType)
             {
                 case "BatteryLevelChange":

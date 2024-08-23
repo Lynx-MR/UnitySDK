@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "com.lynx.core": "file:../../Packages/Core",
-    "com.lynx.modules": "file:../../Packages/Modules",
     "com.unity.feature.development": "1.0.1",
     "com.unity.ide.rider": "3.0.21",
     "com.unity.ide.visualstudio": "2.0.18",
@@ -12,7 +11,8 @@
     "com.unity.toolchain.win-x86_64-linux-x86_64": "2.0.6",
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.8.0",
-    "com.unity.xr.openxr": "1.7.0",
+    "com.unity.xr.interaction.toolkit": "3.0.4",
+    "com.unity.xr.openxr": "1.9.1",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",

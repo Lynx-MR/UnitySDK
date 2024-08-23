@@ -1,6 +1,6 @@
 {
   "name": "com.lynx.core",
-  "version": "1.1.5",
+  "version": "1.2.0",
   "displayName": "Lynx Core",
   "description": "Support Lynx-R1",
   "unity": "2021.3",
@@ -10,7 +10,8 @@
   "dependencies": {
     "com.unity.xr.openxr": "1.9.1",
 	"com.unity.textmeshpro": "3.0.6",
-	"com.unity.xr.interaction.toolkit": "2.5.4"
+	"com.unity.xr.interaction.toolkit": "3.0.4",
+    "com.unity.xr.hands": "1.4.1"
   },
   "keywords": [
     "lynx",
@@ -28,6 +29,16 @@
       "displayName": "Basic",
       "description": "",
       "path": "Samples~/Basic"
+    },
+    {
+      "displayName": "Handtracking",
+      "description": "",
+      "path": "Samples~/Handtracking"
+    },
+    {
+      "displayName": "Lynx UI",
+      "description": "",
+      "path": "Samples~/Lynx UI"
     }
   ]
 }
