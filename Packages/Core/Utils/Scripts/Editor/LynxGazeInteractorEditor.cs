@@ -27,6 +27,12 @@ namespace Lynx
 
             // Add Gaze Interactor
             GameObject gazeInteractor = LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, STR_GazeInteractor, parent);
+            if(!gazeInteractor)
+            {
+                Debug.LogError($"Failed to load {STR_GazeInteractor}.  Missing sample: XR Interaction Toolkit - Starter Assets");
+                return;
+            }
+            
             Debug.Log($"Gaze Interactor added under {parent.name}");
 
             // Update scene state
