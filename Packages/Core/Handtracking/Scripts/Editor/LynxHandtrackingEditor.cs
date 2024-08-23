@@ -230,6 +230,8 @@ namespace Lynx
 
                     teleportationProvider.AddComponent<TeleportationProvider>().mediator = teleportationProvider.AddComponent<LocomotionMediator>();
                     Debug.Log("Teleportation provider was missing and added to the scene.");
+
+                    Undo.RegisterCreatedObjectUndo(teleportationProvider, "Teleportation provider");
                 }
             }
 
