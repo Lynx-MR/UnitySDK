@@ -262,6 +262,19 @@ namespace Lynx.UI
             return m_isToggled;
         }
 
+        /// <summary>
+        /// Set state for toggle.
+        /// </summary>
+        /// <param name="toggle">True, to check the toggle. False, to uncheck the toggle.</param>
+        public void SetToggle(bool toggle)
+        {
+            if(toggle != m_isToggled)
+            {
+                m_isToggled = toggle;
+                OnToggle.Invoke();
+            }
+        }
+
         #endregion
 
         #region THEME MANAGING
