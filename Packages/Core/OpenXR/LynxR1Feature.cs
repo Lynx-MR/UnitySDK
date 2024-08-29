@@ -61,7 +61,7 @@ namespace Lynx.OpenXR
         public string VisibleInFullARTag = "FullARObject";
         [SerializeField]
         [Tooltip("Toggle to enable unpremultiplied alpha for achieving overlay transparency effects, like those used in a smoke effect")]
-        private bool m_unpremultipliedAlphaFlag = false;
+        private bool m_unpremultipliedAlphaFlag = true;
         #endregion
 
         #region VARIABLES
