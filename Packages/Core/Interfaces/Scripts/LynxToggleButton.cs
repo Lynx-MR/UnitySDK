@@ -14,7 +14,7 @@ using UnityEngine.UI;
 
 namespace Lynx.UI
 {
-    public class LynxToggleButton : Button
+    public class LynxToggleButton : Button, IPointerUpHandler, IPointerDownHandler, IDragHandler, IBeginDragHandler, IEndDragHandler, IInitializePotentialDragHandler
     {
         #region INSPECTOR VARIABLES
 
@@ -40,6 +40,8 @@ namespace Lynx.UI
         private bool m_isCurrentlyPressed = false; // Status of the current object.
         private bool m_isToggled = false; // Status of the button.
         private bool m_isInteractable = true; // Starting interactable status.
+
+        private ScrollRect scrollRect = null;
 
         #endregion
 
@@ -205,6 +207,30 @@ namespace Lynx.UI
                 }
                 m_secondaryTargetGraphic[i].CrossFadeColor(tintColor, instant ? 0f : colors.fadeDuration, true, true);
             }
+        }
+
+        public void OnInitializePotentialDrag(PointerEventData eventData)
+        {
+            if (scrollRect == null)
+                scrollRect = this.gameObject.GetComponentInParent<ScrollRect>();
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if(scrollRect != null)
+                scrollRect.OnBeginDrag(eventData);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (scrollRect != null)
+                scrollRect.OnDrag(eventData);
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (scrollRect != null)
+                scrollRect.OnEndDrag(eventData);
         }
 
         #endregion

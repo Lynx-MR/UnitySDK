@@ -14,7 +14,7 @@ using UnityEngine.UI;
 
 namespace Lynx.UI
 {
-    public class LynxSimpleButton : Button
+    public class LynxSimpleButton : Button, IPointerUpHandler, IPointerDownHandler, IDragHandler, IBeginDragHandler, IEndDragHandler, IInitializePotentialDragHandler
     {
         #region INSPECTOR VARIABLES
         
@@ -37,6 +37,8 @@ namespace Lynx.UI
         private bool m_isRunning = false; // Avoid multiple press or unpress making the object in unstable state.
         private bool m_isCurrentlyPressed = false; // Status of the current object.
         private bool m_isInteractable = true; // Starting interactable status.
+
+        private ScrollRect scrollRect = null;
 
         #endregion
 
@@ -191,6 +193,30 @@ namespace Lynx.UI
                     Debug.LogWarning($"Secondary target graphic of {this.gameObject.name} Element {i} is null.", this.gameObject);
                 }
             }
+        }
+
+        public void OnInitializePotentialDrag(PointerEventData eventData)
+        {
+            if (scrollRect == null)
+                scrollRect = this.gameObject.GetComponentInParent<ScrollRect>();
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if (scrollRect != null)
+                scrollRect.OnBeginDrag(eventData);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (scrollRect != null)
+                scrollRect.OnDrag(eventData);
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (scrollRect != null)
+                scrollRect.OnEndDrag(eventData);
         }
 
         #endregion
