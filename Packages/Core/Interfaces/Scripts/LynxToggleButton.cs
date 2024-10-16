@@ -235,18 +235,18 @@ namespace Lynx.UI
         /// <summary>
         /// CallbackStopRunning is called when a button animation coroutine is complete.
         /// </summary>
-        /// <param name="state">True to call OnUnpress, false to call OnPress.</param>
+        /// <param name="state">True to call OnPress, false to call OnUnpress.</param>
         private void CallbackStopRunning(bool state)
         {
             m_isRunning = false;
 
             if (state)
             {
-                OnUnpress.Invoke();
+                OnPress.Invoke();
             }
             else
             {
-                OnPress.Invoke();
+                OnUnpress.Invoke();
             }
         }
 
