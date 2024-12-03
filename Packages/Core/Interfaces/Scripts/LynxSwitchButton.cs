@@ -14,7 +14,7 @@ using UnityEngine.UI;
 
 namespace Lynx.UI
 {
-    public class LynxSwitchButton : Button
+    public class LynxSwitchButton : Button, IPointerUpHandler, IPointerDownHandler, IDragHandler, IBeginDragHandler, IEndDragHandler, IInitializePotentialDragHandler
     {
         #region INSPECTOR VARIABLES
 
@@ -47,6 +47,8 @@ namespace Lynx.UI
 
         private Vector3 offHandlePosition;
         private Vector3 onHandlePosition;
+
+        private ScrollRect scrollRect = null;
 
         #endregion
 
@@ -220,7 +222,31 @@ namespace Lynx.UI
                 m_secondaryTargetGraphic[i].CrossFadeColor(tintColor, instant ? 0f : colors.fadeDuration, true, true);
             }
         }
-        
+
+        public void OnInitializePotentialDrag(PointerEventData eventData)
+        {
+            if(scrollRect == null)
+                scrollRect = this.gameObject.GetComponentInParent<ScrollRect>();
+        }
+
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+            if (scrollRect != null)
+                scrollRect.OnBeginDrag(eventData);
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+            if (scrollRect != null)
+                scrollRect.OnDrag(eventData);
+        }
+
+        public void OnEndDrag(PointerEventData eventData)
+        {
+            if (scrollRect != null)
+                scrollRect.OnEndDrag(eventData);
+        }
+
         #endregion
 
         #region PRIVATE METHODS
@@ -249,18 +275,18 @@ namespace Lynx.UI
         /// <summary>
         /// CallbackStopRunning is called when a button animation coroutine is complete.
         /// </summary>
-        /// <param name="state">True to call OnUnpress, false to call OnPress.</param>
+        /// <param name="state">True to call OnPress, false to call OnUnpress.</param>
         private void CallbackStopRunning(bool state)
         {
             m_isRunning = false;
 
             if (state)
             {
-                OnUnpress.Invoke();
+                OnPress.Invoke();
             }
             else
             {
-                OnPress.Invoke();
+                OnUnpress.Invoke();
             }
         }
 
@@ -384,6 +410,7 @@ namespace Lynx.UI
         {
             return m_useTheme;
         }
+
 
         #endregion
     }
