@@ -20,7 +20,6 @@ namespace Lynx.UI
     {
         private const float DelayReset = 0.1f;
         
-        
         private bool selectionIsValid = false;
         private bool firstFrameSelect = true;
         private float unselectDelay = 0.1f;

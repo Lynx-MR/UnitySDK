@@ -24,7 +24,7 @@ namespace Lynx.UI
             set { }
         }
 
-        [SerializeField] protected float HandleGrabSize = 0.05f;
+        [SerializeField] protected float HandleGrabSize = 0.03f;
         [SerializeField] public bool MakeHandleMesh = true;
         [SerializeField] protected Material handleMaterial;
 
@@ -32,10 +32,23 @@ namespace Lynx.UI
         [SerializeField] public Color handleGrabbedColor = Color.cyan;
 
         [SerializeField] public bool followObjectAtStart = true;
+        [SerializeField] public bool stopFollowOnGrab = true;
         [SerializeField] public Transform objectToFollow;
         [SerializeField] public Vector3 PosOffset;
         [SerializeField] public Vector3 RotOffset;
         [SerializeField] public float followDistanceThreshold = 0.5f;
+
+        [SerializeField] private float _SelectExtendeDistance = 0;
+        public float SelectExtendeDistance
+        {
+            get { return _SelectExtendeDistance; }
+            set
+            {
+                _SelectExtendeDistance = value;
+                if (XRGrab != null)
+                    XRGrab.SelectExtendeDistance = value;
+            }
+        }
 
 
         private bool _shouldFollow;
@@ -48,7 +61,6 @@ namespace Lynx.UI
             get { return _shouldFollow; }
             set
             {
-                Debug.Log(value);
                 if (value && value != _shouldFollow)
                 {
                     _shouldFollow = value;
@@ -67,13 +79,12 @@ namespace Lynx.UI
         protected GameObject panelParent;
         protected GameObject[] handles = new GameObject[4];
 
-        protected XRGrabInteractable XRGrab;
+        protected InterfaceGrabController XRGrab;
         protected Rigidbody Rb;
 
         protected MeshRenderer mr;
         private MeshFilter mf;
 
-        private bool isGrabbed = false;
         private bool isLerpinToTarget = false;
 
         #endregion
@@ -91,22 +102,10 @@ namespace Lynx.UI
             _Panel.transform.SetParent(panelParent.transform);
 
             //Setup XRGrabInteractable on panel parent
-            XRGrab = panelParent.gameObject.AddComponent<LynxFineGrabInteractable>();
-            XRGrab.movementType = XRBaseInteractable.MovementType.VelocityTracking;
-            XRGrab.useDynamicAttach = true;
-            XRGrab.trackScale = false;
-            XRGrab.selectMode = InteractableSelectMode.Multiple;
-            XRGrab.snapToColliderVolume = false;
+            XRGrab = panelParent.gameObject.AddComponent<InterfaceGrabController>();
 
             XRGrab.firstSelectEntered.AddListener(PanelGrabbed);
             XRGrab.lastSelectExited.AddListener(PanelDroped);
-
-            //Setup Rigidbody on panel parent
-            Rb = panelParent.GetComponent<Rigidbody>();
-            Rb.useGravity = false;
-            Rb.isKinematic = true;
-            Rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-
 
             if (MakeHandleMesh)
             {
@@ -120,6 +119,7 @@ namespace Lynx.UI
             }
 
             shouldFollow = followObjectAtStart;
+            XRGrab.SelectExtendeDistance = _SelectExtendeDistance;
 
         }
 
@@ -193,9 +193,7 @@ namespace Lynx.UI
         /// <param name="arg"></param>
         private void PanelGrabbed(SelectEnterEventArgs arg)
         {
-            isGrabbed = true;
             shouldFollow = false;
-            StartCoroutine(PanelRotationLock());
             mr.material.SetColor("_Color", handleGrabbedColor);
         }
 
@@ -205,7 +203,6 @@ namespace Lynx.UI
         /// <param name="arg"></param>
         private void PanelDroped(SelectExitEventArgs arg)
         {
-            isGrabbed = false;
             mr.material.SetColor("_Color", handleColor);
         }
 
@@ -317,21 +314,6 @@ namespace Lynx.UI
         #endregion
 
         #region COROUTINE
-        /// <summary>
-        /// Lock Panel X & Z axis while grabbed to prevent rigidbody force leak
-        /// </summary>
-        /// <returns></returns>
-        IEnumerator PanelRotationLock()
-        {
-            yield return new WaitForFixedUpdate();
-            while (isGrabbed)
-            {
-                Vector3 eulerAngle = panelParent.transform.rotation.eulerAngles;
-                eulerAngle.Scale(Vector3.up);
-                panelParent.transform.rotation = Quaternion.Euler(eulerAngle);
-                yield return new WaitForFixedUpdate();
-            }
-        }
 
         /// <summary>
         /// Set shader property for left and right index & thumbs world space position

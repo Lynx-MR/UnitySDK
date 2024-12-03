@@ -13,6 +13,7 @@ namespace Lynx.UI
         protected bool AdvancedSetttings = false;
         protected bool ShowOffsetTransform = false;
         protected bool ShowSCIParameters = false;
+
         public override void OnInspectorGUI()
         {
 
@@ -20,7 +21,6 @@ namespace Lynx.UI
             LynxUIGrabPositioner grb = (LynxUIGrabPositioner)target;
 
             serializedObject.Update();
-
 
             EditorGUILayout.PropertyField(serializedObject.FindProperty("_Panel"), false);
             if (grb.followObjectAtStart)
@@ -58,12 +58,16 @@ namespace Lynx.UI
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("handleGrabbedColor"), false);
                 }
 
+                EditorGUILayout.Separator();
                 EditorGUILayout.PropertyField(serializedObject.FindProperty("followObjectAtStart"), false);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("stopFollowOnGrab"), false);
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("_SelectExtendeDistance"), false);
 
 
             }
             if (serializedObject.ApplyModifiedProperties())
             {
+
             }
         }
     }
