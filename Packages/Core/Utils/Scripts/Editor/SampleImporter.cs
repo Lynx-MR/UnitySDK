@@ -42,6 +42,14 @@ namespace Lynx
 
         }
 
+        [MenuItem("Lynx/Import Samples/Import all samples", false, 148)]
+        public static void ImportAllSamples()
+        {
+            ImportPackage(STARTER_ASSETS_PATH.Item1, STARTER_ASSETS_PATH.Item2);
+            ImportPackage(HAND_INTERACTIONS_ASSETS_PATH.Item1, HAND_INTERACTIONS_ASSETS_PATH.Item2);
+            ImportPackage(HAND_VISUALIZER_ASSETS_PATH.Item1, HAND_VISUALIZER_ASSETS_PATH.Item2);
+        }
+
         [MenuItem("Lynx/Import Samples/XRI - Starter Assets (required)", false, 150)]
         public static void ImportStarterAssets()
         {
@@ -59,5 +67,6 @@ namespace Lynx
         {
             ImportPackage(HAND_VISUALIZER_ASSETS_PATH.Item1, HAND_VISUALIZER_ASSETS_PATH.Item2);
         }
+
     }
 }

@@ -24,22 +24,22 @@ namespace Lynx.UI
 
         public void EnableOnAllObject(bool enable = true)
         {
-            foreach (LynxImage elt in FindObjectsByType<LynxImage>(FindObjectsSortMode.None))
+            foreach (LynxImage elt in FindObjectsByType<LynxImage>(FindObjectsInactive.Include ,FindObjectsSortMode.None))
                 elt.SetUseTheme(enable);
 
-            foreach (LynxSimpleButton elt in FindObjectsByType<LynxSimpleButton>(FindObjectsSortMode.None))
+            foreach (LynxSimpleButton elt in FindObjectsByType<LynxSimpleButton>(FindObjectsInactive.Include, FindObjectsSortMode.None))
                 elt.SetUseTheme(enable);
 
-            foreach (LynxSlider elt in FindObjectsByType<LynxSlider>(FindObjectsSortMode.None))
+            foreach (LynxSlider elt in FindObjectsByType<LynxSlider>(FindObjectsInactive.Include, FindObjectsSortMode.None))
                 elt.SetUseTheme(enable);
 
-            foreach (LynxSwitchButton elt in FindObjectsByType<LynxSwitchButton>(FindObjectsSortMode.None))
+            foreach (LynxSwitchButton elt in FindObjectsByType<LynxSwitchButton>(FindObjectsInactive.Include, FindObjectsSortMode.None))
                 elt.SetUseTheme(enable);
 
-            foreach (LynxTimerButton elt in FindObjectsByType<LynxTimerButton>(FindObjectsSortMode.None))
+            foreach (LynxTimerButton elt in FindObjectsByType<LynxTimerButton>(FindObjectsInactive.Include, FindObjectsSortMode.None))
                 elt.SetUseTheme(enable);
 
-            foreach (LynxToggleButton elt in FindObjectsByType<LynxToggleButton>(FindObjectsSortMode.None))
+            foreach (LynxToggleButton elt in FindObjectsByType<LynxToggleButton>(FindObjectsInactive.Include, FindObjectsSortMode.None))
                 elt.SetUseTheme(enable);
 
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());

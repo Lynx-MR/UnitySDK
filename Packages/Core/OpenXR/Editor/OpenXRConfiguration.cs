@@ -33,7 +33,7 @@ namespace Lynx.OpenXR
             Rect r = window.position;
             r.position = new Vector2(150.0f, 150.0f);
             r.width = 400.0f;
-            r.height = 400.0f;
+            r.height = 420.0f;
             window.position = r;
         }
         #endregion
@@ -143,6 +143,9 @@ namespace Lynx.OpenXR
         /// </summary>
         public class ConfigurationWindow : EditorWindow
         {
+            bool StarterAssets = false;
+            bool HandInteractionDemo = false;
+            bool HandVisualizer = false;
             void OnGUI()
             {
                 GUILayout.Space(20);
@@ -168,10 +171,31 @@ namespace Lynx.OpenXR
 #endif
 
                 GUILayout.Space(10);
+                GUILayout.Label("- Import samples dependency : ");
+                GUILayout.BeginHorizontal();
+                GUILayout.Space(45);
+                StarterAssets = GUILayout.Toggle(StarterAssets, " XRI - Starter Assets");
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                GUILayout.Space(45);
+                HandInteractionDemo = GUILayout.Toggle(HandInteractionDemo, " XRI - Hand Interaction Demo");
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                GUILayout.Space(45);
+                HandVisualizer = GUILayout.Toggle(HandVisualizer, " XR Hands - Hand Visualizer");
+                GUILayout.EndHorizontal();
+
+                GUILayout.Space(20);
                 if (GUILayout.Button("Validate"))
                 {
                     Debug.Log("Configuring project...");
                     ConfigureProjectSettings();
+                    if (StarterAssets)
+                        SampleImporter.ImportStarterAssets();
+                    if (HandInteractionDemo)
+                        SampleImporter.ImportHandsInteractionDemo();
+                    if (HandVisualizer)
+                        SampleImporter.ImportHandVizualiser();
                     this.Close();
                 }
 

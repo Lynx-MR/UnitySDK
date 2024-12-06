@@ -133,6 +133,8 @@ namespace Lynx
                 // Create pinch point for far interactor
                 pinchPoint = new GameObject(pinchPointName).transform;
                 pinchPoint.parent = handObj.transform;
+                pinchPoint.transform.localPosition = Vector3.zero;
+                pinchPoint.transform.localRotation = Quaternion.identity;
 
                 TrackedPoseDriver pinchPose = pinchPoint.gameObject.AddComponent<TrackedPoseDriver>();
                 pinchPose.positionInput = new InputActionProperty(InputActionReference.Create(ActionAsset.FindAction($"XRI {handednessStr}/Aim Position")));
@@ -148,6 +150,9 @@ namespace Lynx
                 GameObject nearFarInteractorPrefab = LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, handNearFarInteractor, handObj.transform);
                 if(nearFarInteractorPrefab)
                 {
+                    nearFarInteractorPrefab.transform.localPosition = Vector3.zero;
+                    nearFarInteractorPrefab.transform.localRotation = Quaternion.identity;
+
                     NearFarInteractor nearFarInteractor = nearFarInteractorPrefab.GetComponent<NearFarInteractor>();
 
                     TrackedPoseDriver grabTPD = nearFarInteractor.gameObject.AddComponent<TrackedPoseDriver>();
@@ -182,12 +187,20 @@ namespace Lynx
             // Visualizers
             if (defaultHands)
             {
-                if(LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, handVisualizerPath, handObj) == null)
+                GameObject hand = LynxBuildSettings.InstantiateGameObjectByPath(Application.dataPath, handVisualizerPath, handObj);
+                if (hand == null)
                     Debug.LogError($"Failed to load \"{handVisualizerPath}\". Default hand visualizers requires Unity sample: XR Hands - HandVisualizer");
+                else
+                    hand.transform.localRotation = Quaternion.identity;
+
+
             }
 
             if (ghostHands)
-                LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, ghostHandStr, handObj);
+            {
+                GameObject hand = LynxBuildSettings.InstantiateGameObjectByPath(LynxBuildSettings.LYNX_CORE_PATH, ghostHandStr, handObj);
+                hand.transform.localRotation = Quaternion.identity;
+            }
 
             Undo.RegisterCreatedObjectUndo(handObj.gameObject, handName);
         }
