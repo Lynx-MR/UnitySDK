@@ -7,6 +7,7 @@
  */
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Hands;
@@ -22,7 +23,11 @@ namespace Lynx
         {
             List<XRHandSubsystem> handSusbsytems = new List<XRHandSubsystem>();
             SubsystemManager.GetSubsystems(handSusbsytems);
-            if (handSusbsytems.Count > 0) m_handSubsystem = handSusbsytems[0];
+            if (handSusbsytems.Count > 0)
+            {
+                m_handSubsystem = handSusbsytems[0];
+                EnableUpdate();
+            }
         }
 
         public static bool IsHandSubsystemEnabled => m_handSubsystem != null;
@@ -36,9 +41,6 @@ namespace Lynx
         public static XRHandSubsystem HandSubsystem  {
             get
             {
-                if (m_handSubsystem == null)
-                    EnableUpdate();
-
                 return m_handSubsystem;
             }
         }
