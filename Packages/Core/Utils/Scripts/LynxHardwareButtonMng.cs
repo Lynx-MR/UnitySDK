@@ -30,15 +30,20 @@ namespace Lynx
 
         private void Start()
         {
-            // Use old keycode only for OS < 1.1.8
-            int compareVersionResult = AndroidVersionChecker.CompareVersion("v1.1.8");
-            if (compareVersionResult == 1) // 1.1.8 > OS version --> Old keycode
+            Debug.Log("DeviceModel = " + SystemInfo.deviceModel);
+
+            if (SystemInfo.deviceModel.Contains("Lynx-R1"))
             {
-                LYNX_BUTTON = KeyCode.JoystickButton0;
-                Debug.Log("Use OLD keycode");
+                // Use old keycode only for OS < 1.1.8
+                int compareVersionResult = AndroidVersionChecker.CompareVersion("v1.1.8");
+                if (compareVersionResult == 1) // 1.1.8 > OS version --> Old keycode
+                {
+                    LYNX_BUTTON = KeyCode.JoystickButton0;
+                    Debug.Log("Use OLD keycode");
+                }
+                else // OS version >= 1.1.8 --> New Keycode
+                    Debug.Log("Use NEW keycode");
             }
-            else // OS version >= 1.1.8 --> New Keycode
-                Debug.Log("Use NEW keycode");
         }
 
 
