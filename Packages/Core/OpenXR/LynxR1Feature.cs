@@ -24,7 +24,6 @@ namespace Lynx.OpenXR
 #if UNITY_EDITOR
     [OpenXRFeature(
         BuildTargetGroups = new[] { BuildTargetGroup.Android },
-        CustomRuntimeLoaderBuildTargets = new[] { BuildTarget.Android },
         UiName = "Lynx-R1",
         Company = "Lynx",
         Desc = "OpenXR support for Lynx-R1 headset.",
@@ -77,8 +76,8 @@ namespace Lynx.OpenXR
         // Store list of all hidden object when using AR only
         private List<GameObject> m_hiddenObjects = new List<GameObject>();
 
-        // External library to change the unpremultiplied alpha setting
-        private const string ExtLibXrEndFrame = "LynxXrEndFrame";
+        // External library to change default OpenXR functions behavior 
+        private const string ExtLibLynxOpenXRExtensions = "LynxOpenXRExtensions";
         #endregion
 
         #region PROPERTIES
@@ -139,7 +138,7 @@ namespace Lynx.OpenXR
         protected override IntPtr HookGetInstanceProcAddr(IntPtr func)
         {
             ToggleUnpremultipliedFlag(UnpremultipliedAlphaFlag);
-            return ModifyXrEndFrameProcAddr(func);
+            return ModifyXrGetInstanceProcAddr(func);
         }
 
         /// <summary>
@@ -266,18 +265,18 @@ namespace Lynx.OpenXR
 
         #region ENTRY POINTS
         /// <summary>
-        ///  External method declaration to modify the function pointer of `xrEndFrame` used for the Unpremultiplied Alpha setting.
+        ///  External method declaration to modify OpenXR function pointers (xrEndFrame, xrEnumerateInstanceExtensionProperties, xrCreateInstance, xrLocateHandJointsEXT)
         /// </summary>
         /// <param name="func"></param>
         /// <returns></returns>
-        [DllImport(ExtLibXrEndFrame)]
-        private static extern IntPtr ModifyXrEndFrameProcAddr(IntPtr func);
+        [DllImport(ExtLibLynxOpenXRExtensions)]
+        private static extern IntPtr ModifyXrGetInstanceProcAddr(IntPtr func);
 
         /// <summary>
         /// External method declaration to toggle the state of the flag Unpremultiplied Alpha setting.
         /// </summary>
         /// <param name="isFlagActive">State of the bool m_unpremultipliedAlphaFlag. If TRUE the flag is activated on OpenXR </param>
-        [DllImport(ExtLibXrEndFrame)]
+        [DllImport(ExtLibLynxOpenXRExtensions)]
         private static extern void ToggleUnpremultipliedFlag(bool isFlagActive);
         #endregion
 

@@ -133,18 +133,21 @@ namespace Lynx.OpenXR
                     m_ManifestElement.AppendChild(queriesNode);
                 }
 
-                // Manage manifest > queries > intent 
-                XmlElement queriesIntentNode = SelectSingleNode("/manifest/queries/intent") as XmlElement;
-                if (queriesIntentNode == null)
+                // Manage manifest > queries > intent
+                bool found = false;
+                XmlNodeList intentList = queriesNode.SelectNodes("intent");
+                foreach (XmlNode intent in intentList)
                 {
-                    queriesIntentNode = CreateElement("intent");
-                    queriesNode.AppendChild(queriesIntentNode);
+                    XmlNodeList xmlNodeList = intent.SelectNodes("action");
+                    if ((from XmlNode node in xmlNodeList from XmlAttribute attrib in node.Attributes select attrib).Any(attrib => attrib.LocalName == "name" && attrib.Value == actionName))
+                        found = true;
                 }
 
-                // Manage manifest > queries > intent > action
-                XmlNodeList xmlNodeList = queriesIntentNode.SelectNodes("action");
-                if (!(from XmlNode node in xmlNodeList from XmlAttribute attrib in node.Attributes select attrib).Any(attrib => attrib.LocalName == "name" && attrib.Value == actionName))
+                if (!found)
                 {
+                    XmlElement queriesIntentNode = CreateElement("intent");
+                    queriesNode.AppendChild(queriesIntentNode);
+
                     XmlElement actionElement = CreateElement("action");
                     actionElement.SetAttribute("name", AndroidXmlNamespace, actionName);
                     queriesIntentNode.AppendChild(actionElement);
@@ -163,7 +166,7 @@ namespace Lynx.OpenXR
 
                 // Manage manifest > queries > intent > action
                 XmlNodeList packagesList = queriesNode.SelectNodes("package");
-                if (!(from XmlNode node in queriesNode from XmlAttribute attrib in node.Attributes select attrib).Any(attrib => attrib.LocalName == "name" && attrib.Value == packageName))
+                if (!(from XmlNode node in packagesList from XmlAttribute attrib in node.Attributes select attrib).Any(attrib => attrib.LocalName == "name" && attrib.Value == packageName))
                 {
                     XmlElement actionElement = CreateElement("package");
                     actionElement.SetAttribute("name", AndroidXmlNamespace, packageName);
@@ -173,16 +176,11 @@ namespace Lynx.OpenXR
 
             internal void AddOpenXRMetaData()
             {
-                AddUsesFeature("android.hardware.vr.headtracking", true);
-                AddUsesPermission("org.khronos.openxr.permission.OPENXR");
-
-                AddIntentAction("org.khronos.openxr.OpenXRRuntimeService");
-                AddAndroidPackage("com.ultraleap.tracking.service");
-                AddAndroidPackage("com.ultraleap.openxr.api_layer");
-
                 AddUsesPermission("android.permission.READ_EXTERNAL_STORAGE");
                 AddUsesPermission("android.permission.WRITE_EXTERNAL_STORAGE");
                 AddUsesPermission("android.permission.MANAGE_EXTERNAL_STORAGE");
+                AddUsesPermission("com.qualcomm.qti.qxr.QXRServiceClientPermission");
+
             }
         }
     }
