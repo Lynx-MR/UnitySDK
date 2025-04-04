@@ -1,6 +1,6 @@
 {
   "name": "com.lynx.core",
-  "version": "1.2.1-beta",
+  "version": "1.2.1",
   "displayName": "Lynx Core",
   "description": "Support Lynx-R1",
   "unity": "2021.3",

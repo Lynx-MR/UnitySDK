@@ -5,7 +5,7 @@
       "depth": 0,
       "source": "local",
       "dependencies": {
-        "com.unity.xr.openxr": "1.9.1",
+        "com.unity.xr.openxr": "1.12.1",
         "com.unity.textmeshpro": "3.0.6",
         "com.unity.xr.interaction.toolkit": "3.0.4",
         "com.unity.xr.hands": "1.4.1"
@@ -268,8 +268,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.xr.openxr": {
-      "version": "1.9.1",
-      "depth": 0,
+      "version": "1.12.1",
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.inputsystem": "1.6.3",
