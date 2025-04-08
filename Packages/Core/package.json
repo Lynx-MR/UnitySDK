@@ -3,7 +3,7 @@
   "version": "1.2.1",
   "displayName": "Lynx Core",
   "description": "Support Lynx-R1",
-  "unity": "2021.3",
+  "unity": "6000.0",
   "license": "Apache-2.0",
   "licensesUrl": "https://github.com/Lynx-MR/LynxUnitySDK/blob/master/Packages/Core/LICENSE",
   "changelogUrl": "https://portal.lynx-r.com/documentation/view/changelog",
