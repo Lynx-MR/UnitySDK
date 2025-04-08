@@ -74,13 +74,22 @@ namespace Lynx.OpenXR
             FeatureHelpers.RefreshFeatures(buildTarget);
 
             // Select Hand Interaction Controller Profile
+
+#if UNITY_6000_0_OR_NEWER
+            OpenXRFeature[] features = FeatureHelpers.GetFeaturesWithIdsForBuildTarget(buildTarget, new string[] { HandInteractionProfile.featureId, LynxFeatureSet.xrHandsSubsystemId, LynxFeatureSet.xrHandInteractionPoses});
+#else
             OpenXRFeature[] features = FeatureHelpers.GetFeaturesWithIdsForBuildTarget(buildTarget, new string[] { HandInteractionProfile.featureId, LynxFeatureSet.xrHandsSubsystemId, LynxFeatureSet.xrHandtrackingAim });
-            foreach(OpenXRFeature feature in features)
+#endif
+            foreach (OpenXRFeature feature in features)
             {
+                Debug.Log(feature);
                 if (feature)
                 {
-                    feature.enabled = true;
-                    Debug.Log($"{feature.name} selected.");
+                    if (!feature.name.Contains("Microsoft"))
+                    {
+                        feature.enabled = true;
+                        Debug.Log($"{feature.name} selected.");
+                    }
                 }
             }
             
@@ -92,7 +101,7 @@ namespace Lynx.OpenXR
             {
                 lynxFeatureSet.isEnabled = true;
                 //lynxFeatureSet.requiredFeatureIds = new string[] { LynxR1Feature.featureId, LynxFeatureSet.xrHandsSubsystemId, LynxFeatureSet.xrHandtrackingAim };
-                //lynxFeatureSet.featureIds = new string[] { LynxR1Feature.featureId, LynxFeatureSet.xrHandsSubsystemId, LynxFeatureSet.xrHandtrackingAim };
+                lynxFeatureSet.featureIds = new string[] { LynxR1Feature.featureId, LynxFeatureSet.xrHandsSubsystemId, LynxFeatureSet.xrHandtrackingAim };
                 Debug.Log($"{lynxFeatureSet.name} enabled.");
             }
             OpenXRFeatureSetManager.SetFeaturesFromEnabledFeatureSets(buildTarget);
@@ -119,7 +128,7 @@ namespace Lynx.OpenXR
         }
 #endif
 
-        public static void ConfigureProjectSettings()
+            public static void ConfigureProjectSettings()
         {
 
             // Manage Android part
@@ -146,6 +155,16 @@ namespace Lynx.OpenXR
             void OnGUI()
             {
                 GUILayout.Space(20);
+
+#if UNITY_6000_0_OR_NEWER
+                GUILayout.Label("This will automatically configure your project:\n\n" +
+                    "- Target Android platform\n" +
+                    "\to Android 12 (API Level 32)\n" +
+                    "\to ARM64\n" +
+                    "\to Enable Multithreaded Rendering\n" +
+                    "\to Set Landscape left\n", EditorStyles.label);
+#else
+
                 GUILayout.Label("This will automatically configure your project:\n\n" +
                     "- Target Android platform\n" +
                     "\to Android 10 (API Level 29)\n" +
@@ -153,16 +172,27 @@ namespace Lynx.OpenXR
                     "\to Enable Multithreaded Rendering\n" +
                     "\to Use OpenGLES graphic API\n" +
                     "\to Set Landscape left\n", EditorStyles.label);
+#endif
 
 
                 GUILayout.Space(10);
 #if LYNX_OPENXR
+
+#if UNITY_6000_0_OR_NEWER
+                GUILayout.Label("- Configure OpenXR for Android:\n" +
+                    "\to Select OpenXR in XR Plugin Management\n" +
+                    "\to Use Hand Interaction Profile\n" +
+                    "\to Select Hand Tracking Subsystem provider\n" +
+                    "\to Select Hand Interaction Poses\n" +
+                    "\to Select Lynx-R1 provider\n", EditorStyles.label);
+#else
                 GUILayout.Label("- Configure OpenXR for Android:\n" +
                     "\to Select OpenXR in XR Plugin Management\n" +
                     "\to Use Hand Interaction Profile\n" +
                     "\to Select Hand Tracking Subsystem provider\n" +
                     "\to Select Meta Hand Tracking Aim provider\n" +
                     "\to Select Lynx-R1 provider\n", EditorStyles.label);
+#endif
 #else
                 GUILayout.Label("Cannot configure OpenXR automatically.\nOpenXR is missing.\n", EditorStyles.label);
 #endif
