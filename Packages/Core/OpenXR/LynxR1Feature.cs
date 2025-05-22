@@ -28,7 +28,8 @@ namespace Lynx.OpenXR
         Company = "Lynx",
         Desc = "OpenXR support for Lynx-R1 headset.",
         DocumentationLink = "",
-        Version = "1.2.0",
+        OpenxrExtensionStrings = "",
+        Version = "1.2.2",
         FeatureId = featureId
     )]
 #endif
