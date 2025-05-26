@@ -4,7 +4,8 @@
     "references": [
         "Unity.TextMeshPro",
         "Unity.XR.OpenXR",
-        "Unity.XR.CoreUtils"
+        "Unity.XR.CoreUtils",
+        "Unity.RenderPipelines.Universal.Runtime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
@@ -23,6 +24,11 @@
             "name": "com.unity.xr.interaction.toolkit",
             "expression": "2.4.0",
             "define": "LYNX_XRI"
+        },
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "12.0.0",
+            "define": "LYNX_URP"
         }
     ],
     "noEngineReferences": false

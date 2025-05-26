@@ -45,7 +45,11 @@ namespace Lynx
         {
             if (xrOrigin == null)
             {
+#if UNITY_6000_0_OR_NEWER
+                xrOrigin = FindAnyObjectByType<XROrigin>();
+#else
                 xrOrigin = FindObjectOfType<XROrigin>();
+#endif
             }
         }
 

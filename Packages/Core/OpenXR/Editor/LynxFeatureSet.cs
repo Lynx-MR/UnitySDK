@@ -23,9 +23,14 @@ namespace Lynx.OpenXR
         },
         FeatureIds = new string[]
         {
+
             LynxR1Feature.featureId,
             xrHandsSubsystemId,
+#if UNITY_6000_0_OR_NEWER
+            xrHandInteractionPoses
+#else
             xrHandtrackingAim
+#endif
         },
         UiName = "Lynx",
         Description = "Feature set that allows for setting up the best environment for My Company's hardware.",
@@ -38,5 +43,6 @@ namespace Lynx.OpenXR
         public const string featureId = "com.lynx.openxr.featureset";
         public const string xrHandsSubsystemId = "com.unity.openxr.feature.input.handtracking";
         public const string xrHandtrackingAim = "com.unity.openxr.feature.input.metahandtrackingaim";
+        public const string xrHandInteractionPoses = "com.unity.openxr.feature.input.handinteractionposes";
     }
 }

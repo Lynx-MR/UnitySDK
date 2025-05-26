@@ -36,7 +36,11 @@ namespace Lynx.UI
 
         public virtual void CheckLynxThemeManagerInstance()
         {
+#if UNITY_6000_0_OR_NEWER
+            FindAnyObjectByType<LynxThemeManager>()?.SetupSingleton();
+#else
             FindObjectOfType<LynxThemeManager>()?.SetupSingleton();
+#endif
         }
 
     }

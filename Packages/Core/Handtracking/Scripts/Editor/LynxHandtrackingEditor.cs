@@ -95,8 +95,12 @@ namespace Lynx
                 handednessStr = "Right";
                 eHandedness = InteractorHandedness.Right;
             }
-            
+
+#if UNITY_6000_0_OR_NEWER
+            string handVisualizerPath = $"{handednessStr} Hand Tracking.prefab";
+#else
             string handVisualizerPath = $"{handednessStr} Hand Interaction Visual.prefab";
+#endif
             string handNearFarInteractor = $"{handednessStr}_NearFarInteractor.prefab";
             string ghostHandStr = $"Lynx {handednessStr} Hand Visualizer.prefab";
             const string pinchPointName = "Pinch point";

@@ -89,7 +89,11 @@ namespace Lynx.UI
 
         private void OnValidate()
         {
+#if UNITY_6000_0_OR_NEWER
+            if (Instance == null || FindAnyObjectByType<LynxThemeManager>() == null) SetupSingleton();
+#else
             if (Instance == null || FindObjectOfType<LynxThemeManager>() == null) SetupSingleton();
+#endif
             if(ThemeSets == null)
                 m_CurrentIndex = 0;
             else if (ThemeSets.Count == 0)
@@ -120,7 +124,12 @@ namespace Lynx.UI
 
         public void SetupSingleton()
         {
+#if UNITY_6000_0_OR_NEWER
+            if (Instance != null && Instance != this && FindAnyObjectByType<LynxThemeManager>() != null && FindObjectsByType<LynxThemeManager>(FindObjectsSortMode.None).Length > 1)
+#else
             if (Instance != null && Instance != this && FindObjectOfType<LynxThemeManager>() != null && FindObjectsOfType<LynxThemeManager>().Length > 1)
+#endif
+
             {
                 Debug.LogWarning("Theme Manager already exist in current scene.");
                 DestroyImmediate(this);
@@ -132,7 +141,12 @@ namespace Lynx.UI
         public static void CheckLynxThemeManagerInstance()
         {
             if (Instance != null) return;
+
+#if UNITY_6000_0_OR_NEWER
+            FindAnyObjectByType<LynxThemeManager>()?.SetupSingleton();
+#else
             FindObjectOfType<LynxThemeManager>()?.SetupSingleton();
+#endif
         }
 
         public void UpdateAllLynxUIElements()
@@ -158,7 +172,12 @@ namespace Lynx.UI
 
         public void UpdateLynxThemedComponents()
         {
+#if UNITY_6000_0_OR_NEWER
+            LynxThemed[] list = FindObjectsByType<LynxThemed>(FindObjectsSortMode.None) as LynxThemed[];
+#else
             LynxThemed[] list = FindObjectsOfType(typeof(LynxThemed)) as LynxThemed[];
+#endif
+
             foreach (LynxThemed lynxThemeComponent in list)
             {
                 lynxThemeComponent.UpdateLynxThemedColorsList();

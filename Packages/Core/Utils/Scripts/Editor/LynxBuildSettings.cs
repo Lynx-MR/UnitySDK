@@ -20,10 +20,10 @@ namespace Lynx
         public const string LYNX_CORE_PATH = "Packages/com.lynx.core";
 
         /// <summary>
-        /// Configure project to target Lynx headset.
+        /// Configure project to target Lynx headset before Unity 6
         /// </summary>
         public static void SetupAndroidBuild()
-        {   
+        {
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
             EditorUserBuildSettings.selectedBuildTargetGroup = BuildTargetGroup.Android;
             EditorUserBuildSettings.selectedStandaloneTarget = BuildTarget.Android;
@@ -31,12 +31,22 @@ namespace Lynx
             PlayerSettings.defaultInterfaceOrientation = UIOrientation.LandscapeLeft;
             PlayerSettings.SetGraphicsAPIs(BuildTarget.Android, new UnityEngine.Rendering.GraphicsDeviceType[] { UnityEngine.Rendering.GraphicsDeviceType.OpenGLES3 });
             PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.Android, false);
+
             PlayerSettings.MTRendering = true;
+
+#if UNITY_6000_0_OR_NEWER
+            PlayerSettings.SetMobileMTRendering(UnityEditor.Build.NamedBuildTarget.Android, true);
+            PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel32;
+            PlayerSettings.Android.targetSdkVersion = AndroidSdkVersions.AndroidApiLevel32;
+
+#else
             PlayerSettings.SetMobileMTRendering(BuildTargetGroup.Android, true);
             PlayerSettings.Android.minSdkVersion = AndroidSdkVersions.AndroidApiLevel29;
             PlayerSettings.Android.targetSdkVersion = AndroidSdkVersions.AndroidApiLevel29;
             PlayerSettings.SetScriptingBackend(BuildTargetGroup.Android, ScriptingImplementation.IL2CPP);
             PlayerSettings.Android.targetArchitectures = AndroidArchitecture.ARM64;
+#endif
+
             PlayerSettings.colorSpace = ColorSpace.Linear;
 
             if (PlayerSettings.Android.disableDepthAndStencilBuffers)

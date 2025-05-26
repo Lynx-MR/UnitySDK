@@ -16,6 +16,11 @@ using System.Runtime.InteropServices;
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.XR.OpenXR.Features;
+
+#if LYNX_URP
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
+#endif
 #endif
 
 
@@ -28,7 +33,8 @@ namespace Lynx.OpenXR
         Company = "Lynx",
         Desc = "OpenXR support for Lynx-R1 headset.",
         DocumentationLink = "",
-        Version = "1.2.0",
+        OpenxrExtensionStrings = "",
+        Version = "1.2.2",
         FeatureId = featureId
     )]
 #endif
@@ -129,6 +135,38 @@ namespace Lynx.OpenXR
                 SetEnvironmentBlendMode(XrEnvironmentBlendMode.Opaque);
             }
         }
+
+#if UNITY_EDITOR && LYNX_URP
+        protected override void GetValidationChecks(List<ValidationRule> rules, BuildTargetGroup targetGroup)
+        {
+            rules.Add(new ValidationRule(this)
+            {
+                message = "Your project is configured for HDR.\nUncheck HDR to have passthrough works properly.",
+                checkPredicate = () =>
+                {
+                    bool res = true;
+                    if (GraphicsSettings.defaultRenderPipeline != null)
+                    {
+                        UniversalRenderPipelineAsset urpAsset = GraphicsSettings.defaultRenderPipeline as UniversalRenderPipelineAsset;
+                        res = (urpAsset == null || !urpAsset.supportsHDR);
+                    }
+
+                    return res;
+                },
+                error = false,
+                errorEnteringPlaymode = true,
+                fixIt = () =>
+                {
+                    if (GraphicsSettings.defaultRenderPipeline != null)
+                    {
+                        UniversalRenderPipelineAsset urpAsset = GraphicsSettings.defaultRenderPipeline as UniversalRenderPipelineAsset;
+                        if(urpAsset != null)
+                            urpAsset.supportsHDR = false;
+                    }
+                }
+            });
+        }
+#endif
 
         /// <summary>
         /// Used to intercept the function XrEndFrame to change the flag Unpremultiplied Alpha.
