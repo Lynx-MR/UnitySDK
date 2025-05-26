@@ -82,7 +82,6 @@ namespace Lynx.OpenXR
 #endif
             foreach (OpenXRFeature feature in features)
             {
-                Debug.Log(feature);
                 if (feature)
                 {
                     if (!feature.name.Contains("Microsoft"))
