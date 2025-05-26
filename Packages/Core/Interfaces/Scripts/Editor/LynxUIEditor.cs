@@ -53,7 +53,11 @@ namespace Lynx.UI
         [MenuItem("GameObject/Lynx/UI/Canvas", false, 211)]
         public static void AddHandtrackingCanvas()
         {
+#if UNITY_6000_0_OR_NEWER
+            if (GameObject.FindAnyObjectByType<EventSystem>() == null)
+#else
             if (GameObject.FindObjectOfType<EventSystem>() == null)
+#endif
                 InstantiateEventSystem();
 
             InstantiateCanvas();
