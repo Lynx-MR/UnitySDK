@@ -26,6 +26,8 @@ namespace Lynx.UI
         [SerializeField] public bool m_disableSelectState = true;
         [SerializeField] protected bool m_useTheme = false;
         [SerializeField] public bool m_useSound = false;
+        [SerializeField] public bool m_disableOnDrag = true;
+        [SerializeField] public bool m_useAnimation = true;
 
         [SerializeField] public Graphic[] m_secondaryTargetGraphic;
 
@@ -47,6 +49,7 @@ namespace Lynx.UI
         private IEnumerator timerCoroutine = null; // Timer coroutine reference.
 
         private ScrollRect scrollRect = null;
+        private Vector3 m_dragStartPos;
 
         #endregion
 
@@ -135,9 +138,14 @@ namespace Lynx.UI
 
             if (!m_isRunning && !m_isCurrentlyPressed)
             {
-                m_isRunning = true;
-                StartCoroutine(ButtonAnimationMethods.PressingAnimationCoroutine(m_animation, this.transform, CallbackStopRunning));
                 m_isCurrentlyPressed = true;
+                if (m_useAnimation)
+                {
+                    m_isRunning = true;
+                    StartCoroutine(ButtonAnimationMethods.PressingAnimationCoroutine(m_animation, this.transform, CallbackStopRunning));
+                }
+                else
+                    OnPress.Invoke();
             }
 
             if (!m_timerIsRunning)
@@ -162,9 +170,14 @@ namespace Lynx.UI
 
             if (m_isCurrentlyPressed)
             {
-                m_isRunning = true;
-                StartCoroutine(ButtonAnimationMethods.UnpressingAnimationCoroutine(m_animation, this.transform, CallbackStopRunning));
                 m_isCurrentlyPressed = false;
+                if (m_useAnimation)
+                {
+                    m_isRunning = true;
+                    StartCoroutine(ButtonAnimationMethods.UnpressingAnimationCoroutine(m_animation, this.transform, CallbackStopRunning));
+                }
+                else
+                    OnUnpress.Invoke();
             }
 
             m_timerIsRunning = false;
@@ -211,6 +224,8 @@ namespace Lynx.UI
         {
             if (scrollRect == null)
                 scrollRect = this.gameObject.GetComponentInParent<ScrollRect>();
+            m_dragStartPos = Quaternion.Inverse(eventData.pointerDrag.transform.rotation) * eventData.pointerCurrentRaycast.worldPosition;
+            m_dragStartPos.Scale(new Vector3(1, 1, 0));
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -223,6 +238,15 @@ namespace Lynx.UI
         {
             if (scrollRect != null)
                 scrollRect.OnDrag(eventData);
+            Vector3 endDragPos = Quaternion.Inverse(eventData.pointerDrag.transform.rotation) * eventData.pointerCurrentRaycast.worldPosition;
+            endDragPos.Scale(new Vector3(1, 1, 0));
+            float dist = Vector3.Distance(m_dragStartPos, endDragPos);
+            if (dist > 0.04f && m_disableOnDrag)
+            {
+                m_timerIsRunning = false;
+                StopCoroutine(timerCoroutine);
+                m_timerImage.fillAmount = 0.0f;
+            }
         }
 
         public void OnEndDrag(PointerEventData eventData)
@@ -288,7 +312,8 @@ namespace Lynx.UI
             while (elapsedTime < m_deltaTime)
             {
                 elapsedTime += Time.deltaTime;
-                m_timerImage.fillAmount = elapsedTime / m_deltaTime;
+                if(m_useAnimation)
+                    m_timerImage.fillAmount = elapsedTime / m_deltaTime;
                 yield return new WaitForEndOfFrame();
             }
 

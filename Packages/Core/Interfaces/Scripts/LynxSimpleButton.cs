@@ -23,11 +23,13 @@ namespace Lynx.UI
         [SerializeField] public UnityEvent OnUnpress;
 
         [SerializeField] public bool m_disableSelectState = true;
+        [SerializeField] public bool m_disableOnDrag = false;
         [SerializeField] protected bool m_useTheme = false;
         [SerializeField] public bool m_useSound = false;
 
         [SerializeField] public Graphic[] m_secondaryTargetGraphic;
 
+        [SerializeField] public bool m_useAnimation = true;
         [SerializeField] public ButtonAnimation m_animation = new ButtonAnimation();
 
         #endregion
@@ -37,6 +39,7 @@ namespace Lynx.UI
         private bool m_isRunning = false; // Avoid multiple press or unpress making the object in unstable state.
         private bool m_isCurrentlyPressed = false; // Status of the current object.
         private bool m_isInteractable = true; // Starting interactable status.
+        private Vector3 m_dragStartPos;
 
         private ScrollRect scrollRect = null;
 
@@ -127,9 +130,14 @@ namespace Lynx.UI
 
             if (!m_isRunning && !m_isCurrentlyPressed)
             {
-                m_isRunning = true;
                 m_isCurrentlyPressed = true;
-                StartCoroutine(ButtonAnimationMethods.PressingAnimationCoroutine(m_animation, this.transform, CallbackStopRunning));
+                if (m_useAnimation)
+                {
+                    StartCoroutine(ButtonAnimationMethods.PressingAnimationCoroutine(m_animation, this.transform, CallbackStopRunning));
+                    m_isRunning = true; 
+                }
+                else
+                    OnPress.Invoke();
             }
         }
 
@@ -147,9 +155,14 @@ namespace Lynx.UI
 
             if (m_isCurrentlyPressed)
             {
-                m_isRunning = true;
                 m_isCurrentlyPressed = false;
-                StartCoroutine(ButtonAnimationMethods.UnpressingAnimationCoroutine(m_animation, this.transform, CallbackStopRunning));
+                if (m_useAnimation)
+                {
+                    StartCoroutine(ButtonAnimationMethods.UnpressingAnimationCoroutine(m_animation, this.transform, CallbackStopRunning));
+                    m_isRunning = true;
+                }
+                else
+                    OnUnpress.Invoke();
             }
         }
 
@@ -199,6 +212,8 @@ namespace Lynx.UI
         {
             if (scrollRect == null)
                 scrollRect = this.gameObject.GetComponentInParent<ScrollRect>();
+            m_dragStartPos = Quaternion.Inverse(eventData.pointerDrag.transform.rotation) * eventData.pointerCurrentRaycast.worldPosition;
+            m_dragStartPos.Scale(new Vector3(1, 1, 0));
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -211,6 +226,13 @@ namespace Lynx.UI
         {
             if (scrollRect != null)
                 scrollRect.OnDrag(eventData);
+            Vector3 endDragPos = Quaternion.Inverse(eventData.pointerDrag.transform.rotation) * eventData.pointerCurrentRaycast.worldPosition;
+            endDragPos.Scale(new Vector3(1, 1, 0));
+            float dist = Vector3.Distance(m_dragStartPos, endDragPos);
+            if (dist > 0.04f && m_disableOnDrag)
+            {
+                m_isCurrentlyPressed = false;
+            }
         }
 
         public void OnEndDrag(PointerEventData eventData)

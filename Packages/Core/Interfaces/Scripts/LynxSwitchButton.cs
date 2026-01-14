@@ -25,11 +25,13 @@ namespace Lynx.UI
         [SerializeField] public UnityEvent OnUntoggle;
 
         [SerializeField] public bool m_disableSelectState = true;
+        [SerializeField] public bool m_disableOnDrag = false;
         [SerializeField] protected bool m_useTheme = false;
         [SerializeField] public bool m_useSound = false;
 
         [SerializeField] public Graphic[] m_secondaryTargetGraphic;
 
+        [SerializeField] public bool m_useAnimation = true;
         [SerializeField] public ButtonAnimation m_animation = new ButtonAnimation();
 
         // Switch Button Parameters
@@ -44,9 +46,11 @@ namespace Lynx.UI
         private bool m_isCurrentlyPressed = false; // Status of the current object.
         private bool m_isToggled = false; // Status of the button.
         private bool m_isInteractable = true; // Starting interactable status.
+        private bool m_enableStateCheck = false; //Should check if the display corespond to the toggle on enable;
 
         private Vector3 offHandlePosition;
         private Vector3 onHandlePosition;
+        private Vector3 m_dragStartPos;
 
         private ScrollRect scrollRect = null;
 
@@ -90,6 +94,9 @@ namespace Lynx.UI
                 base.OnPointerDown(eventData);
                 base.OnDeselect(eventData);
             }
+
+            //Force the display to correspond the toggle state
+            StartCoroutine(ToggleAnimationCoroutine());
 
             // Interactable Patch - Wait 0.25 seconds to enable interactability.
 #if !UNITY_EDITOR
@@ -147,9 +154,14 @@ namespace Lynx.UI
 
             if (!m_isRunning && !m_isCurrentlyPressed)
             {
-                m_isRunning = true;
-                StartCoroutine(ButtonAnimationMethods.PressingAnimationCoroutine(m_animation, this.transform, CallbackStopRunning));
                 m_isCurrentlyPressed = true;
+                if (m_useAnimation)
+                {
+                    m_isRunning = true;
+                    StartCoroutine(ButtonAnimationMethods.PressingAnimationCoroutine(m_animation, this.transform, CallbackStopRunning));
+                }
+                else
+                    OnPress.Invoke();
             }
         }
 
@@ -163,26 +175,29 @@ namespace Lynx.UI
                 LynxSoundsMethods.OnUnpressSound(gameObject.transform.position);
             }
 
-            if (m_isCurrentlyPressed)
-            {
-                m_isRunning = true;
-                StartCoroutine(ButtonAnimationMethods.UnpressingAnimationCoroutine(m_animation, this.transform, CallbackStopRunning));
-                m_isCurrentlyPressed = false;
-            }
-
-            if (m_isToggled)
+            if (m_isToggled && m_isCurrentlyPressed)
             {
                 base.OnPointerUp(eventData);
                 m_isToggled = false;
                 StartCoroutine(ToggleAnimationCoroutine());
                 OnUntoggle.Invoke();
             }
-            else
+            else if(m_isCurrentlyPressed)
             {
                 base.OnPointerDown(eventData);
                 m_isToggled = true;
                 StartCoroutine(ToggleAnimationCoroutine());
                 OnToggle.Invoke();
+            }
+
+            if (m_isCurrentlyPressed)
+            {
+                m_isCurrentlyPressed = false;
+                if (m_useAnimation)
+                {
+                    m_isRunning = true;
+                    StartCoroutine(ButtonAnimationMethods.UnpressingAnimationCoroutine(m_animation, this.transform, CallbackStopRunning));
+                }
             }
         }
 
@@ -227,6 +242,8 @@ namespace Lynx.UI
         {
             if(scrollRect == null)
                 scrollRect = this.gameObject.GetComponentInParent<ScrollRect>();
+            m_dragStartPos = Quaternion.Inverse(eventData.pointerDrag.transform.rotation) * eventData.pointerCurrentRaycast.worldPosition;
+            m_dragStartPos.Scale(new Vector3(1, 1, 0));
         }
 
         public void OnBeginDrag(PointerEventData eventData)
@@ -239,6 +256,13 @@ namespace Lynx.UI
         {
             if (scrollRect != null)
                 scrollRect.OnDrag(eventData);
+            Vector3 endDragPos = Quaternion.Inverse(eventData.pointerDrag.transform.rotation) * eventData.pointerCurrentRaycast.worldPosition;
+            endDragPos.Scale(new Vector3(1, 1, 0));
+            float dist = Vector3.Distance(m_dragStartPos, endDragPos);
+            if (dist > 0.04f && m_disableOnDrag)
+            {
+                m_isCurrentlyPressed = false;
+            }
         }
 
         public void OnEndDrag(PointerEventData eventData)
@@ -302,21 +326,6 @@ namespace Lynx.UI
             return m_isToggled;
         }
 
-        /// <summary>
-        /// Set the state of the toggle and start coresponding event if state change
-        /// </summary>
-        /// <param name="state">Is toggle activated</param>
-        public void SetToggle(bool state)
-        {
-            if (m_isToggled != state)
-            {
-                if (state)
-                    OnToggle.Invoke();
-                else
-                    OnUntoggle.Invoke();
-            }
-            m_isToggled = state;
-        }
 
         /// <summary>
         /// Set the state of the toggle, visualy, and start coresponding event if state change. 
@@ -347,15 +356,17 @@ namespace Lynx.UI
         /// </summary>
         /// <param name="state">Is toggle activated</param>
         /// <param name="launchEvent">Should start switch event</param>
-        public void SetToggle(bool state, bool launchEvent)
+        public void SetToggle(bool state, bool launchEvent = false)
         {
-            if (launchEvent)
+            if (launchEvent && m_isToggled != state)
             {
                 if (state)
                     OnToggle.Invoke();
                 else
                     OnUntoggle.Invoke();
             }
+            if (m_isToggled != state && this.enabled)
+                StartCoroutine(ToggleAnimationCoroutine());
             m_isToggled = state;
         }
 
