@@ -29,6 +29,7 @@ namespace Lynx.UI
             EditorGUILayout.PropertyField(serializedObject.FindProperty("OnUnpress"), EditorGUIUtility.TrTextContent("OnUnpress", "This event is called when the button is released."));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("OnTimerPress"), EditorGUIUtility.TrTextContent("OnTimerPress", "This event is called when the fill progression is completed."));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("m_disableSelectState"), EditorGUIUtility.TrTextContent("Disable Select State", "If checked, the select state of the button is disable."));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("m_disableOnDrag"), EditorGUIUtility.TrTextContent("Disable on drag", "Should the button intraction count if the interactor moved during press."));
             EditorGUILayout.Space(10);
 
             #region THEME MANAGMENT
@@ -72,7 +73,10 @@ namespace Lynx.UI
             EditorGUILayout.PropertyField(serializedObject.FindProperty("m_timerImage"), EditorGUIUtility.TrTextContent("Timer Image", "Duration image."));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("m_deltaTime"), EditorGUIUtility.TrTextContent("Delta Time", "Duration to wait, until OnTimerPress event."));
             EditorGUILayout.Space(10);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("m_animation"), EditorGUIUtility.TrTextContent("Animation", "Pressing animation parameters."));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("m_useAnimation"), EditorGUIUtility.TrTextContent("Use Animation", "Basic button animation, disable if you want to use another animation."));
+            SerializedProperty m_useAnimation = serializedObject.FindProperty("m_useAnimation");
+            if (m_useAnimation.boolValue)
+                EditorGUILayout.PropertyField(serializedObject.FindProperty("m_animation"), EditorGUIUtility.TrTextContent("Animation", "Pressing animation parameters."));
             EditorGUILayout.Space(20);
 
             serializedObject.ApplyModifiedProperties();
